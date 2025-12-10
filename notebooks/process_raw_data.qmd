@@ -13,11 +13,150 @@ The following modules will be needed. If the poetry set up worked (see README.md
 
 ```{python}
 import os
+import pandas as pd
 ```
 
-First, we need to ensure the code will find the raw data files. We will use relative paths. If there are any FileNotFound errors, this is probably where you need to look.
+1. We need to ensure the code will find the raw data files. We will use relative paths. If there are any FileNotFound errors, this is probably where you need to look.
 
 ```{python}
 data_root = "../raw_data"
+ground_truth_path = "../assets/ground_truth.csv"
+
 assert os.path.isdir(data_root)
+assert os.path.isfile(ground_truth_path)
+```
+
+2. The Ground Truth will be used to compare the results against. We can also already establish which entries were examples deemed context-dependent, i.e. the pronoun in question could not have been disambiguated without researching the context in some capacity.
+
+```{python}
+gt = pd.read_csv(ground_truth_path, header=0, dtype=str)
+gt = gt.fillna("")  # normalize strings
+gt = gt.iloc[10:].reset_index(drop=True)    # drop the first 10 rows
+
+# set of all IDs where 'context_dependent' is "X"
+context_dependent_ids = set(gt.loc[gt["context_dependent"] == "X", "ID"].astype(str).str.strip())
+```
+
+3. Necessary functions for the processing.
+
+```{python}
+def process_sheets(filepath, criteria=True, pilot=False):    
+    # --- get prolificID from filename ---
+    base = os.path.basename(filepath)
+    if not base.lower().endswith(".csv"):
+        raise ValueError("Expected a .csv file.")
+    stem = os.path.splitext(base)[0]
+    if "_" not in stem:
+        raise ValueError("Filename does not contain an underscore-separated prolificID.")
+    prolificID = stem.split("_")[-1] if not pilot else "pilot"+stem.split("_")[1]
+    
+    df = pd.read_csv(filepath, header=0, dtype=str)
+    
+    # normalize strings
+    df = df.fillna("")
+        
+    # drop the first 10 rows
+    df = df.iloc[10:].reset_index(drop=True)
+    # ensure at least 46 rows remain, otherwise raise error
+    if len(df) < 46:
+        raise ValueError(f"Not enough rows after dropping first 10: found {len(df)}, need at least 46.")
+    
+    # build output dict
+    out = {}
+    out["prolificID"] = prolificID
+    out["EnglishLingFamiliar"] = ""
+    out["GenderEnglishAge"] = "Yes" if criteria else "No"
+    
+    for _, row in df.iterrows():
+        rid = (row["ID"] or "").strip()
+        if not rid:
+            # skip rows without an ID
+            continue
+        out[rid] = (row["they_type"] or "")
+        out[rid + "[comment]"] = (row["comment"] or "")
+    
+    return out
+
+
+def process_lime(filepath):
+    df = pd.read_csv(filepath, dtype=str)
+    
+    # drop unwanted columns
+    drop_cols = [
+        "startlanguage", "id", "seed", "startdate", "lastpage", "G01Q04", "G00Q02", "G00Q01", "G01Q03",
+        "G01Q05", "G01Q06", "G01Q07", "G01Q08", "G01Q09", "G01Q10", "G01Q11",
+        "G01Q12", "G04Q63", "G02Q62", "datestamp"
+    ]
+    df = df.drop(columns=[c for c in drop_cols if c in df.columns], errors="ignore")
+    
+    # turn comment ids back to original form
+    df = df.rename(
+        columns=lambda c: c.replace("maera", "ma_era_").replace("LoRes", "LoRes_")
+    )
+    
+    # drop rows with empty submitdate
+    df = df[df["submitdate"].notna() & (df["submitdate"].str.strip() != "")]
+    df = df.drop("submitdate", axis=1)
+    
+    # check required columns are present
+    required = ["prolificID", "EnglishLingFamiliar"]
+    for col in required:
+        if col not in df.columns:
+            raise ValueError(f"Missing required column: {col}")
+        if df[col].isna().any() or (df[col].str.strip() == "").any():
+            raise ValueError(f"Column {col} has missing values")
+    
+    # convert rows to list of dicts (values remain strings)
+    return df.to_dict(orient="records")
+
+
+def check_block_consistency(block: list, block_name):
+    first_keys = set(block[0].keys())
+    for idx, rec in enumerate(block[1:], start=1):
+        keys = set(rec.keys())
+        if keys != first_keys:
+            extra = sorted(list(keys - first_keys))
+            missing = sorted(list(first_keys - keys))
+            print(rec)
+            raise ValueError(f"Inconsistent keys in block {block_name} at index {idx}: extra={extra}, missing={missing}")
+    return True
+```
+
+4. Load all the raw data as pandas dataframes.
+
+```{python}
+block_a_sheet_path = data_root + '/Humans/linguists_prolific/sheet_version/Block A/block_A_11_5f6ce7a067864711ebb0f66e.csv'
+block_a_lime_initial_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockA.csv'
+block_a_lime_topup_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockA_topup.csv'
+
+block_a_sheet = process_sheets(block_a_sheet_path)
+block_a_initial_lime = process_lime(block_a_lime_initial_path)
+block_a_topup_lime = process_lime(block_a_lime_topup_path)
+
+block_a = block_a_initial_lime + block_a_topup_lime + [block_a_sheet]
+assert check_block_consistency(block_a, "A") is True
+
+block_b_lime_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockB.csv'
+block_b_sheet_path = data_root + '/Humans/linguists_prolific/sheet_version/Block B/Block_B_13_655788501826eeea1b788f8b.csv'
+
+block_b_lime = process_lime(block_b_lime_path)
+block_b_sheet = process_sheets(block_b_sheet_path)
+
+block_b = [block_b_sheet] + block_b_lime
+assert check_block_consistency(block_b, "B") is True
+
+block_c_lime_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockC.csv'
+block_c = process_lime(block_c_lime_path)
+assert check_block_consistency(block_c, "C") is True
+
+block_d_lime_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockD.csv'
+block_d = process_lime(block_d_lime_path)
+assert check_block_consistency(block_d, "D") is True
+
+block_pilot = []
+pilot_sheets_path = data_root + "/Humans/pilot"
+pilot_sheets = [os.path.join(pilot_sheets_path, file) for file in os.listdir(pilot_sheets_path) if file.endswith(".csv")]
+for file in pilot_sheets:
+    block_pilot.append(process_sheets(file, criteria=False, pilot=True))
+
 ```
