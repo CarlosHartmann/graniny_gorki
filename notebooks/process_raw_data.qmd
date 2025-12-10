@@ -1,0 +1,23 @@
+---
+title: "Processing the raw results data of the study."
+format: 
+    html:
+        code-fold: true
+jupyter: 
+    kernel: python3
+    executable: ../../.venv/bin/python
+
+---
+
+The following modules will be needed. If the poetry set up worked (see README.md), all of the modules should be importable without issue.
+
+```{python}
+import os
+```
+
+First, we need to ensure the code will find the raw data files. We will use relative paths. If there are any FileNotFound errors, this is probably where you need to look.
+
+```{python}
+data_root = "../raw_data"
+assert os.path.isdir(data_root)
+```
