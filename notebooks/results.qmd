@@ -11,7 +11,9 @@ jupyter:
 
 Necessary libraries:
 ```{python}
+"Imports"
 from num2words import num2words
+from IPython.display import Markdown
 ```
 
 # Data
@@ -211,17 +213,149 @@ def _norm_type(x):
 ```
 
 ```{python}
-# Accuracies in Block D:
-for participant in block_pilot:
-    acc = compute_accuracy(participant)
-    print(acc)
+"Calculating accuracies and storing them as dicts"
+
+accuracy_dict_llms = {}
+for llm in commercial_llm_responses:
+    accuracies = list()
+    for run in commercial_llm_responses[llm]:
+        acc = compute_accuracy(run)
+        accuracies.append(acc)
+    accuracy_dict_llms[llm] = accuracies
+
+human_blocks = [block_a, block_b, block_c, block_d, block_pilot]
+
+accuracy_dict_humans = {}
+for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
+    accuracies = []
+    for participant in block:
+        acc = compute_accuracy(participant)
+        accuracies.append(acc)
+    accuracy_dict_humans[f"block_{block_name}"] = accuracies
+
+# build an accuracy dict for all data found in gt using human-majority
+from collections import Counter
+
+def get_human_majority_vote(data_point_id):
+    """Get the majority vote from all human annotators for a given data point."""
+    votes = []
+    for block in human_blocks:
+        for participant in block:
+            if data_point_id in participant:
+                votes.append(_norm_type(participant[data_point_id]))
+    
+    if not votes:
+        return None
+    
+    counter = Counter(votes)
+    majority_vote, _ = counter.most_common(1)[0]
+    return majority_vote
+
+majority_vote_dict = {}
+for data_point_id in gt["ID"].dropna().astype(str).str.strip():
+    majority_vote = get_human_majority_vote(data_point_id)
+    if majority_vote:
+        majority_vote_dict[data_point_id] = majority_vote
+
+accuracy_dict_humans["majority_vote"] = [compute_accuracy(majority_vote_dict)]
+
 ```
 ## Hypothesis 1
 
-The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance. 
-
-
-
+The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance.
 ```{python}
+#| label: tbl-top10-accuracy
+#| tbl-cap: "The ten highest-performing participants by accuracy"
+
+# List all accuracies and from where they came from (participant block) in descending order
+accuracy_results = []
+
+# Add human block results
+for block_name, accuracies in accuracy_dict_humans.items():
+    for i, acc in enumerate(accuracies):
+        accuracy_results.append({
+            "source": block_name,
+            "accuracy": acc
+        })
+
+# Add LLM results taking the mean of all runs per LLM
+for llm_name, accuracies in accuracy_dict_llms.items():
+    mean_acc = sum(accuracies) / len(accuracies) if accuracies else float("nan")
+    accuracy_results.append({
+        "source": llm_name,
+        "accuracy": mean_acc
+    })
+
+# Sort by accuracy in descending order
+accuracy_results.sort(key=lambda x: x["accuracy"], reverse=True)
+
+# Keep only top 10
+accuracy_results = accuracy_results[:10]
+
+# display accuracy as full percentages without decimal places
+for result in accuracy_results:
+    result["accuracy"] = f"{result['accuracy'] * 100:.0f}%"
+
+# Display results
+import pandas as pd
+results_df = pd.DataFrame(accuracy_results)
+
+Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accuracy"]))
 
 ```
+
+@tbl-top10-accuracy reveals that the group of top performers is populated by more humans than LLMs, although most top performances cluster around the 90% mark. To directly address Hypothesis 1, the top performer is not an LLM but indeed a human. This participant was furthermore from the pilot participants recruited from the local student body. Hypothesis 1 is therefore rejected.
+
+## Hypothesis 2
+
+The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e. if their performance is at or below chance when context is necessary to understand an example.
+
+```{python}
+"Culling of human annotators"
+
+"Culling of human annotators"
+
+# Compute context-dependent accuracy for each human participant
+context_dependent_accuracies = {}
+for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
+    for i, participant in enumerate(block):
+        participant_id = f"{block_name}_{i}"
+        acc = compute_accuracy(participant, context_dependent=1)
+        context_dependent_accuracies[participant_id] = acc
+
+# Filter out participants with context-dependent accuracy at or below chance (33%)
+filtered_participants = {pid: acc for pid, acc in context_dependent_accuracies.items() 
+                         if acc > 0.33}
+
+# Sort by accuracy and take top half
+sorted_participants = sorted(filtered_participants.items(), key=lambda x: x[1], reverse=True)
+top_half_count = len(sorted_participants) // 2
+culled_participants = sorted_participants[:top_half_count]
+
+# Reconstruct accuracy dict for culled participants only
+accuracy_dict_humans_culled = {}
+culled_participant_ids = {pid for pid, _ in culled_participants}
+
+for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
+    culled_block_accuracies = []
+    for i, participant in enumerate(block):
+        participant_id = f"{block_name}_{i}"
+        if participant_id in culled_participant_ids:
+            acc = compute_accuracy(participant)
+            culled_block_accuracies.append(acc)
+    if culled_block_accuracies:
+        accuracy_dict_humans_culled[f"block_{block_name}_culled"] = culled_block_accuracies
+
+# report the mean accuracy of the culled accuracies
+mean_culled_accuracy = sum(
+    acc for accuracies in accuracy_dict_humans_culled.values() 
+    for acc in accuracies
+) / sum(len(accuracies) for accuracies in accuracy_dict_humans_culled.values())
+
+participant_num_culled = len(culled_participant_ids)
+participant_num_pilot = sum(1 for pid in culled_participant_ids if pid.startswith("Pilot_"))
+participant_num_block_abcd = participant_num_culled - participant_num_pilot
+
+```
+
+The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers.
