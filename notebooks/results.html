@@ -100,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Necessary libraries:</p>
-<div id="c61a7305" class="cell" data-execution_count="1">
+<div id="873d686c" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
@@ -108,7 +108,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="data" class="level1">
@@ -122,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="7f764c7c" class="cell" data-execution_count="2">
+<div id="76f81583" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -136,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="778820b3" class="cell" data-execution_count="3">
+<div id="c9b21fff" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -160,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="c03c6b47" class="cell" data-execution_count="4">
+<div id="062092bf" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -305,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="ec81c723" class="cell" data-execution_count="5">
+<div id="43c13b02" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -402,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Table&nbsp;1: The ten highest-performing participants by accuracy
 </figcaption>
 <div aria-describedby="tbl-top10-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="19">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="21">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -461,7 +462,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </section>
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
-<div id="e84391b6" class="cell" data-execution_count="7">
+<div id="b43325b0" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Constants"</span></span>
@@ -469,7 +470,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD_PERCENT <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>CULLING_THRESHHOLD <span class="op">*</span> <span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="e34cdf84" class="cell" data-execution_count="8">
+<div id="6998af76" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
@@ -517,7 +518,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </details>
 </div>
 <p>The group of culled participants has 13 participants, of which two are local students and 11 are crowdworkers.</p>
-<div id="4df7a1ef" class="cell" data-execution_count="9">
+<div id="aec0ed01" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
@@ -593,7 +594,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-ondemand_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context on</span><span class="ch">\n</span><span class="st">Demand"</span>,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-agnostic_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context-</span><span class="ch">\n</span><span class="st">Agnostic"</span>}</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>top_3_llms_namemapped <span class="op">=</span> [label_mapping[elem[<span class="dv">0</span>]] <span class="cf">for</span> elem <span class="kw">in</span> top_3_llms]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>top_3_llms_namemapped <span class="op">=</span> [label_mapping[elem[<span class="dv">0</span>]] <span class="cf">for</span> elem <span class="kw">in</span> <span class="bu">reversed</span>(top_3_llms)]</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"Overall</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Majority"</span>] <span class="op">+</span> top_3_llms_namemapped</span>
@@ -648,7 +649,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 </div>
 </div>
 </div>
-<div id="550c442d" class="cell" data-execution_count="11">
+<div id="57b65ae7" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
@@ -712,7 +713,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 <h2 class="anchored" data-anchor-id="results-by-label">Results by label</h2>
 <section id="singular-vs-plural" class="level3">
 <h3 class="anchored" data-anchor-id="singular-vs-plural">Singular vs Plural</h3>
-<div id="6ee34534" class="cell" data-execution_count="12">
+<div id="9cbc0627" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
@@ -803,6 +804,85 @@ Figure&nbsp;2: Accuracy difference between plural/singular <em>they</em> and LLM
 </div>
 </div>
 </div>
+<div id="cell-fig-confusion-matrix-llm" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute confusion matrices for best LLM and culled human mean (percentages)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"plural"</span>, <span class="st">"generic"</span>, <span class="st">"singular"</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare ground truth and predictions for paired items</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>paired_ids <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>llm_preds <span class="op">=</span> []</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>human_preds <span class="op">=</span> []</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>gt_labels <span class="op">=</span> []</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For best LLM, use majority vote across runs</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only include if both LLM and at least one culled human have a prediction</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    llm_vote <span class="op">=</span> get_llm_majority_vote(data_point_id)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    human_votes <span class="op">=</span> []</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> participant <span class="kw">in</span> all_culled_participant_dicts:</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data_point_id <span class="kw">in</span> participant:</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>            human_votes.append(_norm_type(participant[data_point_id]))</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> llm_vote <span class="kw">and</span> human_votes:</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        paired_ids.add(data_point_id)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># LLM prediction</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        llm_preds.append(_norm_type(llm_vote))</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Human mean: use the most common label among culled humans for this item (not majority-vote dict, but mean)</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        counter <span class="op">=</span> Counter(human_votes)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        human_pred <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        human_preds.append(human_pred)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ground truth</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        gt_label <span class="op">=</span> _norm_type(gt.loc[gt[<span class="st">"ID"</span>].astype(<span class="bu">str</span>) <span class="op">==</span> data_point_id, <span class="st">"they_type"</span>].values[<span class="dv">0</span>])</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        gt_labels.append(gt_label)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Add "%" to the labels</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>labels_percent <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>lbl<span class="sc">}</span><span class="ss"> (%)"</span> <span class="cf">for</span> lbl <span class="kw">in</span> labels]</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix for best LLM (percentages)</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>cm_llm <span class="op">=</span> confusion_matrix(gt_labels, llm_preds, labels<span class="op">=</span>labels, normalize<span class="op">=</span><span class="st">'true'</span>)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>disp_llm <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm_llm, display_labels<span class="op">=</span>labels)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>disp_llm.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span><span class="st">"Reds"</span>, values_format<span class="op">=</span><span class="st">".1%"</span>)  <span class="co"># formats like 12.3%</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-confusion-matrix-llm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confusion-matrix-llm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results_files/figure-html/fig-confusion-matrix-llm-output-1.png" width="462" height="368" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confusion-matrix-llm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Confusion matrix for the best LLM
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-fig-confusion-matrix-human" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cm_human <span class="op">=</span> confusion_matrix(gt_labels, human_preds, labels<span class="op">=</span>labels, normalize<span class="op">=</span><span class="st">'true'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>disp_human <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm_human, display_labels<span class="op">=</span>labels)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>disp_human.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span><span class="st">"Blues"</span>, values_format<span class="op">=</span><span class="st">".1%"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-confusion-matrix-human" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confusion-matrix-human-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results_files/figure-html/fig-confusion-matrix-human-output-1.png" width="462" height="366" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confusion-matrix-human-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Confusion matrix for culled human mean
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="context-independence" class="level3">
 <h3 class="anchored" data-anchor-id="context-independence">Context-(in)dependence</h3>
@@ -818,7 +898,7 @@ Figure&nbsp;2: Accuracy difference between plural/singular <em>they</em> and LLM
 <section id="hypothesis-2-1" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2-1">Hypothesis 2</h2>
 <p>The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define “mean human accuracy” more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in “English language”, without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e.&nbsp;if their performance is at or below 50% when context is necessary to understand an example.</p>
-<p><a href="#fig-overall-acc-comparison" class="quarto-xref">Figure&nbsp;1</a> reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs’ performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, GPT-5 with\\nURL Access, shows a performance that is , however, not significantly better than the culled human mean at p = 0.7744140625, α = 0.05 according to a McNemar’s test. Hypothesis 2 can therefore not be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.</p>
+<p><a href="#fig-overall-acc-comparison" class="quarto-xref">Figure&nbsp;1</a> reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs’ performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, GPT-5\\nContext-\\nAgnostic, shows a performance that is , however, not significantly better than the culled human mean at p = 0.7744140625, α = 0.05 according to a McNemar’s test. Hypothesis 2 can therefore not be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.</p>
 </section>
 <section id="hypothesis-3" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-3">Hypothesis 3</h2>

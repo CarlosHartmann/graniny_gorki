@@ -17,6 +17,7 @@ from IPython.display import Markdown
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import f_oneway
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 ```
 
 # Data
@@ -441,7 +442,7 @@ label_mapping = {"context-via-permalink_gpt-5" :     "GPT-5 with\nURL Access",
                 "context-ondemand_zero-shot_gpt-5" : "GPT-5\nContext on\nDemand",
                 "context-agnostic_zero-shot_gpt-5" : "GPT-5\nContext-\nAgnostic"}
 
-top_3_llms_namemapped = [label_mapping[elem[0]] for elem in top_3_llms]
+top_3_llms_namemapped = [label_mapping[elem[0]] for elem in reversed(top_3_llms)]
 
 # Prepare data for plotting
 labels = ["Overall\nHuman Mean", "Culled\nHuman Mean", "Culled\nHuman Majority"] + top_3_llms_namemapped
@@ -622,7 +623,67 @@ plt.tight_layout()
 plt.show()
 ```
 
+```{python}
+#| label: fig-confusion-matrix-llm
+#| fig-cap: "Confusion matrix for the best LLM"
+
+# Compute confusion matrices for best LLM and culled human mean (percentages)
+labels = ["plural", "generic", "singular"]
+
+# Prepare ground truth and predictions for paired items
+paired_ids = set()
+llm_preds = []
+human_preds = []
+gt_labels = []
+
+# For best LLM, use majority vote across runs
+for data_point_id in gt["ID"].dropna().astype(str).str.strip():
+    # Only include if both LLM and at least one culled human have a prediction
+    llm_vote = get_llm_majority_vote(data_point_id)
+    human_votes = []
+    for participant in all_culled_participant_dicts:
+        if data_point_id in participant:
+            human_votes.append(_norm_type(participant[data_point_id]))
+    if llm_vote and human_votes:
+        paired_ids.add(data_point_id)
+        # LLM prediction
+        llm_preds.append(_norm_type(llm_vote))
+        # Human mean: use the most common label among culled humans for this item (not majority-vote dict, but mean)
+        counter = Counter(human_votes)
+        human_pred = counter.most_common(1)[0][0]
+        human_preds.append(human_pred)
+        # Ground truth
+        gt_label = _norm_type(gt.loc[gt["ID"].astype(str) == data_point_id, "they_type"].values[0])
+        gt_labels.append(gt_label)
+
+# Add "%" to the labels
+labels_percent = [f"{lbl} (%)" for lbl in labels]
+
+# Confusion matrix for best LLM (percentages)
+cm_llm = confusion_matrix(gt_labels, llm_preds, labels=labels, normalize='true')
+disp_llm = ConfusionMatrixDisplay(confusion_matrix=cm_llm, display_labels=labels)
+fig, ax = plt.subplots(figsize=(5, 4))
+disp_llm.plot(ax=ax, cmap="Reds", values_format=".1%")  # formats like 12.3%
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: fig-confusion-matrix-human
+#| fig-cap: "Confusion matrix for culled human mean"
+
+cm_human = confusion_matrix(gt_labels, human_preds, labels=labels, normalize='true')
+disp_human = ConfusionMatrixDisplay(confusion_matrix=cm_human, display_labels=labels)
+fig, ax = plt.subplots(figsize=(5, 4))
+disp_human.plot(ax=ax, cmap="Blues", values_format=".1%")
+plt.tight_layout()
+plt.show()
+```
 ### Context-(in)dependence
+
+```{python}
+
+```
 
 # Discussion
 
