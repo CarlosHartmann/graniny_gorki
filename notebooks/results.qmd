@@ -66,6 +66,161 @@ Blocks A-D have `{python} len(block_a)`, `{python} len(block_b)`, `{python} len(
 
 # Results
 
+```{python}
+"Functions for obtaining accuracy performances"
+
+def compute_accuracy(participant_dict, context_dependent=0):
+    """
+    context_dependent:
+      0 -> use all eligible items
+      1 -> use ONLY IDs in context_dependent_ids
+      2 -> SKIP IDs in context_dependent_ids
+    """
+    if context_dependent not in (0, 1, 2):
+        raise ValueError("context_dependent must be 0, 1, or 2.")
+
+    # sanity check for required GT columns
+    if "ID" not in gt.columns or "they_type" not in gt.columns:
+        raise ValueError("Ground Truth must contain 'ID' and 'they_type' columns.")
+
+    # fast lookup: ID -> normalized they_type
+    gt_lookup = (
+        gt[["ID", "they_type"]]
+        .dropna(subset=["ID"])
+        .assign(ID=lambda d: d["ID"].astype(str).str.strip())
+        .set_index("ID")["they_type"]
+        .to_dict()
+    )
+    gt_lookup = {k: _norm_type(v) for k, v in gt_lookup.items()}
+
+    correct = 0
+    total = 0
+
+    for key, pred_val in participant_dict.items():
+        # only evaluate non-comment items that are LoRes or ma_era
+        if "[comment]" in key:
+            continue
+        if ("LoRes" not in key) and ("ma_era" not in key):
+            continue
+
+        kid = key.strip()
+
+        # apply context-dependency filter
+        if context_dependent == 1 and kid not in context_dependent_ids:
+            continue
+        if context_dependent == 2 and kid in context_dependent_ids:
+            continue
+
+        # require GT present
+        if kid not in gt_lookup:
+            print("Did not find example in Ground Truth")
+            continue
+
+        total += 1
+        gt_val = gt_lookup[kid].replace("_they", "")
+        pred_norm = _norm_type(pred_val)
+
+        if pred_norm == gt_val:
+            correct += 1
+
+    return (correct / total) if total else float("nan")
+
+def compute_accuracy_by_label(participant_dict, context_dependent=0,
+                              labels=("generic_they", "singular_they", "plural_they")):
+    """
+    Returns a dict mapping each label to its accuracy, computed over items whose GT is that label.
+    context_dependent:
+      0 -> use all eligible items
+      1 -> ONLY IDs in context_dependent_ids
+      2 -> SKIP IDs in context_dependent_ids
+    """
+    if context_dependent not in (0, 1, 2):
+        raise ValueError("context_dependent must be 0, 1, or 2.")
+
+    # sanity check
+    if "ID" not in gt.columns or "they_type" not in gt.columns:
+        raise ValueError("Ground Truth must contain 'ID' and 'they_type' columns.")
+
+    # GT lookup with normalized labels
+    gt_lookup = (
+        gt[["ID", "they_type"]]
+        .dropna(subset=["ID"])
+        .assign(ID=lambda d: d["ID"].astype(str).str.strip())
+        .set_index("ID")["they_type"]
+        .to_dict()
+    )
+    gt_lookup = {k: _norm_type(v) for k, v in gt_lookup.items()}
+
+    totals = {lbl: 0 for lbl in labels}
+    corrects = {lbl: 0 for lbl in labels}
+
+    for key, pred_val in participant_dict.items():
+        # only evaluate non-comment items that are LoRes or ma_era
+        if "[comment]" in key:
+            continue
+        if ("LoRes" not in key) and ("ma_era" not in key):
+            continue
+
+        kid = key.strip()
+
+        # apply context-dependency filter
+        if context_dependent == 1 and kid not in context_dependent_ids:
+            continue
+        if context_dependent == 2 and kid in context_dependent_ids:
+            continue
+
+        if kid not in gt_lookup:
+            continue
+
+        gt_val = gt_lookup[kid]
+        if gt_val not in totals:  # ignore unexpected GT labels
+            continue
+
+        pred_norm = _norm_type(pred_val)
+        totals[gt_val] += 1
+        if pred_norm == gt_val:
+            corrects[gt_val] += 1
+
+    # compute accuracies per label
+    accs = {}
+    for lbl in labels:
+        if totals[lbl] == 0:
+            accs[lbl] = float("nan")
+        else:
+            accs[lbl] = corrects[lbl] / totals[lbl]
+    return accs
+
+def _norm_type(x):
+    # normalize labels to a canonical set for comparison
+    if x is None:
+        return ""
+    s = str(x).strip().lower()
+    if s in {"", "nan", "none"}:
+        return ""
+    mapping = {
+        # singular
+        "sing": "singular", "sing.": "singular", "s": "singular", "sg": "singular",
+        "singular": "singular", "singular_they":"singular",
+        # plural
+        "pl": "plural", "pl.": "plural", "p": "plural", "plural": "plural", "plural_they":"plural",
+        # generic
+        "gen": "generic", "gen.": "generic", "g": "generic", "generic": "generic", "generic_they":"generic"
+    }
+    return mapping.get(s, s)  # fallback to the cleaned string if unseen
+
+```
+
+```{python}
+# Accuracies in Block D:
+for participant in block_pilot:
+    acc = compute_accuracy(participant)
+    print(acc)
+```
+## Hypothesis 1
+
+The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance. 
+
+
 
 ```{python}
 
