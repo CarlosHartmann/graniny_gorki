@@ -14,6 +14,8 @@ Necessary libraries:
 "Imports"
 from num2words import num2words
 from IPython.display import Markdown
+import matplotlib.pyplot as plt
+import numpy as np
 ```
 
 # Data
@@ -50,8 +52,6 @@ len_corresponds = "corresponds" if len(example_llm_responses_without_comments) =
 
 
 data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") or elem.startswith("LoRes_")) and not elem.endswith("[comment]")])
-print("Data points in block A:", data_points_a)
-
 ```
 
 
@@ -359,3 +359,70 @@ participant_num_block_abcd = participant_num_culled - participant_num_pilot
 ```
 
 The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers.
+
+```{python}
+# The relevant numbers are: overall human mean, culled human mean, and the mean of all runs of the top 3 LLMs.
+# create a dict that contains these 5 numbers
+
+# Overall human mean
+overall_human_mean = sum(
+    acc for accuracies in accuracy_dict_humans.values() 
+    for acc in accuracies
+) / sum(len(accuracies) for accuracies in accuracy_dict_humans.values())
+
+# Culled human mean (already computed above)
+# mean_culled_accuracy is already available
+
+# Compute mean accuracy for each LLM across all runs
+llm_means = {
+    llm_name: sum(accuracies) / len(accuracies) 
+    for llm_name, accuracies in accuracy_dict_llms.items()
+}
+
+# Get top 3 LLMs by mean accuracy
+top_3_llms = sorted(llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
+
+# Create results dict
+hypothesis_2_results = {
+    "overall_human_mean": overall_human_mean,
+    "culled_human_mean": mean_culled_accuracy,
+}
+
+# Flatten top 3 LLM means into the results dict
+for llm_name, acc in top_3_llms:
+    hypothesis_2_results[f"top_3_llm_mean_{llm_name}"] = acc
+```
+
+```{python}
+#| label: overall-acc-comparison
+#| fig-cap: "Overall Accuracies, Humans vs. Top 3 LLMs"
+
+label_mapping = {"context-via-permalink_gpt-5" :     "GPT-5 with\nURL Access",
+                "context-ondemand_zero-shot_gpt-5" : "GPT-5\nContext on\nDemand",
+                "context-agnostic_zero-shot_gpt-5" : "GPT-5\nContext-\nAgnostic"}
+
+top_3_llms_namemapped = [label_mapping[elem[0]] for elem in top_3_llms]
+
+# Prepare data for plotting
+labels = ["Overall\nHuman Mean", "Culled\nHuman Mean"] + top_3_llms_namemapped
+values = [hypothesis_2_results["overall_human_mean"], hypothesis_2_results["culled_human_mean"]] + [acc for _, acc in reversed(top_3_llms)]
+colors = ["#82A5D5", "#477BBF", "#FF96A0", "#DD7778", "#C8494C"]
+
+# Create bar plot
+fig, ax = plt.subplots(figsize=(10, 6))
+bars = ax.bar(labels, values, color=colors, edgecolor="black", linewidth=1.5)
+
+# Format y-axis as percentages starting from 33%
+ax.set_ylim(0.33, 1.0)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+
+# Labels and title
+ax.set_ylabel("Accuracy", fontsize=12)
+ax.grid(axis="y", alpha=0.3)
+ax.set_axisbelow(True)
+
+plt.tight_layout()
+plt.show()
+
+```
+

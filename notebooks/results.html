@@ -100,12 +100,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Necessary libraries:</p>
-<div id="1aa01325" class="cell" data-execution_count="1">
+<div id="ec81eca0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> num2words <span class="im">import</span> num2words</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="data" class="level1">
@@ -119,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="d2b852db" class="cell" data-execution_count="2">
+<div id="6e07c430" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -133,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="f16e407c" class="cell" data-execution_count="3">
+<div id="9d2fdd6f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -161,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="d18fb44b" class="cell" data-execution_count="4">
+<div id="ff44c1bd" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -306,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="7ead26b1" class="cell" data-execution_count="5">
+<div id="bd5155bd" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -403,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Table&nbsp;1: The ten highest-performing participants by accuracy
 </figcaption>
 <div aria-describedby="tbl-top10-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="15">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -464,7 +466,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
 <p>The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define “mean human accuracy” more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in “English language”, without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e.&nbsp;if their performance is at or below chance when context is necessary to understand an example.</p>
-<div id="dcfe68af" class="cell" data-execution_count="7">
+<div id="59f6cb41" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
@@ -514,6 +516,88 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </details>
 </div>
 <p>The group of culled participants has 20 participants, of which two are local students and 18 are crowdworkers.</p>
+<div id="b7dad734" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The relevant numbers are: overall human mean, culled human mean, and the mean of all runs of the top 3 LLMs.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dict that contains these 5 numbers</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall human mean</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>overall_human_mean <span class="op">=</span> <span class="bu">sum</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans.values() </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>) <span class="op">/</span> <span class="bu">sum</span>(<span class="bu">len</span>(accuracies) <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans.values())</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Culled human mean (already computed above)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_culled_accuracy is already available</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean accuracy for each LLM across all runs</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>llm_means <span class="op">=</span> {</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    llm_name: <span class="bu">sum</span>(accuracies) <span class="op">/</span> <span class="bu">len</span>(accuracies) </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> llm_name, accuracies <span class="kw">in</span> accuracy_dict_llms.items()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top 3 LLMs by mean accuracy</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>top_3_llms <span class="op">=</span> <span class="bu">sorted</span>(llm_means.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)[:<span class="dv">3</span>]</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create results dict</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results <span class="op">=</span> {</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"overall_human_mean"</span>: overall_human_mean,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"culled_human_mean"</span>: mean_culled_accuracy,</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten top 3 LLM means into the results dict</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> llm_name, acc <span class="kw">in</span> top_3_llms:</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    hypothesis_2_results[<span class="ss">f"top_3_llm_mean_</span><span class="sc">{</span>llm_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> acc</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hypothesis_2_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'overall_human_mean': 0.7060914695713365, 'culled_human_mean': 0.7853260869565218, 'top_3_llm_mean_context-via-permalink_gpt-5': 0.9061302681992337, 'top_3_llm_mean_context-ondemand_zero-shot_gpt-5': 0.9022988505747126, 'top_3_llm_mean_context-agnostic_zero-shot_gpt-5': 0.8879310344827587}</code></pre>
+</div>
+</div>
+<div id="cell-overall-acc-comparison" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>label_mapping <span class="op">=</span> {<span class="st">"context-via-permalink_gpt-5"</span> :     <span class="st">"GPT-5 with</span><span class="ch">\n</span><span class="st">URL Access"</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-ondemand_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context on</span><span class="ch">\n</span><span class="st">Demand"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-agnostic_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context-</span><span class="ch">\n</span><span class="st">Agnostic"</span>}</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>top_3_llms_namemapped <span class="op">=</span> [label_mapping[elem[<span class="dv">0</span>]] <span class="cf">for</span> elem <span class="kw">in</span> top_3_llms]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"Overall</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Mean"</span>] <span class="op">+</span> top_3_llms_namemapped</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [hypothesis_2_results[<span class="st">"overall_human_mean"</span>], hypothesis_2_results[<span class="st">"culled_human_mean"</span>]] <span class="op">+</span> [acc <span class="cf">for</span> _, acc <span class="kw">in</span> <span class="bu">reversed</span>(top_3_llms)]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#82A5D5"</span>, <span class="st">"#477BBF"</span>, <span class="st">"#FF96A0"</span>, <span class="st">"#DD7778"</span>, <span class="st">"#C8494C"</span>]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(labels, values, color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Format y-axis as percentages starting from 33%</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Labels and title</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">#hypothesis2_figure_path = "../figures/hypothesis_2_accuracy_comparison.png"</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.savefig(hypothesis2_figure_path, dpi=600, bbox_inches="tight")</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="overall-acc-comparison" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="results_files/figure-html/overall-acc-comparison-output-1.png" width="951" height="566" class="figure-img"></p>
+<figcaption>Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 
