@@ -1,46 +1,28 @@
----
-title: "Processing the raw results data of the study."
-format: 
-    html:
-        code-fold: true
-jupyter: 
-    kernel: python3
-    executable: ../../.venv/bin/python
 
----
-
-The following modules will be needed. If the poetry set up worked (see README.md), all of the modules should be importable without issue.
-
-```{python}
+# The following modules will be needed
 import os
 import re
 import pandas as pd
-```
 
-1. We need to ensure the code will find the raw data files. We will use relative paths. If there are any FileNotFound errors, this is probably where you need to look.
-
-```{python}
+# 1. Set up paths to raw data and ground truth
 data_root = "../raw_data"
 ground_truth_path = "../assets/ground_truth.csv"
 
 assert os.path.isdir(data_root)
 assert os.path.isfile(ground_truth_path)
-```
 
-2. The Ground Truth will be used to compare the results with. The Ground Truth file also tells which entries were examples deemed context-dependent, i.e. the pronoun in question could not have been disambiguated without researching the context in some capacity.
 
-```{python}
+# 2. The Ground Truth will be used to compare the results with. The Ground Truth file also tells which entries were examples deemed context-dependent, i.e. the pronoun in question could not have been disambiguated without researching the context in some capacity.
+
 gt = pd.read_csv(ground_truth_path, header=0, dtype=str)
 gt = gt.fillna("")  # normalize strings
 gt = gt.iloc[10:].reset_index(drop=True)    # drop the first 10 rows
 
 # set of all IDs where 'context_dependent' is "X"
 context_dependent_ids = set(gt.loc[gt["context_dependent"] == "X", "ID"].astype(str).str.strip())
-```
 
-3. Necessary functions for the processing.
+# 3. Necessary functions for the processing.
 
-```{python}
 def process_sheets(filepath, criteria=True, pilot=False):    
     # --- get prolificID from filename ---
     base = os.path.basename(filepath)
@@ -121,11 +103,11 @@ def check_block_consistency(block: list, block_name):
             print(rec)
             raise ValueError(f"Inconsistent keys in block {block_name} at index {idx}: extra={extra}, missing={missing}")
     return True
-```
 
-4. Load all human participant data as Python dictionaries.
 
-```{python}
+# 4. Load all human participant data as Python dictionaries.
+
+
 block_a_sheet_path = data_root + '/Humans/linguists_prolific/sheet_version/Block A/block_A_11_5f6ce7a067864711ebb0f66e.csv'
 block_a_lime_initial_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockA.csv'
 block_a_lime_topup_path = data_root + '/Humans/linguists_prolific/limesurvey/limesurvey_blockA_topup.csv'
@@ -159,13 +141,9 @@ pilot_sheets_path = data_root + "/Humans/pilot"
 pilot_sheets = [os.path.join(pilot_sheets_path, file) for file in os.listdir(pilot_sheets_path) if file.endswith(".csv")]
 for file in pilot_sheets:
     block_pilot.append(process_sheets(file, criteria=False, pilot=True))
-print(block_d)
-```
 
-5. Load all LLM data as Python dictionaries.
+# 5. Load all LLM data as Python dictionaries.
 
-```{python}
-"Function definition for LLM response collection"
 def collect_responses_for_llm_class(path) -> dict:
     runs = [elem for elem in os.listdir(path) if elem.endswith(".csv")]
     # there is a CSV for each run from each LLM (usually 3, sometimes just 2 or fewer)
@@ -207,10 +185,9 @@ def collect_responses_for_llm_class(path) -> dict:
     
     return participants_dict
 
-```
 
-```{python}
-"Loading LLM data as dictionaries"
+# Loading LLM data as dictionaries
+
 commercial_path = os.path.join(data_root, "LLMS/commercial")
 assert os.path.isdir(commercial_path)
 
@@ -221,4 +198,3 @@ local_path = os.path.join(data_root, "LLMS/local")
 assert os.path.isdir(local_path)
 
 commercial_llm_responses = collect_responses_for_llm_class(commercial_path)
-```
