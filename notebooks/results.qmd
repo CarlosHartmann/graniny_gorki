@@ -9,10 +9,64 @@ jupyter:
 
 ---
 
+Necessary libraries:
+```{python}
+from num2words import num2words
+```
+
+# Data
+
+First, we need to import all raw data by calling the relevant script.
+The raw data are shaped like so:
+
+* Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
+* Human participants are put into 5 blocks, blocks A-D and the group of pilot participants
+* LLMs come in three different groups: commercial, open source, and local
+* in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
+* each combination of LLM and prompting strategy is treated as a participant.
+* For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
+
+```{python}
+"Run processing of raw data and import relevant variables"
+# human annotators
+from process_raw_data import block_pilot, block_a, block_b, block_c, block_d
+
+# LLMs
+from process_raw_data import commercial_llm_responses
+
+# Ground Truth and context-dependent IDs
+from process_raw_data import gt, context_dependent_ids
+```
+
+```{python}
+"Variables needed for data illustration"
+
+example_llm = list(commercial_llm_responses.keys())[1]
+example_llm_responses = commercial_llm_responses[example_llm]
+example_llm_responses_without_comments = [elem for elem in commercial_llm_responses[example_llm][0] if not elem.endswith("[comment]")]
+len_corresponds = "corresponds" if len(example_llm_responses_without_comments) == len(gt) else "does not correspond"
+
+
+data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") or elem.startswith("LoRes_")) and not elem.endswith("[comment]")])
+print("Data points in block A:", data_points_a)
+
+```
+
+
+To illustrate, the variable name `commercial_llm_responses` has the entry "`{python} example_llm`", which tells us the prompting strategy (`{python} "-".join(example_llm.split("_")[0:2])`) and the LLM with its dated version (`{python} example_llm.split("_")[-1]`). This entry has `{python} num2words(len(example_llm_responses))` runs saved. Each run is of the type "`{python} type(example_llm_responses[0])`" and has `{python} len(example_llm_responses_without_comments)` data points saved with their answers as keys and values. This number `{python} len_corresponds` to the number of data points in the original test set.
+
+Human annotators are organized in four different blocks due to limits to study duration, i.e. avoiding influence from participant fatigue. Instead of testing everyone with the full `{python} len(gt)` data points from the test set, every block of participants received a shared of data points that was identical among all of them and one part which was only solved by their respective block. The distribution of examples among the blocks was done randomly while ensuring within-block balance of antecedent types.
+
+Blocks A-D have `{python} len(block_a)`, `{python} len(block_b)`, `{python} len(block_c)`, and `{python} len(block_d)` participants, respectively. The piloting group had `{python} len(block_pilot)` participants. In terms of data points, every participant regardless of their block received `{python} data_points_a` examples to annotate. This ensured a study duration of roughly one hour per participant.
+
+
+# Methods
+
+[To Do]
+
+# Results
 
 
 ```{python}
-from process_raw_data import commercial_llm_responses
 
-commercial_llm_responses
 ```
