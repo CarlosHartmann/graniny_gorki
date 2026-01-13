@@ -16,6 +16,7 @@ from num2words import num2words
 from IPython.display import Markdown
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import f_oneway
 ```
 
 # Data
@@ -304,8 +305,6 @@ Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accu
 
 ```
 
-@tbl-top10-accuracy reveals that the group of top performers is populated by more humans than LLMs, although most top performances cluster around the 90% mark. To directly address Hypothesis 1, the top performer is not an LLM but indeed a human. This participant was furthermore from the pilot participants recruited from the local student body. Hypothesis 1 is therefore rejected.
-
 ## Hypothesis 2
 
 ```{python}
@@ -315,7 +314,7 @@ CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
 
 ```
 
-The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e. if their performance is at or below `{python} CULLING_THRESHHOLD_PERCENT` when context is necessary to understand an example.
+
 
 
 
@@ -368,8 +367,9 @@ participant_num_block_abcd = participant_num_culled - participant_num_pilot
 The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers.
 
 ```{python}
-# The relevant numbers are: overall human mean, culled human mean, and the mean of all runs of the top 3 LLMs.
-# create a dict that contains these 5 numbers
+"Preparing relevant data for Figure"
+
+hypothesis_2_results = dict()
 
 # Overall human mean
 overall_human_mean = sum(
@@ -379,6 +379,38 @@ overall_human_mean = sum(
 
 # Culled human mean (already computed above)
 # mean_culled_accuracy is already available
+
+# Build a majority-vote dict using only culled humans
+culled_human_blocks = []
+for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
+    culled_block = []
+    for i, participant in enumerate(block):
+        participant_id = f"{block_name}_{i}"
+        if participant_id in culled_participant_ids:
+            culled_block.append(participant)
+    if culled_block:
+        culled_human_blocks.append(culled_block)
+
+def get_culled_majority_vote(data_point_id):
+    votes = []
+    for block in culled_human_blocks:
+        for participant in block:
+            if data_point_id in participant:
+                votes.append(_norm_type(participant[data_point_id]))
+    if not votes:
+        return None
+    counter = Counter(votes)
+    majority_vote, _ = counter.most_common(1)[0]
+    return majority_vote
+
+culled_majority_vote_dict = {}
+for data_point_id in gt["ID"].dropna().astype(str).str.strip():
+    majority_vote = get_culled_majority_vote(data_point_id)
+    if majority_vote:
+        culled_majority_vote_dict[data_point_id] = majority_vote
+
+culled_majority_vote_accuracy = compute_accuracy(culled_majority_vote_dict)
+hypothesis_2_results["culled_majority_vote_accuracy"] = culled_majority_vote_accuracy
 
 # Compute mean accuracy for each LLM across all runs
 llm_means = {
@@ -393,6 +425,7 @@ top_3_llms = sorted(llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
 hypothesis_2_results = {
     "overall_human_mean": overall_human_mean,
     "culled_human_mean": mean_culled_accuracy,
+    "culled_majority_vote_accuracy": culled_majority_vote_accuracy
 }
 
 # Flatten top 3 LLM means into the results dict
@@ -401,7 +434,7 @@ for llm_name, acc in top_3_llms:
 ```
 
 ```{python}
-#| label: overall-acc-comparison
+#| label: fig-overall-acc-comparison
 #| fig-cap: "Overall Accuracies, Humans vs. Top 3 LLMs"
 
 label_mapping = {"context-via-permalink_gpt-5" :     "GPT-5 with\nURL Access",
@@ -411,9 +444,28 @@ label_mapping = {"context-via-permalink_gpt-5" :     "GPT-5 with\nURL Access",
 top_3_llms_namemapped = [label_mapping[elem[0]] for elem in top_3_llms]
 
 # Prepare data for plotting
-labels = ["Overall\nHuman Mean", "Culled\nHuman Mean"] + top_3_llms_namemapped
-values = [hypothesis_2_results["overall_human_mean"], hypothesis_2_results["culled_human_mean"]] + [acc for _, acc in reversed(top_3_llms)]
-colors = ["#82A5D5", "#477BBF", "#FF96A0", "#DD7778", "#C8494C"]
+labels = ["Overall\nHuman Mean", "Culled\nHuman Mean", "Culled\nHuman Majority"] + top_3_llms_namemapped
+values = [hypothesis_2_results["overall_human_mean"], hypothesis_2_results["culled_human_mean"], hypothesis_2_results["culled_majority_vote_accuracy"]] + [acc for _, acc in reversed(top_3_llms)]
+# Sort labels and values by accuracy (ascending)
+labels_values = list(zip(labels, values))
+labels_values.sort(key=lambda x: x[1])
+labels, values = zip(*labels_values)
+labels = list(labels)
+values = list(values)
+# Assign colors: blue spectrum for human data, red/salmon for LLMs, darker for higher accuracies
+# Human bars: ["Overall Human Mean", "Culled Human Mean", "Culled Human Majority"]
+# LLM bars: top 3 LLMs (already sorted by accuracy ascending, so last is highest accuracy)
+
+human_colors = ["#B3C6E6", "#7FA6D5", "#2C4C7E"]  # light to dark blue
+llm_colors = ["#FFB3B3", "#FF7F7F", "#B22222"]    # light salmon to dark red
+
+# Dynamically assign colors based on the order of labels (humans first, then LLMs)
+colors = []
+for label in labels:
+    if "Human" in label:
+        colors.append(human_colors.pop(0))
+    else:
+        colors.append(llm_colors.pop(0))
 
 # Create bar plot
 fig, ax = plt.subplots(figsize=(10, 6))
@@ -433,3 +485,157 @@ plt.show()
 
 ```
 
+```{python}
+"Significance test"
+
+ALPHA = 0.05
+
+# McNemar's test to compare best LLM vs. culled humans
+
+from statsmodels.stats.contingency_tables import mcnemar
+
+# For McNemar's test, we need paired binary outcomes for the same items.
+# We'll use the majority vote of culled humans vs. the best LLM (majority vote across runs).
+
+# Build majority vote for best LLM
+def get_llm_majority_vote(data_point_id):
+    votes = []
+    for run in commercial_llm_responses[top_3_llms[0][0]]:
+        if data_point_id in run:
+            votes.append(_norm_type(run[data_point_id]))
+    if not votes:
+        return None
+    counter = Counter(votes)
+    majority_vote, _ = counter.most_common(1)[0]
+    return majority_vote
+
+llm_majority_vote_dict = {}
+for data_point_id in gt["ID"].dropna().astype(str).str.strip():
+    majority_vote = get_llm_majority_vote(data_point_id)
+    if majority_vote:
+        llm_majority_vote_dict[data_point_id] = majority_vote
+
+# Only consider items where both have a vote
+paired_ids = set(culled_majority_vote_dict.keys()) & set(llm_majority_vote_dict.keys())
+
+# Build contingency table
+# b = culled correct, llm incorrect
+# c = culled incorrect, llm correct
+b = c = 0
+for data_point_id in paired_ids:
+    gt_val = _norm_type(gt.loc[gt["ID"].astype(str) == data_point_id, "they_type"].values[0]).replace("_they", "")
+    culled_correct = int(_norm_type(culled_majority_vote_dict[data_point_id]) == gt_val)
+    llm_correct = int(_norm_type(llm_majority_vote_dict[data_point_id]) == gt_val)
+    if culled_correct and not llm_correct:
+        b += 1
+    elif not culled_correct and llm_correct:
+        c += 1
+
+table = [[0, b], [c, 0]]
+
+result = mcnemar(table, exact=True)
+p_value = result.pvalue
+
+print(f"McNemar's test: b={b}, c={c}, p-value={p_value}")
+
+```
+
+## Results by label
+
+### Singular vs Plural
+
+```{python}
+# Collect accuracies for culled humans and best LLM for "plural" and "singular" labels
+
+# Compute by-label accuracy for culled human mean (not majority vote)
+all_culled_participant_dicts = []
+for block in culled_human_blocks:
+    all_culled_participant_dicts.extend(block)
+
+# Compute mean accuracy by label across all culled participants
+culled_by_label_accs = [compute_accuracy_by_label(participant, labels=("singular", "plural")) for participant in all_culled_participant_dicts]
+
+# Average the accuracies for each label
+culled_by_label_acc = {}
+for label in ("singular", "plural"):
+    label_accs = [acc[label] for acc in culled_by_label_accs if not np.isnan(acc[label])]
+    culled_by_label_acc[label] = float(np.mean(label_accs)) if label_accs else float("nan")
+
+# Compute by-label accuracy for best LLM majority vote
+llm_by_label_acc = compute_accuracy_by_label(llm_majority_vote_dict, labels=("singular", "plural"))
+```
+
+```{python}
+#| label: fig-singular-plural-comparison
+#| fig-cap: "Accuracy difference between plural/singular _they_ and LLMs/humans"
+
+# Prepare data for plotting by-label accuracies for culled humans and best LLM
+group_labels = ["Culled Humans", "", "Best LLM", ""]
+bar_values = [
+    culled_by_label_acc.get("plural", float("nan")),
+    culled_by_label_acc.get("singular", float("nan")),
+    llm_by_label_acc.get("plural", float("nan")),
+    llm_by_label_acc.get("singular", float("nan"))
+]
+# Blue for plural, red for singular
+bar_colors = [
+    "#2C4C7E", "#B22222",  # culled humans: plural (blue), singular (red)
+    "#2C4C7E", "#B22222"   # best LLM: plural (blue), singular (red)
+]
+bar_labels = ["Plural", "Singular", "Plural", "Singular"]
+
+# Increase space between the two pairs
+bar_positions = [0, 1, 3, 4]  # gap between 1 and 3
+
+fig, ax = plt.subplots(figsize=(8, 6))
+bars = ax.bar(bar_positions, bar_values, color=bar_colors, edgecolor="black", linewidth=1.5)
+
+# Format y-axis as percentages
+ax.set_ylim(0.33, 1.0)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+ax.set_ylabel("Accuracy", fontsize=12)
+ax.grid(axis="y", alpha=0.3)
+ax.set_axisbelow(True)
+
+# Set x-ticks to blank (we'll add group labels below)
+ax.set_xticks([])
+
+# Add group labels below the bars, spanning two bars each
+for idx, label in enumerate(["Culled Humans", "Best LLM"]):
+    xpos = bar_positions[idx * 2] + 0.5
+    ax.text(xpos, 0.31, label, ha="center", va="top", fontsize=14, fontweight="bold")
+
+# Add legend for plural/singular
+from matplotlib.patches import Patch
+legend_elements = [
+    Patch(facecolor="#2C4C7E", edgecolor="black", label="Plural"),
+    Patch(facecolor="#B22222", edgecolor="black", label="Singular"),
+]
+ax.legend(handles=legend_elements, loc="upper left", frameon=True)
+
+# Add bar labels (Plural/Singular) above each bar
+for i, bar in enumerate(bars):
+    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, bar_labels[i],
+            ha="center", va="bottom", fontsize=11)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Context-(in)dependence
+
+# Discussion
+
+## Hypothesis 1
+
+@tbl-top10-accuracy reveals that the group of top performers is populated by more humans than LLMs, although most top performances cluster around the 90% mark. To directly address Hypothesis 1, the top performer is not an LLM but indeed a human. This participant was furthermore from the pilot participants recruited from the local student body. Hypothesis 1 is therefore rejected.
+
+## Hypothesis 2
+
+The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e. if their performance is at or below `{python} CULLING_THRESHHOLD_PERCENT` when context is necessary to understand an example.
+
+@fig-overall-acc-comparison reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs' performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, `{python} top_3_llms_namemapped[0]`, shows a performance that is `{python} ", however, not" if p_value >= ALPHA else ", indeed, "` significantly better than the culled human mean at `{python} f"p = {p_value}, α = {ALPHA}"` according to a McNemar's test. Hypothesis 2 can therefore `{python} "not" if p_value >= ALPHA else ""` be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.
+
+## Hypothesis 3
+
+Hypothesis 3 aims to show non-inferiority of LLMs at
