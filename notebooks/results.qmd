@@ -308,11 +308,18 @@ Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accu
 
 ## Hypothesis 2
 
-The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e. if their performance is at or below chance when context is necessary to understand an example.
+```{python}
+"Constants"
+CULLING_THRESHHOLD = 0.5
+CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
+
+```
+
+The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e. if their performance is at or below `{python} CULLING_THRESHHOLD_PERCENT` when context is necessary to understand an example.
+
+
 
 ```{python}
-"Culling of human annotators"
-
 "Culling of human annotators"
 
 # Compute context-dependent accuracy for each human participant
@@ -325,7 +332,7 @@ for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
 
 # Filter out participants with context-dependent accuracy at or below chance (33%)
 filtered_participants = {pid: acc for pid, acc in context_dependent_accuracies.items() 
-                         if acc > 0.33}
+                         if acc > CULLING_THRESHHOLD}
 
 # Sort by accuracy and take top half
 sorted_participants = sorted(filtered_participants.items(), key=lambda x: x[1], reverse=True)
