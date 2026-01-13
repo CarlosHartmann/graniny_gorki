@@ -13,6 +13,7 @@ The following modules will be needed. If the poetry set up worked (see README.md
 
 ```{python}
 import os
+import re
 import pandas as pd
 ```
 
@@ -26,7 +27,7 @@ assert os.path.isdir(data_root)
 assert os.path.isfile(ground_truth_path)
 ```
 
-2. The Ground Truth will be used to compare the results against. We can also already establish which entries were examples deemed context-dependent, i.e. the pronoun in question could not have been disambiguated without researching the context in some capacity.
+2. The Ground Truth will be used to compare the results with. The Ground Truth file also tells which entries were examples deemed context-dependent, i.e. the pronoun in question could not have been disambiguated without researching the context in some capacity.
 
 ```{python}
 gt = pd.read_csv(ground_truth_path, header=0, dtype=str)
@@ -122,7 +123,7 @@ def check_block_consistency(block: list, block_name):
     return True
 ```
 
-4. Load all the raw data as pandas dataframes.
+4. Load all human participant data as Python dictionaries.
 
 ```{python}
 block_a_sheet_path = data_root + '/Humans/linguists_prolific/sheet_version/Block A/block_A_11_5f6ce7a067864711ebb0f66e.csv'
@@ -158,5 +159,66 @@ pilot_sheets_path = data_root + "/Humans/pilot"
 pilot_sheets = [os.path.join(pilot_sheets_path, file) for file in os.listdir(pilot_sheets_path) if file.endswith(".csv")]
 for file in pilot_sheets:
     block_pilot.append(process_sheets(file, criteria=False, pilot=True))
+print(block_d)
+```
 
+5. Load all LLM data as Python dictionaries.
+
+```{python}
+"Function definition for LLM response collection"
+def collect_responses_for_llm_class(path) -> dict:
+    runs = [elem for elem in os.listdir(path) if elem.endswith(".csv")]
+    # there is a CSV for each run from each LLM (usually 3, sometimes just 2 or fewer)
+    # every filename begins with "results_" and ends with "_runN" where N is the iteration
+    # everything in between is the combination of prompting technique and LLM which can be taken together as one "participant"
+    # establish list of all participants first:
+    participants = sorted(set(
+        filename.replace("results_", "").rsplit("_run", 1)[0] 
+        for filename in runs
+    ))
+    participants_dict = {participant: [] for participant in participants}
+
+    pat = re.compile(r"^results_(.+)_run\d+\.csv$", flags=re.IGNORECASE)
+    for fname in runs:
+        m = pat.match(fname)
+        if not m:
+            continue  # skip non-matching files
+        name = m.group(1)  # keep the [name] part
+        fpath = os.path.join(path, fname)
+        
+        # open each file, top row as headers
+        df = pd.read_csv(fpath, header=0, dtype=str).fillna("")
+        
+        # sanity check for required columns
+        for col in ("ID", "LLM_response", "LLM_annotation"):
+            if col not in df.columns:
+                raise ValueError(f"File {fname} missing required column '{col}'")
+        
+        # build participant dict: ID -> LLM_annotation
+        participant_responses = {}
+        for _, r in df.iterrows():
+            rid = r["ID"]
+            if rid == "":
+                continue
+            participant_responses[rid] = r["LLM_annotation"]
+            participant_responses[f"{rid}[comment]"] = r["LLM_response"]
+        
+        participants_dict[name].append(participant_responses)
+    
+    return participants_dict
+
+```
+
+```{python}
+"Loading LLM data as dictionaries"
+commercial_path = os.path.join(data_root, "LLMS/commercial")
+assert os.path.isdir(commercial_path)
+
+opensource_path = os.path.join(data_root, "LLMS/opensource")
+assert os.path.isdir(opensource_path)
+
+local_path = os.path.join(data_root, "LLMS/local")
+assert os.path.isdir(local_path)
+
+commercial_llm_responses = collect_responses_for_llm_class(commercial_path)
 ```
