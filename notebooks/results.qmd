@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import f_oneway
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import seaborn as sns
 ```
 
 # Data
@@ -682,7 +683,97 @@ plt.show()
 ### Context-(in)dependence
 
 ```{python}
+# Assess performance for context-dependent vs context-independent items
+# for: best LLM, third-best LLM, and culled human mean
 
+# Get best and third-best LLM names from top_3_llms
+best_llm_name = top_3_llms[0][0]
+third_llm_name = top_3_llms[2][0]
+
+# Helper: compute mean accuracy for a group (list of participant dicts)
+def mean_accuracy_group(participant_dicts, context_dependent):
+    accs = [compute_accuracy(p, context_dependent=context_dependent) for p in participant_dicts]
+    accs = [a for a in accs if not np.isnan(a)]
+    return float(np.mean(accs)) if accs else float("nan")
+
+# Prepare culled human participant dicts
+culled_human_participants = []
+for block in culled_human_blocks:
+    culled_human_participants.extend(block)
+
+# Compute accuracies
+results_context = []
+
+for context_flag, context_label in zip([1, 2], ["Context-Dependent", "Context-Independent"]):
+    # Best LLM
+    best_llm_accs = [compute_accuracy(run, context_dependent=context_flag) for run in commercial_llm_responses[best_llm_name]]
+    best_llm_acc = np.nanmean([a for a in best_llm_accs if not np.isnan(a)])
+    # Third-best LLM
+    third_llm_accs = [compute_accuracy(run, context_dependent=context_flag) for run in commercial_llm_responses[third_llm_name]]
+    third_llm_acc = np.nanmean([a for a in third_llm_accs if not np.isnan(a)])
+    # Culled human mean
+    culled_human_acc = mean_accuracy_group(culled_human_participants, context_dependent=context_flag)
+    # Store
+    results_context.append({
+        "Group": "GPT-5 with URL Access",
+        "Context": context_label,
+        "Accuracy": best_llm_acc
+    })
+    results_context.append({
+        "Group": "GPT-5 Context-Agnostic",
+        "Context": context_label,
+        "Accuracy": third_llm_acc
+    })
+    results_context.append({
+        "Group": "Culled Human Mean",
+        "Context": context_label,
+        "Accuracy": culled_human_acc
+    })
+
+# Display as table
+results_context_df = pd.DataFrame(results_context)
+results_context_df["Accuracy"] = results_context_df["Accuracy"].apply(lambda x: f"{x*100:.1f}%" if not np.isnan(x) else "n/a")
+```
+
+```{python}
+#| label: tbl-context-accuracy
+#| tbl-cap: "Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean"
+Markdown(results_context_df.pivot(index="Group", columns="Context", values="Accuracy").to_markdown())
+```
+
+```{python}
+#| label: fig-context-accuracy
+#| fig-cap: "Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean"
+
+# Prepare data for plotting
+plot_df = pd.DataFrame([
+    {
+        "Group": row["Group"],
+        "Context": row["Context"],
+        "Accuracy": float(row["Accuracy"].replace("%", ""))/100 if row["Accuracy"] != "n/a" else np.nan
+    }
+    for _, row in results_context_df.iterrows()
+])
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+sns.barplot(
+    data=plot_df,
+    x="Group",
+    y="Accuracy",
+    hue="Context",
+    palette=["#2C4C7E", "#B22222"],
+    ax=ax
+)
+ax.set_ylim(0.33, 1.0)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+ax.set_ylabel("Accuracy", fontsize=12)
+ax.set_xlabel("")
+ax.grid(axis="y", alpha=0.3)
+ax.set_axisbelow(True)
+plt.legend(title="Item Type", loc="upper left")
+plt.tight_layout()
+plt.show()
 ```
 
 # Discussion

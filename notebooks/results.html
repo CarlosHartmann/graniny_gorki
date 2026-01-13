@@ -100,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Necessary libraries:</p>
-<div id="873d686c" class="cell" data-execution_count="1">
+<div id="f7350eb2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="76f81583" class="cell" data-execution_count="2">
+<div id="cc318dc7" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="c9b21fff" class="cell" data-execution_count="3">
+<div id="8b2db2cb" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -161,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="062092bf" class="cell" data-execution_count="4">
+<div id="40eb91a6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -306,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="43c13b02" class="cell" data-execution_count="5">
+<div id="9058b67f" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -403,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Table&nbsp;1: The ten highest-performing participants by accuracy
 </figcaption>
 <div aria-describedby="tbl-top10-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="21">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="36">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -462,7 +462,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </section>
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
-<div id="b43325b0" class="cell" data-execution_count="7">
+<div id="d384e6af" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Constants"</span></span>
@@ -470,7 +470,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD_PERCENT <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>CULLING_THRESHHOLD <span class="op">*</span> <span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="6998af76" class="cell" data-execution_count="8">
+<div id="25c60845" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
@@ -518,7 +518,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </details>
 </div>
 <p>The group of culled participants has 13 participants, of which two are local students and 11 are crowdworkers.</p>
-<div id="aec0ed01" class="cell" data-execution_count="9">
+<div id="fd48ad72" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
@@ -649,7 +649,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 </div>
 </div>
 </div>
-<div id="57b65ae7" class="cell" data-execution_count="11">
+<div id="d3b5487b" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
@@ -713,7 +713,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 <h2 class="anchored" data-anchor-id="results-by-label">Results by label</h2>
 <section id="singular-vs-plural" class="level3">
 <h3 class="anchored" data-anchor-id="singular-vs-plural">Singular vs Plural</h3>
-<div id="9cbc0627" class="cell" data-execution_count="12">
+<div id="056cd965" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
@@ -886,6 +886,104 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 </section>
 <section id="context-independence" class="level3">
 <h3 class="anchored" data-anchor-id="context-independence">Context-(in)dependence</h3>
+<div id="82459ea8" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess performance for context-dependent vs context-independent items</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for: best LLM, third-best LLM, and culled human mean</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get best and third-best LLM names from top_3_llms</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>best_llm_name <span class="op">=</span> top_3_llms[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>third_llm_name <span class="op">=</span> top_3_llms[<span class="dv">2</span>][<span class="dv">0</span>]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper: compute mean accuracy for a group (list of participant dicts)</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean_accuracy_group(participant_dicts, context_dependent):</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    accs <span class="op">=</span> [compute_accuracy(p, context_dependent<span class="op">=</span>context_dependent) <span class="cf">for</span> p <span class="kw">in</span> participant_dicts]</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    accs <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)]</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.mean(accs)) <span class="cf">if</span> accs <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare culled human participant dicts</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>culled_human_participants <span class="op">=</span> []</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    culled_human_participants.extend(block)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute accuracies</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>results_context <span class="op">=</span> []</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> context_flag, context_label <span class="kw">in</span> <span class="bu">zip</span>([<span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">"Context-Dependent"</span>, <span class="st">"Context-Independent"</span>]):</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Best LLM</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    best_llm_accs <span class="op">=</span> [compute_accuracy(run, context_dependent<span class="op">=</span>context_flag) <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[best_llm_name]]</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    best_llm_acc <span class="op">=</span> np.nanmean([a <span class="cf">for</span> a <span class="kw">in</span> best_llm_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)])</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Third-best LLM</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    third_llm_accs <span class="op">=</span> [compute_accuracy(run, context_dependent<span class="op">=</span>context_flag) <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[third_llm_name]]</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    third_llm_acc <span class="op">=</span> np.nanmean([a <span class="cf">for</span> a <span class="kw">in</span> third_llm_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)])</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Culled human mean</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    culled_human_acc <span class="op">=</span> mean_accuracy_group(culled_human_participants, context_dependent<span class="op">=</span>context_flag)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Best LLM"</span>,</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: best_llm_acc</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Third-best LLM"</span>,</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: third_llm_acc</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Culled Human Mean"</span>,</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: culled_human_acc</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Display as table</span></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>results_context_df <span class="op">=</span> pd.DataFrame(results_context)</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>results_context_df[<span class="st">"Accuracy"</span>] <span class="op">=</span> results_context_df[<span class="st">"Accuracy"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span> <span class="cf">if</span> <span class="kw">not</span> np.isnan(x) <span class="cf">else</span> <span class="st">"n/a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Markdown(results_context_df.pivot(index<span class="op">=</span><span class="st">"Group"</span>, columns<span class="op">=</span><span class="st">"Context"</span>, values<span class="op">=</span><span class="st">"Accuracy"</span>).to_markdown())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-context-accuracy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="17">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Accuracy for context-dependent and context-independent items for GPT-5 with URL access, GPT-5 Context-Agnostic, and the culled human mean
+</figcaption>
+<div aria-describedby="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="47">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Context-Dependent</th>
+<th style="text-align: left;">Context-Independent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Best LLM</td>
+<td style="text-align: left;">85.3%</td>
+<td style="text-align: left;">91.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Culled Human Mean</td>
+<td style="text-align: left;">98.1%</td>
+<td style="text-align: left;">83.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Third-best LLM</td>
+<td style="text-align: left;">79.4%</td>
+<td style="text-align: left;">91.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
 </section>
 </section>
 </section>
