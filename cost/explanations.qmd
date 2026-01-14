@@ -32,8 +32,18 @@ Explanations:
 ```{python}
 import pandas as pd
 
-csv_path = "cost_time_stats.csv"
+# Ensure working directory is the same as this script's directory
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+csv_path = "../cost/cost_time_stats.csv"
+
+if not os.path.exists(csv_path):
+    raise FileNotFoundError(f"{csv_path} does not exist. Please check the file path.")
+
 df = pd.read_csv(csv_path)
+
+if "group" not in df.columns or "total_annotated_examples" not in df.columns:
+    raise ValueError("The required columns 'group' or 'total_annotated_examples' are missing in the CSV file.")
 
 llms_total_annotated = 174 * total_llms_num
 df.loc[df["group"] == "LLMs", "total_annotated_examples"] = llms_total_annotated
