@@ -1,0 +1,103 @@
+---
+title: "Computing results and running analyses"
+format: 
+    html:
+        code-fold: true
+jupyter: 
+    kernel: python3
+    executable: ../../.venv/bin/python
+
+---
+
+
+```{python}
+# calculate IAA
+
+# load ground truth
+data_root = "../raw_data"
+ground_truth_path = "../assets/ground_truth.csv"
+
+assert os.path.isdir(data_root)
+assert os.path.isfile(ground_truth_path)
+
+gt = pd.read_csv(ground_truth_path, header=0, dtype=str)
+gt = gt.fillna("")  # normalize strings
+gt = gt.iloc[10:].reset_index(drop=True)    # drop the first 10 rows
+
+original_annots_path = "../assets/original_annotations"
+import os
+import pandas as pd
+
+missing_ids = list()
+
+# iterate through all xlsx files in path
+for file in os.listdir(original_annots_path):
+    if file.endswith(".xlsx") or file.endswith(".xlsm"):
+        file_path = os.path.join(original_annots_path, file)
+        
+        # open "data" worksheet
+        xlsx = pd.ExcelFile(file_path)
+        if "data" not in xlsx.sheet_names:
+            raise ValueError(f"'data' worksheet not found in {file}")
+        data = xlsx.parse("data")
+        
+        # use column "ID" for the IDs
+        if "ID" not in data.columns or "they_type" not in data.columns:
+            raise ValueError(f"'ID' or 'they_type' column missing in {file}")
+        
+        # only consider IDs that are in gt
+        data = data[data["ID"].isin(gt["ID"])]
+        
+        # use column "they_type" for the annotation
+        annotations = data[["ID", "they_type"]].copy()
+        
+        # map the annotations to the three categories
+        def map_annotation(annotation, ID):
+            if annotation in ["plural_they", "collnoun", "mixed_they"]:
+                return "plural"
+            elif annotation in ["generic_singularthey", "generic_genderedthey"]:
+                return "generic"
+            elif annotation and isinstance(annotation, str):
+                return "singular"
+            elif pd.isna(annotation): # explicitly check for NaN
+                return "disregard"
+            else:
+                raise ValueError(f"Unhandled annotation {annotation} in field {ID}")
+        
+        annotations["mapped_type"] = annotations.apply(
+            lambda row: map_annotation(row["they_type"], row["ID"]), axis=1
+        )
+        
+        # check if all IDs from gt have been found, throw error if not
+        missing_ids_file = set(gt["ID"]) - set(annotations["ID"])
+        missing_ids.extend(missing_ids_file)
+    
+    if missing_ids:
+        raise ValueError(f"Missing {len(missing_ids)} IDs still: {missing_ids}")
+
+```
+
+```{python}
+from sklearn.metrics import cohen_kappa_score
+
+# Filter out "disregard" annotations
+filtered_annotations = annotations[annotations["mapped_type"] != "disregard"]
+
+# Ensure both ground truth and annotations are aligned by ID
+aligned_gt = gt[gt["ID"].isin(filtered_annotations["ID"])]
+aligned_annotations = filtered_annotations[filtered_annotations["ID"].isin(aligned_gt["ID"])]
+
+# Sort by ID to ensure proper alignment
+aligned_gt = aligned_gt.sort_values("ID").reset_index(drop=True)
+aligned_annotations = aligned_annotations.sort_values("ID").reset_index(drop=True)
+
+# Remove "_they" from the strings in aligned_gt["they_type"]
+aligned_gt["they_type"] = aligned_gt["they_type"].str.replace("_they", "", regex=False)
+
+# Compute Cohen's kappa
+kappa_score = cohen_kappa_score(
+    aligned_gt["they_type"], aligned_annotations["mapped_type"]
+)
+
+print(f"Cohen's kappa score: {kappa_score}")
+```
