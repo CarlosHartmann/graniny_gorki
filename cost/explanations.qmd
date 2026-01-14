@@ -1,0 +1,42 @@
+---
+title: "Explanations"
+format:
+    html:
+        code-fold: true
+jupyter: 
+    kernel: python3
+    executable: ../../.venv/bin/python
+editor: visual
+---
+
+```{python}
+import os
+import glob
+
+llms_path = "../raw_data/LLMs"
+# Get all subdirectories in llms_path
+subdirs = [os.path.join(llms_path, d) for d in os.listdir(llms_path) if os.path.isdir(os.path.join(llms_path, d))]
+# Count CSV files in all subdirectories
+total_llms_num = sum(len(glob.glob(os.path.join(subdir, "*.csv"))) for subdir in subdirs)
+```
+
+Explanations:
+
+- Local students mostly did not report how much time it took. A few said it took them around 40 minutes, others just over an hour. 1 hour per person is a cautious estimate.
+- Local students were paid 30 Swiss francs each. At the time of this study, this equalled roughly $33.
+- The cost figure is the result of `7 * 33 = 231`.
+- The total cost for crowdworkers added up to £1007.99, which was roughly equal to $1270 at the time (exchange rate of 1:1.26).
+- Each human participant annotated 48 examples, so `7 * 48 = 336` for the local students, and `41 * 48 = 1968` for crowdworkers.
+- There were `{python} total_llms_num` LLM runs, each of which annotated all 174 data points. The total annotated for LLMs is therefore `{python} 174 * total_llms_num`.
+
+```{python}
+import pandas as pd
+
+csv_path = "cost_time_stats.csv"
+df = pd.read_csv(csv_path)
+
+llms_total_annotated = 174 * total_llms_num
+df.loc[df["group"] == "LLMs", "total_annotated_examples"] = llms_total_annotated
+
+df.to_csv(csv_path, index=False)
+```

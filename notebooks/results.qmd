@@ -19,6 +19,9 @@ import numpy as np
 from scipy.stats import f_oneway
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import seaborn as sns
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
 ```
 
 # Data
@@ -676,7 +679,8 @@ fig, ax = plt.subplots(figsize=(5, 4))
 disp_human.plot(ax=ax, cmap="Blues", values_format=".1%")
 plt.tight_layout()
 plt.show()
-```
+````
+
 ### Context-(in)dependence
 
 ```{python}
@@ -769,6 +773,60 @@ ax.set_xlabel("")
 ax.grid(axis="y", alpha=0.3)
 ax.set_axisbelow(True)
 plt.legend(title="Item Type", loc="upper left")
+plt.tight_layout()
+plt.show()
+```
+
+### Cost
+
+```{python}
+"Cost stats"
+stats_path = "../cost/cost_time_stats.csv"
+assert os.path.isfile(stats_path)
+# the CSV file has the header group (Local Students, Crowdworkers, LLMs), total_cost_$, and total_time_h
+
+# Load data
+df = pd.read_csv(stats_path)
+
+# Compute cost per 100 examples
+# Assume the CSV also contains a column 'total_examples'
+df["cost_per_100_examples"] = df["total_cost_$"] / df["total_annotated_examples"] * 100
+
+# Set colors
+color_map = {
+    "Local Students": "#2C4C7E",   # dark blue
+    "Crowdworkers": "#B3C6E6",     # light blue
+    "LLMs": "#B22222"              # dark red
+}
+colors = [color_map.get(g, "#888888") for g in df["group"]]
+
+# Plot
+fig, ax = plt.subplots(figsize=(6, 4))
+bars = ax.bar(df["group"], df["cost_per_100_examples"], color=colors, edgecolor="black", linewidth=1.5)
+ax.set_ylabel("Cost per 100 Examples ($)", fontsize=12)
+ax.set_xlabel("")
+ax.grid(axis="y", alpha=0.3)
+ax.set_axisbelow(True)
+plt.tight_layout()
+plt.show()
+
+```
+
+```{python}
+# Plot bar for time taken per 100 examples
+
+# Compute time per 100 examples
+df["time_per_100_examples"] = df["total_time_h"] / df["total_annotated_examples"] * 100
+
+# Set colors (reuse previous color_map)
+colors = [color_map.get(g, "#888888") for g in df["group"]]
+
+fig, ax = plt.subplots(figsize=(6, 4))
+bars = ax.bar(df["group"], df["time_per_100_examples"], color=colors, edgecolor="black", linewidth=1.5)
+ax.set_ylabel("Time per 100 Examples (hours)", fontsize=12)
+ax.set_xlabel("")
+ax.grid(axis="y", alpha=0.3)
+ax.set_axisbelow(True)
 plt.tight_layout()
 plt.show()
 ```
