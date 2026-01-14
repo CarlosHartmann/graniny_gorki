@@ -61,7 +61,7 @@ def process_sheets(filepath, criteria=True, pilot=False):
     return out
 
 
-def process_lime(filepath):
+def process_lime(filepath, linguists=True):
     df = pd.read_csv(filepath, dtype=str)
     
     # drop unwanted columns
@@ -82,7 +82,7 @@ def process_lime(filepath):
     df = df.drop("submitdate", axis=1)
     
     # check required columns are present
-    required = ["prolificID", "EnglishLingFamiliar"]
+    required = ["prolificID", "EnglishLingFamiliar"] if linguists else ["prolificID"]
     for col in required:
         if col not in df.columns:
             raise ValueError(f"Missing required column: {col}")
@@ -141,6 +141,15 @@ pilot_sheets_path = data_root + "/Humans/pilot"
 pilot_sheets = [os.path.join(pilot_sheets_path, file) for file in os.listdir(pilot_sheets_path) if file.endswith(".csv")]
 for file in pilot_sheets:
     block_pilot.append(process_sheets(file, criteria=False, pilot=True))
+
+# 4b. Load all non-linguist participant data as Python dictionaries.
+non_ling_path = data_root + '/Humans/non-linguists_control'
+non_ling_files = [os.path.join(non_ling_path, file) for file in os.listdir(non_ling_path) if file.endswith(".csv")]
+non_ling_participants = []
+for file in non_ling_files:
+    non_ling_participants.append(process_lime(file, linguists=False))
+# flatten list
+non_ling_participants = [item for sublist in non_ling_participants for item in sublist]
 
 # 5. Load all LLM data as Python dictionaries.
 

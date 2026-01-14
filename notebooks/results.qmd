@@ -16,6 +16,7 @@ from num2words import num2words
 from IPython.display import Markdown
 import matplotlib.pyplot as plt
 import numpy as np
+from collections import Counter
 from scipy.stats import f_oneway
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import seaborn as sns
@@ -40,6 +41,9 @@ The raw data are shaped like so:
 "Run processing of raw data and import relevant variables"
 # human annotators
 from process_raw_data import block_pilot, block_a, block_b, block_c, block_d
+
+# non-linguist human annotators
+from process_raw_data import non_ling_participants
 
 # LLMs
 from process_raw_data import commercial_llm_responses
@@ -239,8 +243,17 @@ for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
         accuracies.append(acc)
     accuracy_dict_humans[f"block_{block_name}"] = accuracies
 
+# build an accuracy dict for the non-linguists control group
+
+
+accuracies = []
+for participant in non_ling_participants:
+    acc = compute_accuracy(participant)
+    accuracies.append(acc)
+accuracy_dict_non_linguists = {"non-linguists":accuracies}
+    
+
 # build an accuracy dict for all data found in gt using human-majority
-from collections import Counter
 
 def get_human_majority_vote(data_point_id):
     """Get the majority vote from all human annotators for a given data point."""
@@ -283,6 +296,13 @@ for block_name, accuracies in accuracy_dict_humans.items():
             "source": block_name,
             "accuracy": acc
         })
+
+# Add non-linguist humans results
+for num, acc in enumerate(accuracy_dict_non_linguists["non-linguists"]):
+    accuracy_results.append({
+        "source": f"Non-Linguist Human Nr. {num+1}",
+        "accuracy": acc
+    })
 
 # Add LLM results taking the mean of all runs per LLM
 for llm_name, accuracies in accuracy_dict_llms.items():
@@ -385,6 +405,8 @@ overall_human_mean = sum(
 # Culled human mean (already computed above)
 # mean_culled_accuracy is already available
 
+nonlinguist_humans = sum(accuracy_dict_non_linguists["non-linguists"]) / len(accuracy_dict_non_linguists["non-linguists"])
+
 # Build a majority-vote dict using only culled humans
 culled_human_blocks = []
 for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
@@ -428,9 +450,10 @@ top_3_llms = sorted(llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
 
 # Create results dict
 hypothesis_2_results = {
+    "non-linguist_human_mean": nonlinguist_humans,
     "overall_human_mean": overall_human_mean,
     "culled_human_mean": mean_culled_accuracy,
-    "culled_majority_vote_accuracy": culled_majority_vote_accuracy
+    "culled_human_majority_vote_accuracy": culled_majority_vote_accuracy
 }
 
 # Flatten top 3 LLM means into the results dict
@@ -449,8 +472,8 @@ label_mapping = {"context-via-permalink_gpt-5" :     "GPT-5 with\nURL Access",
 top_3_llms_namemapped = [label_mapping[elem[0]] for elem in reversed(top_3_llms)]
 
 # Prepare data for plotting
-labels = ["Overall\nHuman Mean", "Culled\nHuman Mean", "Culled\nHuman Majority"] + top_3_llms_namemapped
-values = [hypothesis_2_results["overall_human_mean"], hypothesis_2_results["culled_human_mean"], hypothesis_2_results["culled_majority_vote_accuracy"]] + [acc for _, acc in reversed(top_3_llms)]
+labels = ["Non-linguist\nHuman Mean", "Linguist\nHuman Mean", "Culled\nHuman Mean", "Culled\nHuman Majority"] + top_3_llms_namemapped
+values = [hypothesis_2_results["non-linguist_human_mean"], hypothesis_2_results["overall_human_mean"], hypothesis_2_results["culled_human_mean"], hypothesis_2_results["culled_human_majority_vote_accuracy"]] + [acc for _, acc in reversed(top_3_llms)]
 # Sort labels and values by accuracy (ascending)
 labels_values = list(zip(labels, values))
 labels_values.sort(key=lambda x: x[1])
@@ -461,13 +484,13 @@ values = list(values)
 # Human bars: ["Overall Human Mean", "Culled Human Mean", "Culled Human Majority"]
 # LLM bars: top 3 LLMs (already sorted by accuracy ascending, so last is highest accuracy)
 
-human_colors = ["#B3C6E6", "#7FA6D5", "#2C4C7E"]  # light to dark blue
+human_colors = ["#D0E1F2", "#A3C4E5", "#6A9FD1", "#2C4C7E"]  # light to dark blue
 llm_colors = ["#FFB3B3", "#FF7F7F", "#B22222"]    # light salmon to dark red
 
 # Dynamically assign colors based on the order of labels (humans first, then LLMs)
 colors = []
 for label in labels:
-    if "Human" in label:
+    if "human" in label.lower():
         colors.append(human_colors.pop(0))
     else:
         colors.append(llm_colors.pop(0))
@@ -679,7 +702,7 @@ fig, ax = plt.subplots(figsize=(5, 4))
 disp_human.plot(ax=ax, cmap="Blues", values_format=".1%")
 plt.tight_layout()
 plt.show()
-````
+```
 
 ### Context-(in)dependence
 
