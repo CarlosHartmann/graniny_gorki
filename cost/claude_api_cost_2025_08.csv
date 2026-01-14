@@ -1,0 +1,5 @@
+usage_date_utc,model,workspace,api_key,usage_type,context_window,token_type,cost_usd,cost_type
+2025-08-30,Claude Opus 4.1,Default,shagohod,message,≤ 200k,input_no_cache,12.92,token
+2025-08-30,Claude Opus 4.1,Default,shagohod,message,≤ 200k,output,12.62,token
+2025-08-30,Claude Sonnet 4,Default,shagohod,message,≤ 200k,input_no_cache,2.57,token
+2025-08-30,Claude Sonnet 4,Default,shagohod,message,≤ 200k,output,1.80,token

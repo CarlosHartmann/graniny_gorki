@@ -537,9 +537,6 @@ table = [[0, b], [c, 0]]
 
 result = mcnemar(table, exact=True)
 p_value = result.pvalue
-
-print(f"McNemar's test: b={b}, c={c}, p-value={p_value}")
-
 ```
 
 ## Results by label

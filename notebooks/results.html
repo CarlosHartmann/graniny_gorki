@@ -100,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Necessary libraries:</p>
-<div id="f7350eb2" class="cell" data-execution_count="1">
+<div id="071c0755" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
@@ -109,7 +109,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="data" class="level1">
@@ -123,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="cc318dc7" class="cell" data-execution_count="2">
+<div id="c5a267ba" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -137,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="8b2db2cb" class="cell" data-execution_count="3">
+<div id="220409d2" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -161,7 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="40eb91a6" class="cell" data-execution_count="4">
+<div id="2c6dd5cb" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -306,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="9058b67f" class="cell" data-execution_count="5">
+<div id="b97b8cc8" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -403,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Table&nbsp;1: The ten highest-performing participants by accuracy
 </figcaption>
 <div aria-describedby="tbl-top10-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="36">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -462,7 +463,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </section>
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
-<div id="d384e6af" class="cell" data-execution_count="7">
+<div id="e5b2287f" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Constants"</span></span>
@@ -470,7 +471,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD_PERCENT <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>CULLING_THRESHHOLD <span class="op">*</span> <span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="25c60845" class="cell" data-execution_count="8">
+<div id="872798cc" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
@@ -518,7 +519,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </details>
 </div>
 <p>The group of culled participants has 13 participants, of which two are local students and 11 are crowdworkers.</p>
-<div id="fd48ad72" class="cell" data-execution_count="9">
+<div id="4e8f4ab1" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
@@ -649,7 +650,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 </div>
 </div>
 </div>
-<div id="d3b5487b" class="cell" data-execution_count="11">
+<div id="ed6f9f39" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
@@ -713,7 +714,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 <h2 class="anchored" data-anchor-id="results-by-label">Results by label</h2>
 <section id="singular-vs-plural" class="level3">
 <h3 class="anchored" data-anchor-id="singular-vs-plural">Singular vs Plural</h3>
-<div id="056cd965" class="cell" data-execution_count="12">
+<div id="dbb36402" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
@@ -886,7 +887,7 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 </section>
 <section id="context-independence" class="level3">
 <h3 class="anchored" data-anchor-id="context-independence">Context-(in)dependence</h3>
-<div id="82459ea8" class="cell" data-execution_count="16">
+<div id="bf9db8b5" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess performance for context-dependent vs context-independent items</span></span>
@@ -921,12 +922,12 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 <span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    culled_human_acc <span class="op">=</span> mean_accuracy_group(culled_human_participants, context_dependent<span class="op">=</span>context_flag)</span>
 <span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store</span></span>
 <span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Best LLM"</span>,</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"GPT-5 with URL Access"</span>,</span>
 <span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
 <span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: best_llm_acc</span>
 <span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    })</span>
 <span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Third-best LLM"</span>,</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"GPT-5 Context-Agnostic"</span>,</span>
 <span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
 <span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: third_llm_acc</span>
 <span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    })</span>
@@ -949,10 +950,10 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 <div id="tbl-context-accuracy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="17">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Accuracy for context-dependent and context-independent items for GPT-5 with URL access, GPT-5 Context-Agnostic, and the culled human mean
+Table&nbsp;2: Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean
 </figcaption>
 <div aria-describedby="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="47">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -963,25 +964,71 @@ Table&nbsp;2: Accuracy for context-dependent and context-independent items for G
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Best LLM</td>
-<td style="text-align: left;">85.3%</td>
-<td style="text-align: left;">91.9%</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Culled Human Mean</td>
 <td style="text-align: left;">98.1%</td>
 <td style="text-align: left;">83.0%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Third-best LLM</td>
+<tr class="even">
+<td style="text-align: left;">GPT-5 Context-Agnostic</td>
 <td style="text-align: left;">79.4%</td>
 <td style="text-align: left;">91.1%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GPT-5 with URL Access</td>
+<td style="text-align: left;">85.3%</td>
+<td style="text-align: left;">91.9%</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </figure>
+</div>
+</div>
+<div id="cell-fig-context-accuracy" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>plot_df <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: row[<span class="st">"Group"</span>],</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: row[<span class="st">"Context"</span>],</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: <span class="bu">float</span>(row[<span class="st">"Accuracy"</span>].replace(<span class="st">"%"</span>, <span class="st">""</span>))<span class="op">/</span><span class="dv">100</span> <span class="cf">if</span> row[<span class="st">"Accuracy"</span>] <span class="op">!=</span> <span class="st">"n/a"</span> <span class="cf">else</span> np.nan</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> results_context_df.iterrows()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>sns.barplot(</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>plot_df,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"Group"</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"Accuracy"</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">"Context"</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span>[<span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>],</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">"Item Type"</span>, loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-context-accuracy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="results_files/figure-html/fig-context-accuracy-output-1.png" width="759" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
