@@ -9,6 +9,32 @@ jupyter:
 
 ---
 
+# To Do:
+
+* Tutorials on writing with Quarto (especially referencing and basic formatting)
+
+* Identify a few opensource LLMs and integrate two or three (Humans are DONE)
+
+* Take class on local LLMs and integrate two or three
+
+* Only then integrate all LLM results in Results Section
+
+* Reading and adding more to the pile
+
+* Write texts for results section
+
+* Expand notes into text chunks
+
+* Background on _they_
+
+* Conclusion and Intro
+
+* Tutorial on exporting to Word
+
+* Quick copy-editing by Jessica
+
+
+
 # Introduction
 
 Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that “[the days of training special-purpose models are over]” and indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
