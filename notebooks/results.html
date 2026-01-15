@@ -99,11 +99,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Necessary libraries:</p>
-<div id="180ce718" class="cell" data-execution_count="1">
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that “[the days of training special-purpose models are over]” and indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.</p>
+<p>The present work was performed in the context of an older effort starting in a Master’s thesis in 2022. The then-new GPT-3 was tested for its performance at disambiguation uses of they between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of <em>they</em> as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular <em>they</em> in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”</p>
+<p>To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:</p>
+<p>– Hypothesis 1: The most accurate number-disambiguator of <em>they</em> is going to be an LLM.</p>
+<p>– Hypothesis 2: The most accurate LLM at number-disambiguating <em>they</em> is going to perform at a higher accuracy than the mean human accuracy.</p>
+<p>– Hypothesis 3: The performance of the most accurate LLM is not going to be significantly worse at rare and innovative uses of they than the mean human performance.</p>
+<p>The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if Hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.</p>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="three-kinds-of-they" class="level2">
+<h2 class="anchored" data-anchor-id="three-kinds-of-they">Three kinds of <em>they</em></h2>
+<p>(plural, generic, singular)</p>
+<div id="8f4210be" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports of necessary libraries:"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> num2words <span class="im">import</span> num2words</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -119,6 +133,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.weightstats <span class="im">import</span> ttost_ind</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+</section>
+</section>
 <section id="data" class="level1">
 <h1>Data</h1>
 <p>First, we need to import all raw data by calling the relevant script. The raw data are shaped like so:</p>
@@ -130,7 +146,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="d962c464" class="cell" data-execution_count="2">
+<p>174 authentic uses of they (Reddit) Context-(in)dependent 56–59 for plural/generic/singular (do this dynamically &amp; as a table)</p>
+<div id="7aeeee03" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -147,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="3573d3b5" class="cell" data-execution_count="3">
+<div id="b8f76755" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -162,8 +179,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>To illustrate, the variable name <code>commercial_llm_responses</code> has the entry “context-agnostic_zero-shot_claude-opus-4-1-20250805”, which tells us the prompting strategy (context-agnostic-zero-shot) and the LLM with its dated version (claude-opus-4-1-20250805). This entry has three runs saved. Each run is of the type “dict” and has 174 data points saved with their answers as keys and values. This number corresponds to the number of data points in the original test set.</p>
+<section id="participants" class="level2">
+<h2 class="anchored" data-anchor-id="participants">Participants</h2>
 <p>Human annotators are organized in four different blocks due to limits to study duration, i.e.&nbsp;avoiding influence from participant fatigue. Instead of testing everyone with the full 174 data points from the test set, every block of participants received a shared of data points that was identical among all of them and one part which was only solved by their respective block. The distribution of examples among the blocks was done randomly while ensuring within-block balance of antecedent types.</p>
 <p>Blocks A-D have 11, 12, 10, and 8 participants, respectively. The piloting group had 7 participants. In terms of data points, every participant regardless of their block received 48 examples to annotate. This ensured a study duration of roughly one hour per participant.</p>
+</section>
+<section id="llms" class="level2">
+<h2 class="anchored" data-anchor-id="llms">LLMs</h2>
+<section id="models" class="level3">
+<h3 class="anchored" data-anchor-id="models">Models</h3>
+<p>(so far) only the largest commercially available LLMs from the Claude &amp; GPT family</p>
+</section>
+<section id="prompting-strategies" class="level3">
+<h3 class="anchored" data-anchor-id="prompting-strategies">Prompting Strategies</h3>
+<p>Context-agnostic or with URL which only works for commercial models</p>
+</section>
+</section>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
@@ -171,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="490c586a" class="cell" data-execution_count="4">
+<div id="1c18802d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -316,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="5434bcdd" class="cell" data-execution_count="5">
+<div id="ef158f01" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -488,7 +519,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </section>
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
-<div id="f18755b3" class="cell" data-execution_count="7">
+<div id="f35d96e5" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Constants"</span></span>
@@ -575,7 +606,7 @@ Table&nbsp;2: Overall accuracy by three human groups
 </figure>
 </div>
 </div>
-<div id="25d34362" class="cell" data-execution_count="9">
+<div id="ff57b51a" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run statistical analysis to ascertain whether their differences are statistically significant</span></span>
@@ -605,7 +636,7 @@ Table&nbsp;2: Overall accuracy by three human groups
 </details>
 </div>
 <p>The difference between the crowdworkers and the local student pilot participants is not statistically significant (p = 0.059, α = 0.05).</p>
-<div id="9fca0470" class="cell" data-execution_count="10">
+<div id="a08f66d2" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
@@ -653,7 +684,7 @@ Table&nbsp;2: Overall accuracy by three human groups
 </details>
 </div>
 <p>The group of culled participants has 20 participants, of which two are local students and 18 are crowdworkers.</p>
-<div id="95c67066" class="cell" data-execution_count="11">
+<div id="9811d193" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
@@ -892,7 +923,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs, with 95% bootstra
 </div>
 </div>
 </div>
-<div id="9f1b0122" class="cell" data-execution_count="13">
+<div id="97236b2e" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
@@ -951,7 +982,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs, with 95% bootstra
 <h2 class="anchored" data-anchor-id="results-by-label">Results by label</h2>
 <section id="singular-vs-plural" class="level3">
 <h3 class="anchored" data-anchor-id="singular-vs-plural">Singular vs Plural</h3>
-<div id="1d7b594b" class="cell" data-execution_count="14">
+<div id="6ef831fd" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
@@ -1121,7 +1152,7 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 </div>
 </div>
 </div>
-<div id="d9869fbe" class="cell" data-execution_count="18">
+<div id="6e885f63" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TOST test for non-inferiority of the best LLM compared to culled human mean for "singular" label</span></span>
@@ -1173,7 +1204,7 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 </section>
 <section id="context-independence" class="level3">
 <h3 class="anchored" data-anchor-id="context-independence">Context-(in)dependence</h3>
-<div id="bdfef314" class="cell" data-execution_count="19">
+<div id="6caed4f1" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess performance for context-dependent vs context-independent items</span></span>
@@ -1320,7 +1351,7 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </section>
 <section id="cost" class="level3">
 <h3 class="anchored" data-anchor-id="cost">Cost</h3>
-<div id="0c1f23fd" class="cell" data-execution_count="22">
+<div id="909503bf" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Cost stats"</span></span>
@@ -1361,7 +1392,7 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </div>
 </div>
 </div>
-<div id="a870788d" class="cell" data-execution_count="23">
+<div id="7d7d24ca" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bar for time taken per 100 examples</span></span>
@@ -1389,7 +1420,7 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </div>
 </div>
 </div>
-<div id="ab1861a8" class="cell" data-execution_count="24">
+<div id="40b2656d" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the percentage of crowdworkers' responses that were disregarded</span></span>
@@ -1430,6 +1461,18 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
+<p>The results are mixed and it is not straightforward to say if LLMs have truly attained human level at this particular task.</p>
+<p>– Results show that semantically complex annotation in linguistics may be done by LLMs at much cheaper cost. The human-machine margin in cost arguably more than compensates the margin in quality.</p>
+<p>– Potentially applicable to any other variable dependent on situational, pragmatic, … context, i.e.&nbsp;‘distant reading’</p>
+<p>–&nbsp;Similar research tends to confirm this finding.</p>
+<p>– However, some cursory analysis of LLM errors shows that LLMs are prone to being fooled by context.</p>
+<p>– Also, bias towards standard English still a limitation, i.e.&nbsp;innovative forms like specific singular <em>they</em> at disadvantage.</p>
+<p>– Only tested large commercial LLMs, a limitation common in the literature so far.</p>
+<p>– To do:</p>
+<p>– – Further qualitative analysis of human &amp; LLM responses</p>
+<p>– – Application and evaluation of open source LLMs (replicability!), N-shot prompting, fine-tuning</p>
+<p>– – Analyze uses of they in various corpora, potentially uncovering the history of its change and diffusion – – Threat to entry-level / student assistant positions?</p>
+<p>– – Environmental impact concerns?</p>
 </section>
 
 </main>

@@ -9,9 +9,34 @@ jupyter:
 
 ---
 
-Necessary libraries:
+# Introduction
+
+Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that “[the days of training special-purpose models are over]” and indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
+
+The present work was performed in the context of an older effort starting in a Master’s thesis in 2022. The then-new GPT-3 was tested for its performance at disambiguation uses of they between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
+
+To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:
+
+– Hypothesis 1: The most accurate number-disambiguator of _they_ is going to be an LLM.
+
+– Hypothesis 2: The most accurate LLM at number-disambiguating _they_ is going to
+perform at a higher accuracy than the mean human accuracy.
+
+– Hypothesis 3: The performance of the most accurate LLM is not going to be significantly worse at rare and innovative uses of they than the mean human performance.
+
+The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if Hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.
+
+
+# Background
+
+## Three kinds of _they_
+
+(plural, generic, singular)
+
+## LLMs as (linguistic) annotators
+
 ```{python}
-"Imports"
+"Imports of necessary libraries:"
 from num2words import num2words
 from IPython.display import Markdown
 import matplotlib.pyplot as plt
@@ -38,6 +63,18 @@ The raw data are shaped like so:
 * in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
 * each combination of LLM and prompting strategy is treated as a participant.
 * For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
+
+– Point about MA-era-dataset being limited (number of singular they examples; context-independence) 
+
+174 authentic uses of they (Reddit)
+Context-(in)dependent
+56–59 for plural/generic/singular (do this dynamically & as a table)
+
+Randomly sampled for each participant to avoid bias
+
+System of blocks with overlap
+
+Point out that dataset is available
 
 ```{python}
 "Run processing of raw data and import relevant variables"
@@ -69,14 +106,37 @@ data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") 
 
 To illustrate, the variable name `commercial_llm_responses` has the entry "`{python} example_llm`", which tells us the prompting strategy (`{python} "-".join(example_llm.split("_")[0:2])`) and the LLM with its dated version (`{python} example_llm.split("_")[-1]`). This entry has `{python} num2words(len(example_llm_responses))` runs saved. Each run is of the type "`{python} type(example_llm_responses[0])`" and has `{python} len(example_llm_responses_without_comments)` data points saved with their answers as keys and values. This number `{python} len_corresponds` to the number of data points in the original test set.
 
+## Participants
+
 Human annotators are organized in four different blocks due to limits to study duration, i.e. avoiding influence from participant fatigue. Instead of testing everyone with the full `{python} len(gt)` data points from the test set, every block of participants received a shared of data points that was identical among all of them and one part which was only solved by their respective block. The distribution of examples among the blocks was done randomly while ensuring within-block balance of antecedent types.
 
 Blocks A-D have `{python} len(block_a)`, `{python} len(block_b)`, `{python} len(block_c)`, and `{python} len(block_d)` participants, respectively. The piloting group had `{python} len(block_pilot)` participants. In terms of data points, every participant regardless of their block received `{python} data_points_a` examples to annotate. This ensured a study duration of roughly one hour per participant.
 
+### Demographics
+
+Women, age range (+ bibliographic justification)
+
+### Expertise
+
+Explain issue with Prolific setup. Explain possibility of post-hoc culling the participants by attentiveness to still get appropriate data.
+
+## LLMs
+
+### Models
+
+(so far) only the largest commercially available LLMs from the Claude & GPT family
+
+### Prompting Strategies
+
+Context-agnostic or with URL which only works for commercial models
 
 # Methods
 
-[To Do]
+Explain basic GT comparison
+
+Justify choice of accuracy (F1 doesn’t necessarily make sense over accuracy as the three classes are balanced. Also mention that MCC was considered.)
+
+Confirmatory and quasi-experimental study
 
 # Results
 
@@ -924,6 +984,7 @@ Markdown(
 """
 )
 ```
+
 ### Context-(in)dependence
 
 ```{python}
@@ -1020,6 +1081,16 @@ plt.tight_layout()
 plt.show()
 ```
 
+### Performance with innovative forms of _they_
+
+Since I care about recall of sg. and gen. they for the application in later research, the recall for those two should be featured apart for humans & LLMs
+
+### Projection onto naturalistic data
+
+It might make sense to apply the per-class performance measures to a hypothetical test set with naturalistic frequency splits (take from own data) to then generate MCC and get an estimation of how well the different participants would do on naturalistic data. This will address the lingering question if the artificial selection of data points skewed the results or hid anything about the truth
+
+This will be an important point for the conclusion.
+
 ### Cost
 
 ```{python}
@@ -1109,4 +1180,29 @@ The second Hypothesis aims to test if LLM accuracy at the task outperforms the m
 Hypothesis 3 aims to show non-inferiority of LLMs at
 
 # Conclusion
+
+The results are mixed and it is not straightforward to say if LLMs have truly attained human level at this particular task.
+
+– Results show that semantically complex annotation in linguistics may be done by LLMs at much cheaper cost. The human-machine  margin in cost arguably more than compensates the margin in quality.
+
+– Potentially applicable to any other variable dependent on situational, pragmatic, … context, i.e. ‘distant reading’
+
+– Similar research tends to confirm this finding.
+
+– However, some cursory analysis of LLM errors shows that LLMs are prone to being fooled by context.
+
+– Also, bias towards standard English still a limitation, i.e. innovative forms like specific singular _they_ at disadvantage.
+
+– Only tested large commercial LLMs, a limitation common in the literature so far.
+
+– To do:
+
+– – Further qualitative analysis of human & LLM responses
+
+– – Application and evaluation of open source LLMs (replicability!), N-shot prompting, fine-tuning
+
+– – Analyze uses of they in various corpora, potentially uncovering the history of its change and diffusion
+– – Threat to entry-level / student assistant positions?
+
+– – Environmental impact concerns?
 
