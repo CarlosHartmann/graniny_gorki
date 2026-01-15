@@ -23,6 +23,8 @@ import seaborn as sns
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+from statsmodels.stats.weightstats import DescrStatsW, CompareMeans
+from statsmodels.stats.weightstats import ttost_ind
 ```
 
 # Data
@@ -777,6 +779,43 @@ plt.tight_layout()
 plt.show()
 ```
 
+```{python}
+# TOST test for non-inferiority of the best LLM compared to culled human mean for "singular" label
+
+# Extract accuracies for "singular" label
+culled_singular_accuracies = [
+    acc["singular"] for acc in culled_by_label_accs if not np.isnan(acc["singular"])
+]
+
+llm_singular_accuracies = [
+    compute_accuracy_by_label(run, labels=("singular",))["singular"]
+    for run in commercial_llm_responses[top_3_llms[0][0]]
+    if not np.isnan(compute_accuracy_by_label(run, labels=("singular",))["singular"])
+]
+
+alpha = 0.05
+DELTA = 0.02
+
+p_equiv, (t_lower, p_lower, df_lower), (t_upper, p_upper, df_upper) = ttost_ind(
+    x1=llm_singular_accuracies,  # LLM first
+    x2=culled_singular_accuracies,
+    low=-DELTA, upp=DELTA,       # tests μ_LLM - μ_Human ∈ (-Δ, +Δ)
+    usevar="unequal"             # Welch (recommended if variances differ)
+)
+
+non_inferior = (p_lower < alpha)
+
+Markdown(
+    f"""**TOST (independent samples, Welch)**
+
+- α = {alpha:.3f}, Δ = {DELTA:.3f}
+- t_lower={t_lower:.3f}, p_lower={p_lower:.4f} (NI decision uses this)
+- t_upper={t_upper:.3f}, p_upper={p_upper:.4f}
+
+**Decision**: Non-inferiority **{'established' if non_inferior else 'not established'}**.
+"""
+)
+```
 ### Context-(in)dependence
 
 ```{python}
@@ -873,6 +912,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+### Non-inferiority of LLMs
+
+
+
 ### Cost
 
 ```{python}
@@ -960,3 +1003,6 @@ The second Hypothesis aims to test if LLM accuracy at the task outperforms the m
 ## Hypothesis 3
 
 Hypothesis 3 aims to show non-inferiority of LLMs at
+
+# Conclusion
+
