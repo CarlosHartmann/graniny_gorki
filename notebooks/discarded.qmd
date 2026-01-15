@@ -13,6 +13,9 @@ jupyter:
 ```{python}
 # calculate IAA
 
+import os
+import pandas as pd
+
 # load ground truth
 data_root = "../raw_data"
 ground_truth_path = "../assets/ground_truth.csv"
@@ -101,3 +104,9 @@ kappa_score = cohen_kappa_score(
 
 print(f"Cohen's kappa score: {kappa_score}")
 ```
+
+– To create a Ground Truth with which to compare the LLMs' performance, the given annotations from previous projects were revised by both me and a colleague. Some annotations had to be changed for either of two reasons: 1. I had been wrong last time; 2. I was now considering the source context to compare the ability of human and artificial annotators to make contextual inferences whereas I had been annotating instances of _they_ in isolation before.
+
+– Out of interest and because it reflects the quality of annotations usually trusted in linguistic studies, I wanted to calculate an Intra-Rater-Reliability (although the help of my colleague means it is to an extent also "inter-") between the new and the old annotations. Reason 2 for updating an annotation, however, means that an example is irrelevant as those would naturally lead to disagreement due to the different annotation instructions. These are here left out. They are defined as "examples where the old annotation is empty".
+
+– Kohen's Kappa Score was used. It ended up being `{python} round(kappa_score, 2)`.
