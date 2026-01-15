@@ -541,50 +541,155 @@ for llm_name, acc in top_3_llms:
 
 ```{python}
 #| label: fig-overall-acc-comparison
-#| fig-cap: "Overall Accuracies, Humans vs. Top 3 LLMs"
+#| fig-cap: "Overall Accuracies, Humans vs. Top 3 LLMs, with 95% bootstrap confidence intervals"
 
-label_mapping = {"context-via-permalink_gpt-5" :     "GPT-5 with\nURL Access",
-                "context-ondemand_zero-shot_gpt-5" : "GPT-5\nContext on\nDemand",
-                "context-agnostic_zero-shot_gpt-5" : "GPT-5\nContext-\nAgnostic"}
+# Safe label mapping
+label_mapping = {
+    "context-via-permalink_gpt-5":      "GPT-5 with\nURL Access",
+    "context-ondemand_zero-shot_gpt-5": "GPT-5\nContext on\nDemand",
+    "context-agnostic_zero-shot_gpt-5": "GPT-5\nContext-\nAgnostic"
+}
 
-top_3_llms_namemapped = [label_mapping[elem[0]] for elem in reversed(top_3_llms)]
+# Build LLM label list safely, preserving compatibility even if a name is unmapped
+top_3_llms_namemapped = [label_mapping.get(name, name) for name, _ in reversed(top_3_llms)]
 
-# Prepare data for plotting
-labels = ["Non-linguist\nHuman Mean", "Linguist\nHuman Mean", "Culled\nHuman Mean", "Culled\nHuman Majority"] + top_3_llms_namemapped
-values = [hypothesis_2_results["non-linguist_human_mean"], hypothesis_2_results["overall_human_mean"], hypothesis_2_results["culled_human_mean"], hypothesis_2_results["culled_human_majority_vote_accuracy"]] + [acc for _, acc in reversed(top_3_llms)]
-# Sort labels and values by accuracy (ascending)
-labels_values = list(zip(labels, values))
-labels_values.sort(key=lambda x: x[1])
-labels, values = zip(*labels_values)
-labels = list(labels)
-values = list(values)
-# Assign colors: blue spectrum for human data, red/salmon for LLMs, darker for higher accuracies
-# Human bars: ["Overall Human Mean", "Culled Human Mean", "Culled Human Majority"]
-# LLM bars: top 3 LLMs (already sorted by accuracy ascending, so last is highest accuracy)
+# Point estimates
+labels = [
+    "Non-linguist\nHuman Mean",
+    "Linguist\nHuman Mean",
+    "Culled\nHuman Mean",
+    "Culled\nHuman Majority"
+] + top_3_llms_namemapped
 
-human_colors = ["#D0E1F2", "#A3C4E5", "#6A9FD1", "#2C4C7E"]  # light to dark blue
-llm_colors = ["#FFB3B3", "#FF7F7F", "#B22222"]    # light salmon to dark red
+values = [
+    hypothesis_2_results["non-linguist_human_mean"],
+    hypothesis_2_results["overall_human_mean"],
+    hypothesis_2_results["culled_human_mean"],
+    hypothesis_2_results["culled_human_majority_vote_accuracy"]
+] + [acc for _, acc in reversed(top_3_llms)]
 
-# Dynamically assign colors based on the order of labels (humans first, then LLMs)
+# Helper: bootstrap percentile CI for the mean
+def bootstrap_ci_of_mean(samples, alpha=0.05, B=10000, rng=None):
+    """
+    Returns (lower, upper) bootstrap CI for the mean of `samples`.
+    Uses percentile bootstrap; seeded RNG for reproducibility.
+    """
+    samples = np.asarray(samples, dtype=float)
+    if rng is None:
+        rng = np.random.default_rng(42)
+    n = len(samples)
+    if n == 0:
+        return (np.nan, np.nan)
+    if n == 1:
+        # With one unit, CI collapses to the single value (transparent about uncertainty)
+        return (float(samples[0]), float(samples[0]))
+    boot_idx = rng.integers(0, n, size=(B, n))
+    boot_means = samples[boot_idx].mean(axis=1)
+    lower, upper = np.quantile(boot_means, [alpha/2, 1 - alpha/2])
+    return float(lower), float(upper)
+
+# Safe label mapping (keep your original)
+label_mapping = {
+    "context-via-permalink_gpt-5":      "GPT-5 with\nURL Access",
+    "context-ondemand_zero-shot_gpt-5": "GPT-5\nContext on\nDemand",
+    "context-agnostic_zero-shot_gpt-5": "GPT-5\nContext-\nAgnostic"
+}
+
+# Build a single list of records so sorting and alignment stay correct
+records = []
+
+# ---------- Humans: per-participant accuracies ----------
+# Non-linguists
+non_ling_accs = [compute_accuracy(p, context_dependent=0) for p in non_ling_participants]
+records.append({
+    "label": "Non-linguist\nHuman Mean",
+    "role": "human",
+    "value": float(np.mean(non_ling_accs)),
+    "ci": bootstrap_ci_of_mean(non_ling_accs)
+})
+
+# Linguists / all humans
+ling_accs = [compute_accuracy(p, context_dependent=0) for block in human_blocks for p in block]
+records.append({
+    "label": "Linguist\nHuman Mean",
+    "role": "human",
+    "value": float(np.mean(ling_accs)),
+    "ci": bootstrap_ci_of_mean(ling_accs)
+})
+
+# Culled humans
+culled_accs = [compute_accuracy(p, context_dependent=0) for block in culled_human_blocks for p in block]
+records.append({
+    "label": "Culled\nHuman Mean",
+    "role": "human",
+    "value": float(np.mean(culled_accs)),
+    "ci": bootstrap_ci_of_mean(culled_accs)
+})
+
+# Culled majority vote (single value, no CI)
+records.append({
+    "label": "Culled\nHuman Majority",
+    "role": "human",
+    "value": float(hypothesis_2_results["culled_human_majority_vote_accuracy"]),
+    "ci": (
+        float(hypothesis_2_results["culled_human_majority_vote_accuracy"]),
+        float(hypothesis_2_results["culled_human_majority_vote_accuracy"])
+    )
+})
+
+# ---------- LLMs: per-run accuracies ----------
+# Treat each run as a "unit" (like a participant); mean over runs; CI over mean(run accuracies)
+for llm_name, _ in top_3_llms:
+    display_name = label_mapping.get(llm_name, llm_name)
+    run_accs = [compute_accuracy(run, context_dependent=0)
+                for run in commercial_llm_responses[llm_name]]
+    records.append({
+        "label": display_name,
+        "role": "llm",
+        "value": float(np.mean(run_accs)) if len(run_accs) > 0 else np.nan,
+        "ci": bootstrap_ci_of_mean(run_accs) if len(run_accs) > 0 else (np.nan, np.nan)
+    })
+
+# ---------- Sort by bar height and prepare arrays ----------
+records.sort(key=lambda r: r["value"])
+
+labels = [r["label"] for r in records]
+values = [r["value"] for r in records]
+ci = [r["ci"] for r in records]
+err = np.array([(v - lo, hi - v) for v, (lo, hi) in zip(values, ci)]).T  # shape (2, N)
+
+# Colors: use your palettes, assign by role deterministically after sorting
+human_palette = ["#D0E1F2", "#A3C4E5", "#6A9FD1", "#2C4C7E"]  # up to 4 humans
+llm_palette   = ["#FFB3B3", "#FF7F7F", "#B22222"]            # up to 3 LLMs
+
 colors = []
-for label in labels:
-    if "human" in label.lower():
-        colors.append(human_colors.pop(0))
+h_i, m_i = 0, 0
+for lab in labels:
+    if "human" in lab.lower():
+        colors.append(human_palette[min(h_i, len(human_palette)-1)])
+        h_i += 1
     else:
-        colors.append(llm_colors.pop(0))
+        colors.append(llm_palette[min(m_i, len(llm_palette)-1)])
+        m_i += 1
 
-# Create bar plot
+# ---------- Plot ----------
 fig, ax = plt.subplots(figsize=(10, 6))
-bars = ax.bar(labels, values, color=colors, edgecolor="black", linewidth=1.5)
+bars = ax.bar(
+    labels,
+    values,
+    yerr=err,
+    color=colors,
+    edgecolor="black",
+    linewidth=1.2,
+    error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
+)
 
-# Format y-axis as percentages starting from 33%
-ax.set_ylim(0.33, 1.0)
+ax.set_ylim(0.33, 1.0)  # keep your chance floor if appropriate
 ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
-
-# Labels and title
 ax.set_ylabel("Accuracy", fontsize=12)
 ax.grid(axis="y", alpha=0.3)
 ax.set_axisbelow(True)
+plt.xticks(fontsize=10)
 
 plt.tight_layout()
 plt.show()
