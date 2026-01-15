@@ -100,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Necessary libraries:</p>
-<div id="76620a48" class="cell" data-execution_count="1">
+<div id="6c18a265" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="09c99fa4" class="cell" data-execution_count="2">
+<div id="bd626adf" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="78effc19" class="cell" data-execution_count="3">
+<div id="860819ca" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="861c5ea0" class="cell" data-execution_count="4">
+<div id="95e77b9b" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="94dcb7b0" class="cell" data-execution_count="5">
+<div id="ec2a6b98" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -427,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Table&nbsp;1: The ten highest-performing participants by accuracy
 </figcaption>
 <div aria-describedby="tbl-top10-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="98">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="52">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -486,7 +486,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </section>
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
-<div id="6ed16151" class="cell" data-execution_count="7">
+<div id="b0bb42dd" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Constants"</span></span>
@@ -494,7 +494,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD_PERCENT <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>CULLING_THRESHHOLD <span class="op">*</span> <span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="2b0d7ff1" class="cell" data-execution_count="8">
+<div id="9702b169" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing the three groups of human annotators</span></span>
@@ -539,7 +539,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>Markdown(accuracy_table.to_markdown(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="100">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="54">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -564,7 +564,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </table>
 </div>
 </div>
-<div id="6206de62" class="cell" data-execution_count="9">
+<div id="6bc28b94" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run statistical analysis to ascertain whether their differences are statistically significant</span></span>
@@ -594,7 +594,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </details>
 </div>
 <p>The difference between the crowdworkers and the local student pilot participants is not statistically significant (p = 0.059, α = 0.05).</p>
-<div id="be2852c0" class="cell" data-execution_count="10">
+<div id="20809d6d" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
@@ -642,7 +642,7 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </details>
 </div>
 <p>The group of culled participants has 20 participants, of which two are local students and 18 are crowdworkers.</p>
-<div id="c2f333f5" class="cell" data-execution_count="11">
+<div id="0c057cac" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
@@ -776,7 +776,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 </div>
 </div>
 </div>
-<div id="2c166677" class="cell" data-execution_count="13">
+<div id="efd03860" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
@@ -835,7 +835,7 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 <h2 class="anchored" data-anchor-id="results-by-label">Results by label</h2>
 <section id="singular-vs-plural" class="level3">
 <h3 class="anchored" data-anchor-id="singular-vs-plural">Singular vs Plural</h3>
-<div id="7b50af64" class="cell" data-execution_count="14">
+<div id="42c507e7" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
@@ -1008,7 +1008,7 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 </section>
 <section id="context-independence" class="level3">
 <h3 class="anchored" data-anchor-id="context-independence">Context-(in)dependence</h3>
-<div id="4d8add8e" class="cell" data-execution_count="18">
+<div id="d0245d6a" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess performance for context-dependent vs context-independent items</span></span>
@@ -1074,7 +1074,7 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 Table&nbsp;2: Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean
 </figcaption>
 <div aria-describedby="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="111">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="65">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -1155,7 +1155,7 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </section>
 <section id="cost" class="level3">
 <h3 class="anchored" data-anchor-id="cost">Cost</h3>
-<div id="868fac85" class="cell" data-execution_count="21">
+<div id="8766c5f4" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Cost stats"</span></span>
@@ -1196,7 +1196,7 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </div>
 </div>
 </div>
-<div id="5bbfe58b" class="cell" data-execution_count="22">
+<div id="f69e3cc0" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bar for time taken per 100 examples</span></span>
@@ -1224,7 +1224,7 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </div>
 </div>
 </div>
-<div id="9b829a91" class="cell" data-execution_count="23">
+<div id="283f8849" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the percentage of crowdworkers' responses that were disregarded</span></span>
@@ -1234,15 +1234,8 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the cost of crowdworkers based on the culling</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>culled_cost_per_100_examples <span class="op">=</span> df.loc[df[<span class="st">"group"</span>] <span class="op">==</span> <span class="st">"Crowdworkers"</span>, <span class="st">"cost_per_100_examples"</span>].values[<span class="dv">0</span>]</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>adjusted_cost_per_100_examples <span class="op">=</span> culled_cost_per_100_examples <span class="op">*</span> (participant_num_block_abcd <span class="op">/</span> total_crowdworkers)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(total_crowdworkers)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(disregarded_crowdworkers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>adjusted_cost_per_100_examples <span class="op">=</span> culled_cost_per_100_examples <span class="op">*</span> (participant_num_block_abcd <span class="op">/</span> total_crowdworkers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>41
-23</code></pre>
-</div>
 </div>
 <ul>
 <li>The cost of crowdworkers was inflated in this study due to filtering inattentive participants only post-hoc and not being able to tell the meaning of “educated in English language” before carrying out the study. Appropriate numbers were obtained thanks to the culling. This means in turn that the responses of 56.1% of crowdowkers were disregarded and their cost was spent fruitlessly.</li>
@@ -1252,6 +1245,10 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
+<section id="l1-crowdworkers-vs-local-l2-students" class="level2">
+<h2 class="anchored" data-anchor-id="l1-crowdworkers-vs-local-l2-students">L1 Crowdworkers vs Local L2 Students</h2>
+<p>The results showed that this task in particular is not automatically solved better by native speakers than by informed L2 speakers. The latter performed at 81.0% as opposed to the 68.0% achieved by native speakers. This is not solely due to the L1 vs L2 status but also a question of competence. The local students had been selected based on their previous high academic achievements and specific knowledge of English linguistics of gender. The difference in performance is not, however, statistically significant. Still, it shows that at this level the native speaker status should no longer be taken as a prerequisite for (annotation) work in this and similar fields or activities. Local students are also preferable due to ethical and practical reasons as communication is easier and there are better mechanisms in place to ensure fairness and research ethics.</p>
+</section>
 <section id="hypothesis-1-1" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-1-1">Hypothesis 1</h2>
 <p><a href="#tbl-top10-accuracy" class="quarto-xref">Table&nbsp;1</a> reveals that the group of top performers is populated by more humans than LLMs, although most top performances cluster around the 90% mark. To directly address Hypothesis 1, the top performer is not an LLM but indeed a human. This participant was furthermore from the pilot participants recruited from the local student body. Hypothesis 1 is therefore rejected.</p>

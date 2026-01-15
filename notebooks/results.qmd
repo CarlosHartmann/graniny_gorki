@@ -937,13 +937,15 @@ disregarded_percentage = (disregarded_crowdworkers / total_crowdworkers) * 100
 culled_cost_per_100_examples = df.loc[df["group"] == "Crowdworkers", "cost_per_100_examples"].values[0]
 adjusted_cost_per_100_examples = culled_cost_per_100_examples * (participant_num_block_abcd / total_crowdworkers)
 
-print(total_crowdworkers)
-print(disregarded_crowdworkers)
 ```
 
 - The cost of crowdworkers was inflated in this study due to filtering inattentive participants only post-hoc and not being able to tell the meaning of "educated in English language" before carrying out the study. Appropriate numbers were obtained thanks to the culling. This means in turn that the responses of `{python} f"{round(disregarded_percentage, 1)}%"` of crowdowkers were disregarded and their cost was spent fruitlessly.
 
 # Discussion
+
+## L1 Crowdworkers vs Local L2 Students
+
+The results showed that this task in particular is not automatically solved better by native speakers than by informed L2 speakers. The latter performed at `{python} f"{round(100 * overall_accuracies['Pilot Humans'], 0)}%"` as opposed to the `{python} f"{round(100 * overall_accuracies['Non-Pilot Humans'], 0)}%"` achieved by native speakers. This is not solely due to the L1 vs L2 status but also a question of competence. The local students had been selected based on their previous high academic achievements and specific knowledge of English linguistics of gender. The difference in performance is `{python} "not, however," if anova_p_value >= ALPHA_PILOTS_VS_CROWD else ""` statistically significant. Still, it shows that at this level the native speaker status should no longer be taken as a prerequisite for (annotation) work in this and similar fields or activities. Local students are also preferable due to ethical and practical reasons as communication is easier and there are better mechanisms in place to ensure fairness and research ethics.
 
 ## Hypothesis 1
 
