@@ -343,6 +343,9 @@ CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
 
 
 ```{python}
+#| label: tbl-l1-vs-l2-vs-nonling
+#| tbl-cap: "Overall accuracy by three human groups"
+
 # Comparing the three groups of human annotators
 
 # Build accuracy dict for non-pilot human annotators
@@ -911,10 +914,6 @@ plt.legend(title="Item Type", loc="upper left")
 plt.tight_layout()
 plt.show()
 ```
-
-### Non-inferiority of LLMs
-
-
 
 ### Cost
 
