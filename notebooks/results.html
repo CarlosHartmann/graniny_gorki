@@ -100,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Necessary libraries:</p>
-<div id="de84f59f" class="cell" data-execution_count="1">
+<div id="76620a48" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Imports"</span></span>
@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>each combination of LLM and prompting strategy is treated as a participant.</li>
 <li>For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators’ comments</li>
 </ul>
-<div id="ac599712" class="cell" data-execution_count="2">
+<div id="09c99fa4" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Run processing of raw data and import relevant variables"</span></span>
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> process_raw_data <span class="im">import</span> gt, context_dependent_ids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="2911ff3a" class="cell" data-execution_count="3">
+<div id="78effc19" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Variables needed for data illustration"</span></span>
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<div id="20fb98c6" class="cell" data-execution_count="4">
+<div id="861c5ea0" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Functions for obtaining accuracy performances"</span></span>
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mapping.get(s, s)  <span class="co"># fallback to the cleaned string if unseen</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="ba8150a2" class="cell" data-execution_count="5">
+<div id="94dcb7b0" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Calculating accuracies and storing them as dicts"</span></span>
@@ -427,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Table&nbsp;1: The ten highest-performing participants by accuracy
 </figcaption>
 <div aria-describedby="tbl-top10-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="46">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="98">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -486,182 +486,282 @@ Table&nbsp;1: The ten highest-performing participants by accuracy
 </section>
 <section id="hypothesis-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2">Hypothesis 2</h2>
-<div id="6b735120" class="cell" data-execution_count="7">
+<div id="6ed16151" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Constants"</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD <span class="op">=</span> <span class="fl">0.3333</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>CULLING_THRESHHOLD_PERCENT <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>CULLING_THRESHHOLD <span class="op">*</span> <span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="cb5b1c3b" class="cell" data-execution_count="8">
+<div id="2b0d7ff1" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing the three groups of human annotators</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute context-dependent accuracy for each human participant</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>context_dependent_accuracies <span class="op">=</span> {}</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"Pilot"</span>], human_blocks):</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, participant <span class="kw">in</span> <span class="bu">enumerate</span>(block):</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        participant_id <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> compute_accuracy(participant, context_dependent<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        context_dependent_accuracies[participant_id] <span class="op">=</span> acc</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out participants with context-dependent accuracy at or below chance (33%)</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>filtered_participants <span class="op">=</span> {pid: acc <span class="cf">for</span> pid, acc <span class="kw">in</span> context_dependent_accuracies.items() </span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                         <span class="cf">if</span> acc <span class="op">&gt;</span> CULLING_THRESHHOLD}</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by accuracy and take top half</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>sorted_participants <span class="op">=</span> <span class="bu">sorted</span>(filtered_participants.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>top_half_count <span class="op">=</span> <span class="bu">len</span>(sorted_participants) <span class="op">//</span> <span class="dv">2</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>culled_participants <span class="op">=</span> sorted_participants[:top_half_count]</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Reconstruct accuracy dict for culled participants only</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>accuracy_dict_humans_culled <span class="op">=</span> {}</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>culled_participant_ids <span class="op">=</span> {pid <span class="cf">for</span> pid, _ <span class="kw">in</span> culled_participants}</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"Pilot"</span>], human_blocks):</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    culled_block_accuracies <span class="op">=</span> []</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, participant <span class="kw">in</span> <span class="bu">enumerate</span>(block):</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        participant_id <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> participant_id <span class="kw">in</span> culled_participant_ids:</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>            acc <span class="op">=</span> compute_accuracy(participant)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>            culled_block_accuracies.append(acc)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> culled_block_accuracies:</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        accuracy_dict_humans_culled[<span class="ss">f"block_</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_culled"</span>] <span class="op">=</span> culled_block_accuracies</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co"># report the mean accuracy of the culled accuracies</span></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>mean_culled_accuracy <span class="op">=</span> <span class="bu">sum</span>(</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans_culled.values() </span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>) <span class="op">/</span> <span class="bu">sum</span>(<span class="bu">len</span>(accuracies) <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans_culled.values())</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>participant_num_culled <span class="op">=</span> <span class="bu">len</span>(culled_participant_ids)</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>participant_num_pilot <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> pid <span class="kw">in</span> culled_participant_ids <span class="cf">if</span> pid.startswith(<span class="st">"Pilot_"</span>))</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>participant_num_block_abcd <span class="op">=</span> participant_num_culled <span class="op">-</span> participant_num_pilot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Build accuracy dict for non-pilot human annotators</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>non_pilot_blocks <span class="op">=</span> [block_a, block_b, block_c, block_d]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>accuracy_dict_non_pilot_humans <span class="op">=</span> {}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>], non_pilot_blocks):</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    accuracies <span class="op">=</span> []</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> participant <span class="kw">in</span> block:</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> compute_accuracy(participant)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        accuracies.append(acc)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    accuracy_dict_non_pilot_humans[<span class="ss">f"block_</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> accuracies</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Build accuracy dict for pilot human annotators</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>accuracy_dict_pilot_humans <span class="op">=</span> {}</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>accuracies <span class="op">=</span> []</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> participant <span class="kw">in</span> block_pilot:</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> compute_accuracy(participant)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    accuracies.append(acc)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>accuracy_dict_pilot_humans[<span class="st">"pilot"</span>] <span class="op">=</span> accuracies</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># The accuracy dict for non-linguists is already given as `accuracy_dict_non_linguists`</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate three overall accuracies and list in table</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>overall_accuracies <span class="op">=</span> {</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Non-Pilot Humans"</span>: <span class="bu">sum</span>(</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_non_pilot_humans.values() <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">/</span> <span class="bu">sum</span>(<span class="bu">len</span>(accuracies) <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_non_pilot_humans.values()),</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pilot Humans"</span>: <span class="bu">sum</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        acc <span class="cf">for</span> acc <span class="kw">in</span> accuracy_dict_pilot_humans[<span class="st">"pilot"</span>]</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">/</span> <span class="bu">len</span>(accuracy_dict_pilot_humans[<span class="st">"pilot"</span>]),</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Non-Linguists"</span>: <span class="bu">sum</span>(</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        acc <span class="cf">for</span> acc <span class="kw">in</span> accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>]</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">/</span> <span class="bu">len</span>(accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>]),</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results as a table</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>accuracy_table <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    [{<span class="st">"Group"</span>: group, <span class="st">"Accuracy"</span>: <span class="ss">f"</span><span class="sc">{</span>accuracy <span class="op">*</span> <span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>} <span class="cf">for</span> group, accuracy <span class="kw">in</span> overall_accuracies.items()]</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>Markdown(accuracy_table.to_markdown(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="100">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Non-Pilot Humans</td>
+<td style="text-align: left;">68.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pilot Humans</td>
+<td style="text-align: left;">80.8%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Non-Linguists</td>
+<td style="text-align: left;">69.0%</td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>The group of culled participants has 13 participants, of which two are local students and 11 are crowdworkers.</p>
-<div id="476a408a" class="cell" data-execution_count="9">
+</div>
+<div id="6206de62" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results <span class="op">=</span> <span class="bu">dict</span>()</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall human mean</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>overall_human_mean <span class="op">=</span> <span class="bu">sum</span>(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans.values() </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">/</span> <span class="bu">sum</span>(<span class="bu">len</span>(accuracies) <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans.values())</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Culled human mean (already computed above)</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_culled_accuracy is already available</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>nonlinguist_humans <span class="op">=</span> <span class="bu">sum</span>(accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>]) <span class="op">/</span> <span class="bu">len</span>(accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>])</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a majority-vote dict using only culled humans</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>culled_human_blocks <span class="op">=</span> []</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"Pilot"</span>], human_blocks):</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    culled_block <span class="op">=</span> []</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, participant <span class="kw">in</span> <span class="bu">enumerate</span>(block):</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        participant_id <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> participant_id <span class="kw">in</span> culled_participant_ids:</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            culled_block.append(participant)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> culled_block:</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        culled_human_blocks.append(culled_block)</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_culled_majority_vote(data_point_id):</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    votes <span class="op">=</span> []</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> participant <span class="kw">in</span> block:</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> data_point_id <span class="kw">in</span> participant:</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>                votes.append(_norm_type(participant[data_point_id]))</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> votes:</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">=</span> Counter(votes)</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    majority_vote, _ <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> majority_vote</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>culled_majority_vote_dict <span class="op">=</span> {}</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    majority_vote <span class="op">=</span> get_culled_majority_vote(data_point_id)</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> majority_vote:</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        culled_majority_vote_dict[data_point_id] <span class="op">=</span> majority_vote</span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>culled_majority_vote_accuracy <span class="op">=</span> compute_accuracy(culled_majority_vote_dict)</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results[<span class="st">"culled_majority_vote_accuracy"</span>] <span class="op">=</span> culled_majority_vote_accuracy</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean accuracy for each LLM across all runs</span></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>llm_means <span class="op">=</span> {</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>    llm_name: <span class="bu">sum</span>(accuracies) <span class="op">/</span> <span class="bu">len</span>(accuracies) </span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> llm_name, accuracies <span class="kw">in</span> accuracy_dict_llms.items()</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top 3 LLMs by mean accuracy</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>top_3_llms <span class="op">=</span> <span class="bu">sorted</span>(llm_means.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)[:<span class="dv">3</span>]</span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Create results dict</span></span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results <span class="op">=</span> {</span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"non-linguist_human_mean"</span>: nonlinguist_humans,</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"overall_human_mean"</span>: overall_human_mean,</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"culled_human_mean"</span>: mean_culled_accuracy,</span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"culled_human_majority_vote_accuracy"</span>: culled_majority_vote_accuracy</span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten top 3 LLM means into the results dict</span></span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> llm_name, acc <span class="kw">in</span> top_3_llms:</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>    hypothesis_2_results[<span class="ss">f"top_3_llm_mean_</span><span class="sc">{</span>llm_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> acc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run statistical analysis to ascertain whether their differences are statistically significant</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for ANOVA</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>anova_data <span class="op">=</span> [</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    (group, acc)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> group, accuracies <span class="kw">in</span> [</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Non-Pilot Humans"</span>, [acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_non_pilot_humans.values() <span class="cf">for</span> acc <span class="kw">in</span> accuracies]),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Pilot Humans"</span>, accuracy_dict_pilot_humans[<span class="st">"pilot"</span>]),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Non-Linguists"</span>, accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>]),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Group data by annotator type</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>anova_groups <span class="op">=</span> {</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    group: [acc <span class="cf">for</span> g, acc <span class="kw">in</span> anova_data <span class="cf">if</span> g <span class="op">==</span> group]</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> group <span class="kw">in</span> [<span class="st">"Non-Pilot Humans"</span>, <span class="st">"Pilot Humans"</span>]</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform ANOVA</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>anova_result <span class="op">=</span> f_oneway(<span class="op">*</span>anova_groups.values())</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>anova_p_value <span class="op">=</span> anova_result.pvalue</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>ALPHA_PILOTS_VS_CROWD <span class="op">=</span> <span class="fl">0.05</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="cell-fig-overall-acc-comparison" class="cell" data-execution_count="10">
+<p>The difference between the crowdworkers and the local student pilot participants is not statistically significant (p = 0.059, α = 0.05).</p>
+<div id="be2852c0" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>label_mapping <span class="op">=</span> {<span class="st">"context-via-permalink_gpt-5"</span> :     <span class="st">"GPT-5 with</span><span class="ch">\n</span><span class="st">URL Access"</span>,</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-ondemand_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context on</span><span class="ch">\n</span><span class="st">Demand"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-agnostic_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context-</span><span class="ch">\n</span><span class="st">Agnostic"</span>}</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>top_3_llms_namemapped <span class="op">=</span> [label_mapping[elem[<span class="dv">0</span>]] <span class="cf">for</span> elem <span class="kw">in</span> <span class="bu">reversed</span>(top_3_llms)]</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"Non-linguist</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Linguist</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Majority"</span>] <span class="op">+</span> top_3_llms_namemapped</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [hypothesis_2_results[<span class="st">"non-linguist_human_mean"</span>], hypothesis_2_results[<span class="st">"overall_human_mean"</span>], hypothesis_2_results[<span class="st">"culled_human_mean"</span>], hypothesis_2_results[<span class="st">"culled_human_majority_vote_accuracy"</span>]] <span class="op">+</span> [acc <span class="cf">for</span> _, acc <span class="kw">in</span> <span class="bu">reversed</span>(top_3_llms)]</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort labels and values by accuracy (ascending)</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>labels_values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(labels, values))</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>labels_values.sort(key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>])</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>labels, values <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>labels_values)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="bu">list</span>(labels)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> <span class="bu">list</span>(values)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign colors: blue spectrum for human data, red/salmon for LLMs, darker for higher accuracies</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Human bars: ["Overall Human Mean", "Culled Human Mean", "Culled Human Majority"]</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># LLM bars: top 3 LLMs (already sorted by accuracy ascending, so last is highest accuracy)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Culling of human annotators"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute context-dependent accuracy for each human participant</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>context_dependent_accuracies <span class="op">=</span> {}</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"Pilot"</span>], human_blocks):</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, participant <span class="kw">in</span> <span class="bu">enumerate</span>(block):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        participant_id <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> compute_accuracy(participant, context_dependent<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        context_dependent_accuracies[participant_id] <span class="op">=</span> acc</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out participants with context-dependent accuracy at or below chance (33%)</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>filtered_participants <span class="op">=</span> {pid: acc <span class="cf">for</span> pid, acc <span class="kw">in</span> context_dependent_accuracies.items() </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                         <span class="cf">if</span> acc <span class="op">&gt;</span> CULLING_THRESHHOLD}</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by accuracy and take top half</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>sorted_participants <span class="op">=</span> <span class="bu">sorted</span>(filtered_participants.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>top_half_count <span class="op">=</span> <span class="bu">len</span>(sorted_participants) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>culled_participants <span class="op">=</span> sorted_participants[:top_half_count]</span>
 <span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>human_colors <span class="op">=</span> [<span class="st">"#D0E1F2"</span>, <span class="st">"#A3C4E5"</span>, <span class="st">"#6A9FD1"</span>, <span class="st">"#2C4C7E"</span>]  <span class="co"># light to dark blue</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>llm_colors <span class="op">=</span> [<span class="st">"#FFB3B3"</span>, <span class="st">"#FF7F7F"</span>, <span class="st">"#B22222"</span>]    <span class="co"># light salmon to dark red</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamically assign colors based on the order of labels (humans first, then LLMs)</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> []</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label <span class="kw">in</span> labels:</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"human"</span> <span class="kw">in</span> label.lower():</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        colors.append(human_colors.pop(<span class="dv">0</span>))</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        colors.append(llm_colors.pop(<span class="dv">0</span>))</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(labels, values, color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Format y-axis as percentages starting from 33%</span></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Labels and title</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Reconstruct accuracy dict for culled participants only</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>accuracy_dict_humans_culled <span class="op">=</span> {}</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>culled_participant_ids <span class="op">=</span> {pid <span class="cf">for</span> pid, _ <span class="kw">in</span> culled_participants}</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"Pilot"</span>], human_blocks):</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    culled_block_accuracies <span class="op">=</span> []</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, participant <span class="kw">in</span> <span class="bu">enumerate</span>(block):</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        participant_id <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> participant_id <span class="kw">in</span> culled_participant_ids:</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            acc <span class="op">=</span> compute_accuracy(participant)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            culled_block_accuracies.append(acc)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> culled_block_accuracies:</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>        accuracy_dict_humans_culled[<span class="ss">f"block_</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_culled"</span>] <span class="op">=</span> culled_block_accuracies</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co"># report the mean accuracy of the culled accuracies</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>mean_culled_accuracy <span class="op">=</span> <span class="bu">sum</span>(</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans_culled.values() </span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>) <span class="op">/</span> <span class="bu">sum</span>(<span class="bu">len</span>(accuracies) <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans_culled.values())</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>participant_num_culled <span class="op">=</span> <span class="bu">len</span>(culled_participant_ids)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>participant_num_pilot <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> pid <span class="kw">in</span> culled_participant_ids <span class="cf">if</span> pid.startswith(<span class="st">"Pilot_"</span>))</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>participant_num_block_abcd <span class="op">=</span> participant_num_culled <span class="op">-</span> participant_num_pilot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The group of culled participants has 20 participants, of which two are local students and 18 are crowdworkers.</p>
+<div id="c2f333f5" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Preparing relevant data for Figure"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall human mean</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>overall_human_mean <span class="op">=</span> <span class="bu">sum</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    acc <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans.values() </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> acc <span class="kw">in</span> accuracies</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">/</span> <span class="bu">sum</span>(<span class="bu">len</span>(accuracies) <span class="cf">for</span> accuracies <span class="kw">in</span> accuracy_dict_humans.values())</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Culled human mean (already computed above)</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_culled_accuracy is already available</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>nonlinguist_humans <span class="op">=</span> <span class="bu">sum</span>(accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>]) <span class="op">/</span> <span class="bu">len</span>(accuracy_dict_non_linguists[<span class="st">"non-linguists"</span>])</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a majority-vote dict using only culled humans</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>culled_human_blocks <span class="op">=</span> []</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block_name, block <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"Pilot"</span>], human_blocks):</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    culled_block <span class="op">=</span> []</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, participant <span class="kw">in</span> <span class="bu">enumerate</span>(block):</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        participant_id <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>block_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> participant_id <span class="kw">in</span> culled_participant_ids:</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            culled_block.append(participant)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> culled_block:</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        culled_human_blocks.append(culled_block)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_culled_majority_vote(data_point_id):</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    votes <span class="op">=</span> []</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> participant <span class="kw">in</span> block:</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> data_point_id <span class="kw">in</span> participant:</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>                votes.append(_norm_type(participant[data_point_id]))</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> votes:</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">=</span> Counter(votes)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    majority_vote, _ <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> majority_vote</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>culled_majority_vote_dict <span class="op">=</span> {}</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    majority_vote <span class="op">=</span> get_culled_majority_vote(data_point_id)</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> majority_vote:</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>        culled_majority_vote_dict[data_point_id] <span class="op">=</span> majority_vote</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>culled_majority_vote_accuracy <span class="op">=</span> compute_accuracy(culled_majority_vote_dict)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results[<span class="st">"culled_majority_vote_accuracy"</span>] <span class="op">=</span> culled_majority_vote_accuracy</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean accuracy for each LLM across all runs</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>llm_means <span class="op">=</span> {</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    llm_name: <span class="bu">sum</span>(accuracies) <span class="op">/</span> <span class="bu">len</span>(accuracies) </span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> llm_name, accuracies <span class="kw">in</span> accuracy_dict_llms.items()</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top 3 LLMs by mean accuracy</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>top_3_llms <span class="op">=</span> <span class="bu">sorted</span>(llm_means.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)[:<span class="dv">3</span>]</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Create results dict</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>hypothesis_2_results <span class="op">=</span> {</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"non-linguist_human_mean"</span>: nonlinguist_humans,</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"overall_human_mean"</span>: overall_human_mean,</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"culled_human_mean"</span>: mean_culled_accuracy,</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"culled_human_majority_vote_accuracy"</span>: culled_majority_vote_accuracy</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten top 3 LLM means into the results dict</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> llm_name, acc <span class="kw">in</span> top_3_llms:</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>    hypothesis_2_results[<span class="ss">f"top_3_llm_mean_</span><span class="sc">{</span>llm_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> acc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-fig-overall-acc-comparison" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>label_mapping <span class="op">=</span> {<span class="st">"context-via-permalink_gpt-5"</span> :     <span class="st">"GPT-5 with</span><span class="ch">\n</span><span class="st">URL Access"</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-ondemand_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context on</span><span class="ch">\n</span><span class="st">Demand"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"context-agnostic_zero-shot_gpt-5"</span> : <span class="st">"GPT-5</span><span class="ch">\n</span><span class="st">Context-</span><span class="ch">\n</span><span class="st">Agnostic"</span>}</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>top_3_llms_namemapped <span class="op">=</span> [label_mapping[elem[<span class="dv">0</span>]] <span class="cf">for</span> elem <span class="kw">in</span> <span class="bu">reversed</span>(top_3_llms)]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"Non-linguist</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Linguist</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Mean"</span>, <span class="st">"Culled</span><span class="ch">\n</span><span class="st">Human Majority"</span>] <span class="op">+</span> top_3_llms_namemapped</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [hypothesis_2_results[<span class="st">"non-linguist_human_mean"</span>], hypothesis_2_results[<span class="st">"overall_human_mean"</span>], hypothesis_2_results[<span class="st">"culled_human_mean"</span>], hypothesis_2_results[<span class="st">"culled_human_majority_vote_accuracy"</span>]] <span class="op">+</span> [acc <span class="cf">for</span> _, acc <span class="kw">in</span> <span class="bu">reversed</span>(top_3_llms)]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort labels and values by accuracy (ascending)</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>labels_values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(labels, values))</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>labels_values.sort(key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>])</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>labels, values <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>labels_values)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> <span class="bu">list</span>(labels)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> <span class="bu">list</span>(values)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign colors: blue spectrum for human data, red/salmon for LLMs, darker for higher accuracies</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Human bars: ["Overall Human Mean", "Culled Human Mean", "Culled Human Majority"]</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># LLM bars: top 3 LLMs (already sorted by accuracy ascending, so last is highest accuracy)</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>human_colors <span class="op">=</span> [<span class="st">"#D0E1F2"</span>, <span class="st">"#A3C4E5"</span>, <span class="st">"#6A9FD1"</span>, <span class="st">"#2C4C7E"</span>]  <span class="co"># light to dark blue</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>llm_colors <span class="op">=</span> [<span class="st">"#FFB3B3"</span>, <span class="st">"#FF7F7F"</span>, <span class="st">"#B22222"</span>]    <span class="co"># light salmon to dark red</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamically assign colors based on the order of labels (humans first, then LLMs)</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> []</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label <span class="kw">in</span> labels:</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"human"</span> <span class="kw">in</span> label.lower():</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        colors.append(human_colors.pop(<span class="dv">0</span>))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        colors.append(llm_colors.pop(<span class="dv">0</span>))</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(labels, values, color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Format y-axis as percentages starting from 33%</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Labels and title</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-overall-acc-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -676,58 +776,58 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 </div>
 </div>
 </div>
-<div id="31d4a809" class="cell" data-execution_count="11">
+<div id="2c166677" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ALPHA <span class="op">=</span> <span class="fl">0.05</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># McNemar's test to compare best LLM vs. culled humans</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.contingency_tables <span class="im">import</span> mcnemar</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># For McNemar's test, we need paired binary outcomes for the same items.</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use the majority vote of culled humans vs. the best LLM (majority vote across runs).</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Build majority vote for best LLM</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_llm_majority_vote(data_point_id):</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    votes <span class="op">=</span> []</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[top_3_llms[<span class="dv">0</span>][<span class="dv">0</span>]]:</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data_point_id <span class="kw">in</span> run:</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>            votes.append(_norm_type(run[data_point_id]))</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> votes:</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">=</span> Counter(votes)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    majority_vote, _ <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> majority_vote</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>llm_majority_vote_dict <span class="op">=</span> {}</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    majority_vote <span class="op">=</span> get_llm_majority_vote(data_point_id)</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> majority_vote:</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        llm_majority_vote_dict[data_point_id] <span class="op">=</span> majority_vote</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Only consider items where both have a vote</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>paired_ids <span class="op">=</span> <span class="bu">set</span>(culled_majority_vote_dict.keys()) <span class="op">&amp;</span> <span class="bu">set</span>(llm_majority_vote_dict.keys())</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Build contingency table</span></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="co"># b = culled correct, llm incorrect</span></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co"># c = culled incorrect, llm correct</span></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> c <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> paired_ids:</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    gt_val <span class="op">=</span> _norm_type(gt.loc[gt[<span class="st">"ID"</span>].astype(<span class="bu">str</span>) <span class="op">==</span> data_point_id, <span class="st">"they_type"</span>].values[<span class="dv">0</span>]).replace(<span class="st">"_they"</span>, <span class="st">""</span>)</span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    culled_correct <span class="op">=</span> <span class="bu">int</span>(_norm_type(culled_majority_vote_dict[data_point_id]) <span class="op">==</span> gt_val)</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    llm_correct <span class="op">=</span> <span class="bu">int</span>(_norm_type(llm_majority_vote_dict[data_point_id]) <span class="op">==</span> gt_val)</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> culled_correct <span class="kw">and</span> <span class="kw">not</span> llm_correct:</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        b <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> culled_correct <span class="kw">and</span> llm_correct:</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        c <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> [[<span class="dv">0</span>, b], [c, <span class="dv">0</span>]]</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> mcnemar(table, exact<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> result.pvalue</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Significance test"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ALPHA <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># McNemar's test to compare best LLM vs. culled humans</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.contingency_tables <span class="im">import</span> mcnemar</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># For McNemar's test, we need paired binary outcomes for the same items.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use the majority vote of culled humans vs. the best LLM (majority vote across runs).</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Build majority vote for best LLM</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_llm_majority_vote(data_point_id):</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    votes <span class="op">=</span> []</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[top_3_llms[<span class="dv">0</span>][<span class="dv">0</span>]]:</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data_point_id <span class="kw">in</span> run:</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>            votes.append(_norm_type(run[data_point_id]))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> votes:</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">=</span> Counter(votes)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    majority_vote, _ <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>]</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> majority_vote</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>llm_majority_vote_dict <span class="op">=</span> {}</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    majority_vote <span class="op">=</span> get_llm_majority_vote(data_point_id)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> majority_vote:</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        llm_majority_vote_dict[data_point_id] <span class="op">=</span> majority_vote</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Only consider items where both have a vote</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>paired_ids <span class="op">=</span> <span class="bu">set</span>(culled_majority_vote_dict.keys()) <span class="op">&amp;</span> <span class="bu">set</span>(llm_majority_vote_dict.keys())</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Build contingency table</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># b = culled correct, llm incorrect</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co"># c = culled incorrect, llm correct</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> c <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> paired_ids:</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    gt_val <span class="op">=</span> _norm_type(gt.loc[gt[<span class="st">"ID"</span>].astype(<span class="bu">str</span>) <span class="op">==</span> data_point_id, <span class="st">"they_type"</span>].values[<span class="dv">0</span>]).replace(<span class="st">"_they"</span>, <span class="st">""</span>)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    culled_correct <span class="op">=</span> <span class="bu">int</span>(_norm_type(culled_majority_vote_dict[data_point_id]) <span class="op">==</span> gt_val)</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    llm_correct <span class="op">=</span> <span class="bu">int</span>(_norm_type(llm_majority_vote_dict[data_point_id]) <span class="op">==</span> gt_val)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> culled_correct <span class="kw">and</span> <span class="kw">not</span> llm_correct:</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        b <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> culled_correct <span class="kw">and</span> llm_correct:</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        c <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> [[<span class="dv">0</span>, b], [c, <span class="dv">0</span>]]</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> mcnemar(table, exact<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> result.pvalue</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -735,83 +835,83 @@ Figure&nbsp;1: Overall Accuracies, Humans vs.&nbsp;Top 3 LLMs
 <h2 class="anchored" data-anchor-id="results-by-label">Results by label</h2>
 <section id="singular-vs-plural" class="level3">
 <h3 class="anchored" data-anchor-id="singular-vs-plural">Singular vs Plural</h3>
-<div id="9a5e142d" class="cell" data-execution_count="12">
+<div id="7b50af64" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute by-label accuracy for culled human mean (not majority vote)</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>all_culled_participant_dicts <span class="op">=</span> []</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    all_culled_participant_dicts.extend(block)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean accuracy by label across all culled participants</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>culled_by_label_accs <span class="op">=</span> [compute_accuracy_by_label(participant, labels<span class="op">=</span>(<span class="st">"singular"</span>, <span class="st">"plural"</span>)) <span class="cf">for</span> participant <span class="kw">in</span> all_culled_participant_dicts]</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the accuracies for each label</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>culled_by_label_acc <span class="op">=</span> {}</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label <span class="kw">in</span> (<span class="st">"singular"</span>, <span class="st">"plural"</span>):</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    label_accs <span class="op">=</span> [acc[label] <span class="cf">for</span> acc <span class="kw">in</span> culled_by_label_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(acc[label])]</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    culled_by_label_acc[label] <span class="op">=</span> <span class="bu">float</span>(np.mean(label_accs)) <span class="cf">if</span> label_accs <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute by-label accuracy for best LLM majority vote</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>llm_by_label_acc <span class="op">=</span> compute_accuracy_by_label(llm_majority_vote_dict, labels<span class="op">=</span>(<span class="st">"singular"</span>, <span class="st">"plural"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect accuracies for culled humans and best LLM for "plural" and "singular" labels</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute by-label accuracy for culled human mean (not majority vote)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>all_culled_participant_dicts <span class="op">=</span> []</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    all_culled_participant_dicts.extend(block)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean accuracy by label across all culled participants</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>culled_by_label_accs <span class="op">=</span> [compute_accuracy_by_label(participant, labels<span class="op">=</span>(<span class="st">"singular"</span>, <span class="st">"plural"</span>)) <span class="cf">for</span> participant <span class="kw">in</span> all_culled_participant_dicts]</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the accuracies for each label</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>culled_by_label_acc <span class="op">=</span> {}</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label <span class="kw">in</span> (<span class="st">"singular"</span>, <span class="st">"plural"</span>):</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    label_accs <span class="op">=</span> [acc[label] <span class="cf">for</span> acc <span class="kw">in</span> culled_by_label_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(acc[label])]</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    culled_by_label_acc[label] <span class="op">=</span> <span class="bu">float</span>(np.mean(label_accs)) <span class="cf">if</span> label_accs <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute by-label accuracy for best LLM majority vote</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>llm_by_label_acc <span class="op">=</span> compute_accuracy_by_label(llm_majority_vote_dict, labels<span class="op">=</span>(<span class="st">"singular"</span>, <span class="st">"plural"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="cell-fig-singular-plural-comparison" class="cell" data-execution_count="13">
+<div id="cell-fig-singular-plural-comparison" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting by-label accuracies for culled humans and best LLM</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> [<span class="st">"Culled Humans"</span>, <span class="st">""</span>, <span class="st">"Best LLM"</span>, <span class="st">""</span>]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>bar_values <span class="op">=</span> [</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    culled_by_label_acc.get(<span class="st">"plural"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>)),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    culled_by_label_acc.get(<span class="st">"singular"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>)),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    llm_by_label_acc.get(<span class="st">"plural"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>)),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    llm_by_label_acc.get(<span class="st">"singular"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>))</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Blue for plural, red for singular</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>bar_colors <span class="op">=</span> [</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>,  <span class="co"># culled humans: plural (blue), singular (red)</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>   <span class="co"># best LLM: plural (blue), singular (red)</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>bar_labels <span class="op">=</span> [<span class="st">"Plural"</span>, <span class="st">"Singular"</span>, <span class="st">"Plural"</span>, <span class="st">"Singular"</span>]</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Increase space between the two pairs</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>bar_positions <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>]  <span class="co"># gap between 1 and 3</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(bar_positions, bar_values, color<span class="op">=</span>bar_colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Format y-axis as percentages</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Set x-ticks to blank (we'll add group labels below)</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add group labels below the bars, spanning two bars each</span></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, label <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">"Culled Humans"</span>, <span class="st">"Best LLM"</span>]):</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    xpos <span class="op">=</span> bar_positions[idx <span class="op">*</span> <span class="dv">2</span>] <span class="op">+</span> <span class="fl">0.5</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    ax.text(xpos, <span class="fl">0.31</span>, label, ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"top"</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend for plural/singular</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">"#2C4C7E"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"Plural"</span>),</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">"#B22222"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"Singular"</span>),</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">"upper left"</span>, frameon<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Add bar labels (Plural/Singular) above each bar</span></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, bar <span class="kw">in</span> <span class="bu">enumerate</span>(bars):</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    ax.text(bar.get_x() <span class="op">+</span> bar.get_width()<span class="op">/</span><span class="dv">2</span>, bar.get_height() <span class="op">+</span> <span class="fl">0.01</span>, bar_labels[i],</span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>            ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"bottom"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting by-label accuracies for culled humans and best LLM</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> [<span class="st">"Culled Humans"</span>, <span class="st">""</span>, <span class="st">"Best LLM"</span>, <span class="st">""</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>bar_values <span class="op">=</span> [</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    culled_by_label_acc.get(<span class="st">"plural"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>)),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    culled_by_label_acc.get(<span class="st">"singular"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>)),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    llm_by_label_acc.get(<span class="st">"plural"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>)),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    llm_by_label_acc.get(<span class="st">"singular"</span>, <span class="bu">float</span>(<span class="st">"nan"</span>))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Blue for plural, red for singular</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>bar_colors <span class="op">=</span> [</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>,  <span class="co"># culled humans: plural (blue), singular (red)</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>   <span class="co"># best LLM: plural (blue), singular (red)</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>bar_labels <span class="op">=</span> [<span class="st">"Plural"</span>, <span class="st">"Singular"</span>, <span class="st">"Plural"</span>, <span class="st">"Singular"</span>]</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Increase space between the two pairs</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>bar_positions <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>]  <span class="co"># gap between 1 and 3</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(bar_positions, bar_values, color<span class="op">=</span>bar_colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Format y-axis as percentages</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Set x-ticks to blank (we'll add group labels below)</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add group labels below the bars, spanning two bars each</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, label <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">"Culled Humans"</span>, <span class="st">"Best LLM"</span>]):</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    xpos <span class="op">=</span> bar_positions[idx <span class="op">*</span> <span class="dv">2</span>] <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    ax.text(xpos, <span class="fl">0.31</span>, label, ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"top"</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend for plural/singular</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">"#2C4C7E"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"Plural"</span>),</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">"#B22222"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"Singular"</span>),</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">"upper left"</span>, frameon<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Add bar labels (Plural/Singular) above each bar</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, bar <span class="kw">in</span> <span class="bu">enumerate</span>(bars):</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>    ax.text(bar.get_x() <span class="op">+</span> bar.get_width()<span class="op">/</span><span class="dv">2</span>, bar.get_height() <span class="op">+</span> <span class="fl">0.01</span>, bar_labels[i],</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>            ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"bottom"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-singular-plural-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -826,48 +926,48 @@ Figure&nbsp;2: Accuracy difference between plural/singular <em>they</em> and LLM
 </div>
 </div>
 </div>
-<div id="cell-fig-confusion-matrix-llm" class="cell" data-execution_count="14">
+<div id="cell-fig-confusion-matrix-llm" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute confusion matrices for best LLM and culled human mean (percentages)</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"plural"</span>, <span class="st">"generic"</span>, <span class="st">"singular"</span>]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare ground truth and predictions for paired items</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>paired_ids <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>llm_preds <span class="op">=</span> []</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>human_preds <span class="op">=</span> []</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>gt_labels <span class="op">=</span> []</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For best LLM, use majority vote across runs</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only include if both LLM and at least one culled human have a prediction</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    llm_vote <span class="op">=</span> get_llm_majority_vote(data_point_id)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    human_votes <span class="op">=</span> []</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> participant <span class="kw">in</span> all_culled_participant_dicts:</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data_point_id <span class="kw">in</span> participant:</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>            human_votes.append(_norm_type(participant[data_point_id]))</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> llm_vote <span class="kw">and</span> human_votes:</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        paired_ids.add(data_point_id)</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># LLM prediction</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        llm_preds.append(_norm_type(llm_vote))</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Human mean: use the most common label among culled humans for this item (not majority-vote dict, but mean)</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        counter <span class="op">=</span> Counter(human_votes)</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        human_pred <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        human_preds.append(human_pred)</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ground truth</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        gt_label <span class="op">=</span> _norm_type(gt.loc[gt[<span class="st">"ID"</span>].astype(<span class="bu">str</span>) <span class="op">==</span> data_point_id, <span class="st">"they_type"</span>].values[<span class="dv">0</span>])</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        gt_labels.append(gt_label)</span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Add "%" to the labels</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>labels_percent <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>lbl<span class="sc">}</span><span class="ss"> (%)"</span> <span class="cf">for</span> lbl <span class="kw">in</span> labels]</span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix for best LLM (percentages)</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>cm_llm <span class="op">=</span> confusion_matrix(gt_labels, llm_preds, labels<span class="op">=</span>labels, normalize<span class="op">=</span><span class="st">'true'</span>)</span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>disp_llm <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm_llm, display_labels<span class="op">=</span>labels)</span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>disp_llm.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span><span class="st">"Reds"</span>, values_format<span class="op">=</span><span class="st">".1%"</span>)  <span class="co"># formats like 12.3%</span></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute confusion matrices for best LLM and culled human mean (percentages)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"plural"</span>, <span class="st">"generic"</span>, <span class="st">"singular"</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare ground truth and predictions for paired items</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>paired_ids <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>llm_preds <span class="op">=</span> []</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>human_preds <span class="op">=</span> []</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>gt_labels <span class="op">=</span> []</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For best LLM, use majority vote across runs</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data_point_id <span class="kw">in</span> gt[<span class="st">"ID"</span>].dropna().astype(<span class="bu">str</span>).<span class="bu">str</span>.strip():</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only include if both LLM and at least one culled human have a prediction</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    llm_vote <span class="op">=</span> get_llm_majority_vote(data_point_id)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    human_votes <span class="op">=</span> []</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> participant <span class="kw">in</span> all_culled_participant_dicts:</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data_point_id <span class="kw">in</span> participant:</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>            human_votes.append(_norm_type(participant[data_point_id]))</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> llm_vote <span class="kw">and</span> human_votes:</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        paired_ids.add(data_point_id)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># LLM prediction</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        llm_preds.append(_norm_type(llm_vote))</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Human mean: use the most common label among culled humans for this item (not majority-vote dict, but mean)</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        counter <span class="op">=</span> Counter(human_votes)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        human_pred <span class="op">=</span> counter.most_common(<span class="dv">1</span>)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        human_preds.append(human_pred)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ground truth</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>        gt_label <span class="op">=</span> _norm_type(gt.loc[gt[<span class="st">"ID"</span>].astype(<span class="bu">str</span>) <span class="op">==</span> data_point_id, <span class="st">"they_type"</span>].values[<span class="dv">0</span>])</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>        gt_labels.append(gt_label)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Add "%" to the labels</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>labels_percent <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>lbl<span class="sc">}</span><span class="ss"> (%)"</span> <span class="cf">for</span> lbl <span class="kw">in</span> labels]</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix for best LLM (percentages)</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>cm_llm <span class="op">=</span> confusion_matrix(gt_labels, llm_preds, labels<span class="op">=</span>labels, normalize<span class="op">=</span><span class="st">'true'</span>)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>disp_llm <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm_llm, display_labels<span class="op">=</span>labels)</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>disp_llm.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span><span class="st">"Reds"</span>, values_format<span class="op">=</span><span class="st">".1%"</span>)  <span class="co"># formats like 12.3%</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-confusion-matrix-llm" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -882,15 +982,15 @@ Figure&nbsp;3: Confusion matrix for the best LLM
 </div>
 </div>
 </div>
-<div id="cell-fig-confusion-matrix-human" class="cell" data-execution_count="15">
+<div id="cell-fig-confusion-matrix-human" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cm_human <span class="op">=</span> confusion_matrix(gt_labels, human_preds, labels<span class="op">=</span>labels, normalize<span class="op">=</span><span class="st">'true'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>disp_human <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm_human, display_labels<span class="op">=</span>labels)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>disp_human.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span><span class="st">"Blues"</span>, values_format<span class="op">=</span><span class="st">".1%"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cm_human <span class="op">=</span> confusion_matrix(gt_labels, human_preds, labels<span class="op">=</span>labels, normalize<span class="op">=</span><span class="st">'true'</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>disp_human <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm_human, display_labels<span class="op">=</span>labels)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>disp_human.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span><span class="st">"Blues"</span>, values_format<span class="op">=</span><span class="st">".1%"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-confusion-matrix-human" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -908,73 +1008,73 @@ Figure&nbsp;4: Confusion matrix for culled human mean
 </section>
 <section id="context-independence" class="level3">
 <h3 class="anchored" data-anchor-id="context-independence">Context-(in)dependence</h3>
-<div id="8b216ba1" class="cell" data-execution_count="16">
+<div id="4d8add8e" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess performance for context-dependent vs context-independent items</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for: best LLM, third-best LLM, and culled human mean</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get best and third-best LLM names from top_3_llms</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>best_llm_name <span class="op">=</span> top_3_llms[<span class="dv">0</span>][<span class="dv">0</span>]</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>third_llm_name <span class="op">=</span> top_3_llms[<span class="dv">2</span>][<span class="dv">0</span>]</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper: compute mean accuracy for a group (list of participant dicts)</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean_accuracy_group(participant_dicts, context_dependent):</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    accs <span class="op">=</span> [compute_accuracy(p, context_dependent<span class="op">=</span>context_dependent) <span class="cf">for</span> p <span class="kw">in</span> participant_dicts]</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    accs <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)]</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.mean(accs)) <span class="cf">if</span> accs <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare culled human participant dicts</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>culled_human_participants <span class="op">=</span> []</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    culled_human_participants.extend(block)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute accuracies</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>results_context <span class="op">=</span> []</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> context_flag, context_label <span class="kw">in</span> <span class="bu">zip</span>([<span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">"Context-Dependent"</span>, <span class="st">"Context-Independent"</span>]):</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Best LLM</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    best_llm_accs <span class="op">=</span> [compute_accuracy(run, context_dependent<span class="op">=</span>context_flag) <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[best_llm_name]]</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    best_llm_acc <span class="op">=</span> np.nanmean([a <span class="cf">for</span> a <span class="kw">in</span> best_llm_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)])</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Third-best LLM</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    third_llm_accs <span class="op">=</span> [compute_accuracy(run, context_dependent<span class="op">=</span>context_flag) <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[third_llm_name]]</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    third_llm_acc <span class="op">=</span> np.nanmean([a <span class="cf">for</span> a <span class="kw">in</span> third_llm_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)])</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Culled human mean</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    culled_human_acc <span class="op">=</span> mean_accuracy_group(culled_human_participants, context_dependent<span class="op">=</span>context_flag)</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"GPT-5 with URL Access"</span>,</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: best_llm_acc</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"GPT-5 Context-Agnostic"</span>,</span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: third_llm_acc</span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Culled Human Mean"</span>,</span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: culled_human_acc</span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Display as table</span></span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>results_context_df <span class="op">=</span> pd.DataFrame(results_context)</span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>results_context_df[<span class="st">"Accuracy"</span>] <span class="op">=</span> results_context_df[<span class="st">"Accuracy"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span> <span class="cf">if</span> <span class="kw">not</span> np.isnan(x) <span class="cf">else</span> <span class="st">"n/a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess performance for context-dependent vs context-independent items</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for: best LLM, third-best LLM, and culled human mean</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get best and third-best LLM names from top_3_llms</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>best_llm_name <span class="op">=</span> top_3_llms[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>third_llm_name <span class="op">=</span> top_3_llms[<span class="dv">2</span>][<span class="dv">0</span>]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper: compute mean accuracy for a group (list of participant dicts)</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean_accuracy_group(participant_dicts, context_dependent):</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    accs <span class="op">=</span> [compute_accuracy(p, context_dependent<span class="op">=</span>context_dependent) <span class="cf">for</span> p <span class="kw">in</span> participant_dicts]</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    accs <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)]</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.mean(accs)) <span class="cf">if</span> accs <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare culled human participant dicts</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>culled_human_participants <span class="op">=</span> []</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> culled_human_blocks:</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    culled_human_participants.extend(block)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute accuracies</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>results_context <span class="op">=</span> []</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> context_flag, context_label <span class="kw">in</span> <span class="bu">zip</span>([<span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">"Context-Dependent"</span>, <span class="st">"Context-Independent"</span>]):</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Best LLM</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    best_llm_accs <span class="op">=</span> [compute_accuracy(run, context_dependent<span class="op">=</span>context_flag) <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[best_llm_name]]</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    best_llm_acc <span class="op">=</span> np.nanmean([a <span class="cf">for</span> a <span class="kw">in</span> best_llm_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)])</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Third-best LLM</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    third_llm_accs <span class="op">=</span> [compute_accuracy(run, context_dependent<span class="op">=</span>context_flag) <span class="cf">for</span> run <span class="kw">in</span> commercial_llm_responses[third_llm_name]]</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    third_llm_acc <span class="op">=</span> np.nanmean([a <span class="cf">for</span> a <span class="kw">in</span> third_llm_accs <span class="cf">if</span> <span class="kw">not</span> np.isnan(a)])</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Culled human mean</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    culled_human_acc <span class="op">=</span> mean_accuracy_group(culled_human_participants, context_dependent<span class="op">=</span>context_flag)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"GPT-5 with URL Access"</span>,</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: best_llm_acc</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"GPT-5 Context-Agnostic"</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: third_llm_acc</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    results_context.append({</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: <span class="st">"Culled Human Mean"</span>,</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: context_label,</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: culled_human_acc</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Display as table</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>results_context_df <span class="op">=</span> pd.DataFrame(results_context)</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>results_context_df[<span class="st">"Accuracy"</span>] <span class="op">=</span> results_context_df[<span class="st">"Accuracy"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span> <span class="cf">if</span> <span class="kw">not</span> np.isnan(x) <span class="cf">else</span> <span class="st">"n/a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Markdown(results_context_df.pivot(index<span class="op">=</span><span class="st">"Group"</span>, columns<span class="op">=</span><span class="st">"Context"</span>, values<span class="op">=</span><span class="st">"Accuracy"</span>).to_markdown())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Markdown(results_context_df.pivot(index<span class="op">=</span><span class="st">"Group"</span>, columns<span class="op">=</span><span class="st">"Context"</span>, values<span class="op">=</span><span class="st">"Accuracy"</span>).to_markdown())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div id="tbl-context-accuracy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="17">
+<div id="tbl-context-accuracy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="19">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean
 </figcaption>
 <div aria-describedby="tbl-context-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="57">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="111">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -986,8 +1086,8 @@ Table&nbsp;2: Accuracy for context-dependent and context-independent items for t
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Culled Human Mean</td>
-<td style="text-align: left;">98.1%</td>
-<td style="text-align: left;">83.0%</td>
+<td style="text-align: left;">90.0%</td>
+<td style="text-align: left;">77.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GPT-5 Context-Agnostic</td>
@@ -1006,38 +1106,38 @@ Table&nbsp;2: Accuracy for context-dependent and context-independent items for t
 </figure>
 </div>
 </div>
-<div id="cell-fig-context-accuracy" class="cell" data-execution_count="18">
+<div id="cell-fig-context-accuracy" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plot_df <span class="op">=</span> pd.DataFrame([</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: row[<span class="st">"Group"</span>],</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: row[<span class="st">"Context"</span>],</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: <span class="bu">float</span>(row[<span class="st">"Accuracy"</span>].replace(<span class="st">"%"</span>, <span class="st">""</span>))<span class="op">/</span><span class="dv">100</span> <span class="cf">if</span> row[<span class="st">"Accuracy"</span>] <span class="op">!=</span> <span class="st">"n/a"</span> <span class="cf">else</span> np.nan</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> results_context_df.iterrows()</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>sns.barplot(</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>plot_df,</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"Group"</span>,</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"Accuracy"</span>,</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">"Context"</span>,</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span>[<span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>],</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">"Item Type"</span>, loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plot_df <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Group"</span>: row[<span class="st">"Group"</span>],</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Context"</span>: row[<span class="st">"Context"</span>],</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: <span class="bu">float</span>(row[<span class="st">"Accuracy"</span>].replace(<span class="st">"%"</span>, <span class="st">""</span>))<span class="op">/</span><span class="dv">100</span> <span class="cf">if</span> row[<span class="st">"Accuracy"</span>] <span class="op">!=</span> <span class="st">"n/a"</span> <span class="cf">else</span> np.nan</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> results_context_df.iterrows()</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>sns.barplot(</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>plot_df,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"Group"</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"Accuracy"</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">"Context"</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span>[<span class="st">"#2C4C7E"</span>, <span class="st">"#B22222"</span>],</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="fl">0.33</span>, <span class="fl">1.0</span>)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> y, _: <span class="ss">f"</span><span class="sc">{</span>y<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>))</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Accuracy"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">"Item Type"</span>, loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-context-accuracy" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1055,75 +1155,98 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </section>
 <section id="cost" class="level3">
 <h3 class="anchored" data-anchor-id="cost">Cost</h3>
-<div id="b0511828" class="cell" data-execution_count="19">
+<div id="868fac85" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Cost stats"</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>stats_path <span class="op">=</span> <span class="st">"../cost/cost_time_stats.csv"</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> os.path.isfile(stats_path)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the CSV file has the header group (Local Students, Crowdworkers, LLMs), total_cost_$, and total_time_h</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(stats_path)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cost per 100 examples</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume the CSV also contains a column 'total_examples'</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"cost_per_100_examples"</span>] <span class="op">=</span> df[<span class="st">"total_cost_$"</span>] <span class="op">/</span> df[<span class="st">"total_annotated_examples"</span>] <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set colors</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> {</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Local Students"</span>: <span class="st">"#2C4C7E"</span>,   <span class="co"># dark blue</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Crowdworkers"</span>: <span class="st">"#B3C6E6"</span>,     <span class="co"># light blue</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LLMs"</span>: <span class="st">"#B22222"</span>              <span class="co"># dark red</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [color_map.get(g, <span class="st">"#888888"</span>) <span class="cf">for</span> g <span class="kw">in</span> df[<span class="st">"group"</span>]]</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(df[<span class="st">"group"</span>], df[<span class="st">"cost_per_100_examples"</span>], color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Cost per 100 Examples ($)"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">"Cost stats"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>stats_path <span class="op">=</span> <span class="st">"../cost/cost_time_stats.csv"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> os.path.isfile(stats_path)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the CSV file has the header group (Local Students, Crowdworkers, LLMs), total_cost_$, and total_time_h</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(stats_path)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cost per 100 examples</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume the CSV also contains a column 'total_examples'</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"cost_per_100_examples"</span>] <span class="op">=</span> df[<span class="st">"total_cost_$"</span>] <span class="op">/</span> df[<span class="st">"total_annotated_examples"</span>] <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set colors</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> {</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Local Students"</span>: <span class="st">"#2C4C7E"</span>,   <span class="co"># dark blue</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Crowdworkers"</span>: <span class="st">"#B3C6E6"</span>,     <span class="co"># light blue</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LLMs"</span>: <span class="st">"#B22222"</span>              <span class="co"># dark red</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [color_map.get(g, <span class="st">"#888888"</span>) <span class="cf">for</span> g <span class="kw">in</span> df[<span class="st">"group"</span>]]</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(df[<span class="st">"group"</span>], df[<span class="st">"cost_per_100_examples"</span>], color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Cost per 100 Examples ($)"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="results_files/figure-html/cell-20-output-1.png" width="567" height="374" class="figure-img"></p>
+<p><img src="results_files/figure-html/cell-22-output-1.png" width="567" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="01600e46" class="cell" data-execution_count="20">
+<div id="5bbfe58b" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bar for time taken per 100 examples</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute time per 100 examples</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"time_per_100_examples"</span>] <span class="op">=</span> df[<span class="st">"total_time_h"</span>] <span class="op">/</span> df[<span class="st">"total_annotated_examples"</span>] <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Set colors (reuse previous color_map)</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [color_map.get(g, <span class="st">"#888888"</span>) <span class="cf">for</span> g <span class="kw">in</span> df[<span class="st">"group"</span>]]</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(df[<span class="st">"group"</span>], df[<span class="st">"time_per_100_examples"</span>], color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Time per 100 Examples (hours)"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bar for time taken per 100 examples</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute time per 100 examples</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"time_per_100_examples"</span>] <span class="op">=</span> df[<span class="st">"total_time_h"</span>] <span class="op">/</span> df[<span class="st">"total_annotated_examples"</span>] <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Set colors (reuse previous color_map)</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [color_map.get(g, <span class="st">"#888888"</span>) <span class="cf">for</span> g <span class="kw">in</span> df[<span class="st">"group"</span>]]</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.bar(df[<span class="st">"group"</span>], df[<span class="st">"time_per_100_examples"</span>], color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Time per 100 Examples (hours)"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="results_files/figure-html/cell-21-output-1.png" width="567" height="374" class="figure-img"></p>
+<p><img src="results_files/figure-html/cell-23-output-1.png" width="567" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+<div id="9b829a91" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the percentage of crowdworkers' responses that were disregarded</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>total_crowdworkers <span class="op">=</span> <span class="bu">sum</span>(<span class="bu">len</span>(block) <span class="cf">for</span> block <span class="kw">in</span> [block_a, block_b, block_c, block_d])</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>disregarded_crowdworkers <span class="op">=</span> total_crowdworkers <span class="op">-</span> participant_num_block_abcd</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>disregarded_percentage <span class="op">=</span> (disregarded_crowdworkers <span class="op">/</span> total_crowdworkers) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the cost of crowdworkers based on the culling</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>culled_cost_per_100_examples <span class="op">=</span> df.loc[df[<span class="st">"group"</span>] <span class="op">==</span> <span class="st">"Crowdworkers"</span>, <span class="st">"cost_per_100_examples"</span>].values[<span class="dv">0</span>]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>adjusted_cost_per_100_examples <span class="op">=</span> culled_cost_per_100_examples <span class="op">*</span> (participant_num_block_abcd <span class="op">/</span> total_crowdworkers)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(total_crowdworkers)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(disregarded_crowdworkers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>41
+23</code></pre>
+</div>
+</div>
+<ul>
+<li>The cost of crowdworkers was inflated in this study due to filtering inattentive participants only post-hoc and not being able to tell the meaning of “educated in English language” before carrying out the study. Appropriate numbers were obtained thanks to the culling. This means in turn that the responses of 56.1% of crowdowkers were disregarded and their cost was spent fruitlessly.</li>
+</ul>
 </section>
 </section>
 </section>
@@ -1135,8 +1258,8 @@ Figure&nbsp;5: Accuracy for context-dependent and context-independent items for 
 </section>
 <section id="hypothesis-2-1" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-2-1">Hypothesis 2</h2>
-<p>The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define “mean human accuracy” more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in “English language”, without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e.&nbsp;if their performance is at or below 50% when context is necessary to understand an example.</p>
-<p><a href="#fig-overall-acc-comparison" class="quarto-xref">Figure&nbsp;1</a> reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs’ performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, GPT-5\\nContext-\\nAgnostic, shows a performance that is , however, not significantly better than the culled human mean at p = 0.7744140625, α = 0.05 according to a McNemar’s test. Hypothesis 2 can therefore not be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.</p>
+<p>The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define “mean human accuracy” more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in “English language”, without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e.&nbsp;if their performance is at or below 33% when context is necessary to understand an example.</p>
+<p><a href="#fig-overall-acc-comparison" class="quarto-xref">Figure&nbsp;1</a> reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs’ performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, GPT-5\\nContext-\\nAgnostic, shows a performance that is , however, not significantly better than the culled human mean at p = 0.454498291015625, α = 0.05 according to a McNemar’s test. Hypothesis 2 can therefore not be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.</p>
 </section>
 <section id="hypothesis-3" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-3">Hypothesis 3</h2>

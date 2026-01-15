@@ -334,13 +334,86 @@ Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accu
 
 ```{python}
 "Constants"
-CULLING_THRESHHOLD = 0.5
+CULLING_THRESHHOLD = 0.3333
 CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
 
 ```
 
 
+```{python}
+# Comparing the three groups of human annotators
 
+# Build accuracy dict for non-pilot human annotators
+non_pilot_blocks = [block_a, block_b, block_c, block_d]
+accuracy_dict_non_pilot_humans = {}
+for block_name, block in zip(["A", "B", "C", "D"], non_pilot_blocks):
+    accuracies = []
+    for participant in block:
+        acc = compute_accuracy(participant)
+        accuracies.append(acc)
+    accuracy_dict_non_pilot_humans[f"block_{block_name}"] = accuracies
+
+# Build accuracy dict for pilot human annotators
+accuracy_dict_pilot_humans = {}
+accuracies = []
+for participant in block_pilot:
+    acc = compute_accuracy(participant)
+    accuracies.append(acc)
+accuracy_dict_pilot_humans["pilot"] = accuracies
+
+# The accuracy dict for non-linguists is already given as `accuracy_dict_non_linguists`
+
+# Calculate three overall accuracies and list in table
+overall_accuracies = {
+    "Non-Pilot Humans": sum(
+        acc for accuracies in accuracy_dict_non_pilot_humans.values() for acc in accuracies
+    ) / sum(len(accuracies) for accuracies in accuracy_dict_non_pilot_humans.values()),
+    "Pilot Humans": sum(
+        acc for acc in accuracy_dict_pilot_humans["pilot"]
+    ) / len(accuracy_dict_pilot_humans["pilot"]),
+    "Non-Linguists": sum(
+        acc for acc in accuracy_dict_non_linguists["non-linguists"]
+    ) / len(accuracy_dict_non_linguists["non-linguists"]),
+}
+
+# Display results as a table
+import pandas as pd
+accuracy_table = pd.DataFrame(
+    [{"Group": group, "Accuracy": f"{accuracy * 100:.1f}%"} for group, accuracy in overall_accuracies.items()]
+)
+Markdown(accuracy_table.to_markdown(index=False))
+
+```
+
+```{python}
+# Run statistical analysis to ascertain whether their differences are statistically significant
+from scipy.stats import f_oneway
+
+# Prepare data for ANOVA
+anova_data = [
+    (group, acc)
+    for group, accuracies in [
+        ("Non-Pilot Humans", [acc for accuracies in accuracy_dict_non_pilot_humans.values() for acc in accuracies]),
+        ("Pilot Humans", accuracy_dict_pilot_humans["pilot"]),
+        ("Non-Linguists", accuracy_dict_non_linguists["non-linguists"]),
+    ]
+    for acc in accuracies
+]
+
+# Group data by annotator type
+anova_groups = {
+    group: [acc for g, acc in anova_data if g == group]
+    for group in ["Non-Pilot Humans", "Pilot Humans"]
+}
+
+# Perform ANOVA
+anova_result = f_oneway(*anova_groups.values())
+anova_p_value = anova_result.pvalue
+ALPHA_PILOTS_VS_CROWD = 0.05
+
+```
+
+The difference between the crowdworkers and the local student pilot participants is `{python} "not" if anova_p_value >= ALPHA_PILOTS_VS_CROWD else ""` statistically significant (`{python} f"p = {round(anova_p_value, 3)}, α = {ALPHA_PILOTS_VS_CROWD}"`).
 
 
 ```{python}
@@ -853,6 +926,22 @@ ax.set_axisbelow(True)
 plt.tight_layout()
 plt.show()
 ```
+
+```{python}
+# Calculate the percentage of crowdworkers' responses that were disregarded
+total_crowdworkers = sum(len(block) for block in [block_a, block_b, block_c, block_d])
+disregarded_crowdworkers = total_crowdworkers - participant_num_block_abcd
+disregarded_percentage = (disregarded_crowdworkers / total_crowdworkers) * 100
+
+# Adjust the cost of crowdworkers based on the culling
+culled_cost_per_100_examples = df.loc[df["group"] == "Crowdworkers", "cost_per_100_examples"].values[0]
+adjusted_cost_per_100_examples = culled_cost_per_100_examples * (participant_num_block_abcd / total_crowdworkers)
+
+print(total_crowdworkers)
+print(disregarded_crowdworkers)
+```
+
+- The cost of crowdworkers was inflated in this study due to filtering inattentive participants only post-hoc and not being able to tell the meaning of "educated in English language" before carrying out the study. Appropriate numbers were obtained thanks to the culling. This means in turn that the responses of `{python} f"{round(disregarded_percentage, 1)}%"` of crowdowkers were disregarded and their cost was spent fruitlessly.
 
 # Discussion
 
