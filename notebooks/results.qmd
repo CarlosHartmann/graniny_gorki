@@ -96,6 +96,9 @@ The raw data are shaped like so:
 Context-(in)dependent
 56–59 for plural/generic/singular (do this dynamically & as a table)
 
+Mention 10 intro examples that were cherry-picked for balance and had a precise reasoning behind the solution and were identical for all human participants.
+Clarify if those 10 examples were part of the test set for LLMs (shouldn't have been but need to ensure).
+
 Randomly sampled for each participant to avoid bias
 
 System of blocks with overlap
