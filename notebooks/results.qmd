@@ -1,12 +1,16 @@
 ---
 title: "Computing results and running analyses"
+toc: true
+number-sections: true
 jupyter: 
     kernel: python3
     executable: ../../.venv/bin/python
 execute:
     echo: false
     warning: true
-
+format:
+    pdf: default
+    docx: default
 ---
 
 # To Do:
