@@ -8,6 +8,7 @@ jupyter:
     executable: ../../.venv/bin/python
 execute:
     echo: false
+    warning: true
 
 ---
 
