@@ -1,8 +1,5 @@
 ---
 title: "Computing results and running analyses"
-format: 
-    html:
-        code-fold: true
 jupyter: 
     kernel: python3
     executable: ../../.venv/bin/python
@@ -776,6 +773,7 @@ bars = ax.bar(
     error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
 )
 
+fig.set_size_inches(8, 6)  # Adjust width and height in inches
 ax.set_ylim(0.33, 1.0)  # keep your chance floor if appropriate
 ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
 ax.set_ylabel("Accuracy", fontsize=12)
