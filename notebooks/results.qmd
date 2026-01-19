@@ -6,6 +6,8 @@ format:
 jupyter: 
     kernel: python3
     executable: ../../.venv/bin/python
+execute:
+    echo: false
 
 ---
 
