@@ -16,8 +16,6 @@ bibliography: bibliography.bib
 
 # To Do:
 
-* Tutorials on writing with Quarto (especially referencing and basic formatting)
-
 * Identify a few opensource LLMs and integrate two or three (Humans are DONE)
 
 * Take class on local LLMs and integrate two or three
