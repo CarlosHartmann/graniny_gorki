@@ -134,7 +134,8 @@ label_mapping = {
     "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
     "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
     "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B",
-    "context-via-permalink_qwen-qwen3-vl-235b-a22b-thinking":       "Qwen 3 235B A22B Thinking"
+    "context-via-permalink_qwen-qwen3-vl-235b-a22b-thinking":       "Qwen 3 235B A22B Thinking",
+    "context-via-permalink_moonshotai-kimi-k2-0905":        "Kimi K2 0905"
 }
 ```
 
