@@ -158,6 +158,10 @@ Explain issue with Prolific setup. Explain possibility of post-hoc culling the p
 
 (so far) only the largest commercially available LLMs from the Claude & GPT family
 
+Open Source:
+
+Used this as my main guiding resource to tick the most important boxes: https://www.bentoml.com/blog/navigating-the-world-of-open-source-large-language-models
+
 ### Prompting Strategies
 
 Context-agnostic or with URL which only works for commercial models
@@ -674,7 +678,8 @@ label_mapping = {
     "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
     "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
     "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
-    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale"
+    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
+    "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B"
 }
 
 top_3_commercial_llms_namemapped = [
