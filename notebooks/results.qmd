@@ -79,6 +79,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from statsmodels.stats.weightstats import DescrStatsW, CompareMeans
 from statsmodels.stats.weightstats import ttost_ind
+import textwrap
 ```
 
 # Data
@@ -124,6 +125,20 @@ from process_raw_data import gt, context_dependent_ids
 ```
 
 ```{python}
+# Safe label mapping
+label_mapping = {
+    "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
+    "context-ondemand_zero-shot_gpt-5": "GPT-5 Context on Demand",
+    "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
+    "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
+    "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
+    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
+    "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B",
+    "context-via-permalink_qwen-qwen3-vl-235b-a22b-thinking":       "Qwen 3 235B A22B Thinking"
+}
+```
+
+```{python}
 "Variables needed for data illustration"
 
 example_llm = list(commercial_llm_responses.keys())[1]
@@ -161,6 +176,12 @@ Explain issue with Prolific setup. Explain possibility of post-hoc culling the p
 Open Source:
 
 Used this as my main guiding resource to tick the most important boxes: https://www.bentoml.com/blog/navigating-the-world-of-open-source-large-language-models
+
+So far run:
+- Deepseek latest few models
+- Qwen3 latest few models
+- Mimo V2 Flash (only non-free available on OpenRouter)
+
 
 ### Prompting Strategies
 
@@ -669,18 +690,6 @@ for llm_name, acc in top_3_llms:
 #|   - "Open Source LLM Accuracies"
 #| layout-nrow: 3
 
-import textwrap
-
-# Safe label mapping
-label_mapping = {
-    "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
-    "context-ondemand_zero-shot_gpt-5": "GPT-5 Context on Demand",
-    "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
-    "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
-    "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
-    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
-    "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B"
-}
 
 top_3_commercial_llms_namemapped = [
     {"label": label_mapping.get(llm_name, llm_name), "value": acc}
