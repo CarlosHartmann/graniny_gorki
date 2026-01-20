@@ -117,7 +117,7 @@ from process_raw_data import block_pilot, block_a, block_b, block_c, block_d
 from process_raw_data import non_ling_participants
 
 # LLMs
-from process_raw_data import commercial_llm_responses
+from process_raw_data import commercial_llm_responses, opensource_llm_responses
 
 # Ground Truth and context-dependent IDs
 from process_raw_data import gt, context_dependent_ids
@@ -319,13 +319,21 @@ def _norm_type(x):
 ```{python}
 "Calculating accuracies and storing them as dicts"
 
-accuracy_dict_llms = {}
+accuracy_dict_commercial_llms = {}
 for llm in commercial_llm_responses:
     accuracies = list()
     for run in commercial_llm_responses[llm]:
         acc = compute_accuracy(run)
         accuracies.append(acc)
-    accuracy_dict_llms[llm] = accuracies
+    accuracy_dict_commercial_llms[llm] = accuracies
+
+accuracy_dict_opensource_llms = {}
+for llm in opensource_llm_responses:
+    accuracies = list()
+    for run in opensource_llm_responses[llm]:
+        acc = compute_accuracy(run)
+        accuracies.append(acc)
+    accuracy_dict_opensource_llms[llm] = accuracies
 
 human_blocks = [block_a, block_b, block_c, block_d, block_pilot]
 
@@ -399,7 +407,8 @@ for num, acc in enumerate(accuracy_dict_non_linguists["non-linguists"]):
     })
 
 # Add LLM results taking the mean of all runs per LLM
-for llm_name, accuracies in accuracy_dict_llms.items():
+all_llms = list(accuracy_dict_commercial_llms.items()) + list(accuracy_dict_opensource_llms.items())
+for llm_name, accuracies in all_llms:
     mean_acc = sum(accuracies) / len(accuracies) if accuracies else float("nan")
     accuracy_results.append({
         "source": llm_name,
@@ -428,7 +437,7 @@ Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accu
 
 ```{python}
 "Constants"
-CULLING_THRESHHOLD = 0.3333
+CULLING_THRESHHOLD = 1/3
 CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
 
 ```
@@ -610,13 +619,29 @@ culled_majority_vote_accuracy = compute_accuracy(culled_majority_vote_dict)
 hypothesis_2_results["culled_majority_vote_accuracy"] = culled_majority_vote_accuracy
 
 # Compute mean accuracy for each LLM across all runs
-llm_means = {
+commercial_llm_means = {
     llm_name: sum(accuracies) / len(accuracies) 
-    for llm_name, accuracies in accuracy_dict_llms.items()
+    for llm_name, accuracies in accuracy_dict_commercial_llms.items()
 }
 
-# Get top 3 LLMs by mean accuracy
-top_3_llms = sorted(llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
+opensource_llm_means = {
+    llm_name: sum(accuracies) / len(accuracies) 
+    for llm_name, accuracies in accuracy_dict_opensource_llms.items()
+}
+
+# Get top 3 commercial LLMs by mean accuracy
+top_3_commercial_llms = sorted(commercial_llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
+
+# Get top 3 opensource LLMs by mean accuracy
+top_3_opensource_llms = sorted(opensource_llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
+
+# Combine top 3 LLMs from both groups
+top_3_llms = sorted(
+    top_3_commercial_llms + top_3_opensource_llms,
+    key=lambda x: x[1],
+    reverse=True
+)[:3]
+
 
 # Create results dict
 hypothesis_2_results = {
@@ -626,40 +651,46 @@ hypothesis_2_results = {
     "culled_human_majority_vote_accuracy": culled_majority_vote_accuracy
 }
 
-# Flatten top 3 LLM means into the results dict
+# Flatten top 3 commercial LLM means into the results dict
 for llm_name, acc in top_3_llms:
     hypothesis_2_results[f"top_3_llm_mean_{llm_name}"] = acc
 ```
 
 ```{python}
 #| label: fig-overall-acc-comparison
-#| fig-cap: "Overall Accuracies, Humans vs. Top 3 LLMs, with 95% bootstrap confidence intervals"
-#| column: screen-inset
+#| fig-cap: "Participant accuracies with 95% confidence interval"
+#| fig-subcap:
+#|   - "Human Group Accuracies"
+#|   - "Commercial LLM Accuracies"
+#|   - "Open Source LLM Accuracies"
+#| layout-nrow: 3
+
+import textwrap
 
 # Safe label mapping
 label_mapping = {
-    "context-via-permalink_gpt-5":      "GPT-5 with\nURL Access",
-    "context-ondemand_zero-shot_gpt-5": "GPT-5\nContext on\nDemand",
-    "context-agnostic_zero-shot_gpt-5": "GPT-5\nContext-\nAgnostic"
+    "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
+    "context-ondemand_zero-shot_gpt-5": "GPT-5 Context on Demand",
+    "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
+    "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
+    "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
+    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale"
 }
 
-# Build LLM label list safely, preserving compatibility even if a name is unmapped
-top_3_llms_namemapped = [label_mapping.get(name, name) for name, _ in reversed(top_3_llms)]
+top_3_commercial_llms_namemapped = [
+    {"label": label_mapping.get(llm_name, llm_name), "value": acc}
+    for llm_name, acc in top_3_commercial_llms
+]
 
-# Point estimates
-labels = [
-    "Non-linguist\nHuman Mean",
-    "Linguist\nHuman Mean",
-    "Culled\nHuman Mean",
-    "Culled\nHuman Majority"
-] + top_3_llms_namemapped
+top_3_opensource_llms_namemapped = [
+    {"label": label_mapping.get(llm_name, llm_name), "value": acc}
+    for llm_name, acc in top_3_opensource_llms
+]
 
-values = [
-    hypothesis_2_results["non-linguist_human_mean"],
-    hypothesis_2_results["overall_human_mean"],
-    hypothesis_2_results["culled_human_mean"],
-    hypothesis_2_results["culled_human_majority_vote_accuracy"]
-] + [acc for _, acc in reversed(top_3_llms)]
+# Palettes
+human_palette = ["#D0E1F2", "#A3C4E5", "#6A9FD1", "#2C4C7E"]
+llm_palette   = ["#FFB3B3", "#FF7F7F", "#B22222", "#FFCC99", "#FF9966", "#CC6600"]  # Commercial LLMs
+oss_palette   = ["#FFCC99", "#FFB366", "#FF9933", "#FF8000", "#CC6600"]  # Open Source LLMs with different tones of orange
 
 # Helper: bootstrap percentile CI for the mean
 def bootstrap_ci_of_mean(samples, alpha=0.05, B=10000, rng=None):
@@ -674,120 +705,137 @@ def bootstrap_ci_of_mean(samples, alpha=0.05, B=10000, rng=None):
     if n == 0:
         return (np.nan, np.nan)
     if n == 1:
-        # With one unit, CI collapses to the single value (transparent about uncertainty)
         return (float(samples[0]), float(samples[0]))
     boot_idx = rng.integers(0, n, size=(B, n))
     boot_means = samples[boot_idx].mean(axis=1)
     lower, upper = np.quantile(boot_means, [alpha/2, 1 - alpha/2])
     return float(lower), float(upper)
 
-# Safe label mapping (keep your original)
-label_mapping = {
-    "context-via-permalink_gpt-5":      "GPT-5 with\nURL Access",
-    "context-ondemand_zero-shot_gpt-5": "GPT-5\nContext on\nDemand",
-    "context-agnostic_zero-shot_gpt-5": "GPT-5\nContext-\nAgnostic"
-}
+# Helper: wrap long labels with line breaks
+def wrap_label(label, width=15):
+    """Wrap label text to specified width."""
+    return "\n".join(textwrap.wrap(label, width=width))
 
-# Build a single list of records so sorting and alignment stay correct
-records = []
-
-# ---------- Humans: per-participant accuracies ----------
-# Non-linguists
+# ---------- Graph 1: All human data ----------
 non_ling_accs = [compute_accuracy(p, context_dependent=0) for p in non_ling_participants]
-records.append({
-    "label": "Non-linguist\nHuman Mean",
-    "role": "human",
-    "value": float(np.mean(non_ling_accs)),
-    "ci": bootstrap_ci_of_mean(non_ling_accs)
-})
-
-# Linguists / all humans
 ling_accs = [compute_accuracy(p, context_dependent=0) for block in human_blocks for p in block]
-records.append({
-    "label": "Linguist\nHuman Mean",
-    "role": "human",
-    "value": float(np.mean(ling_accs)),
-    "ci": bootstrap_ci_of_mean(ling_accs)
-})
-
-# Culled humans
 culled_accs = [compute_accuracy(p, context_dependent=0) for block in culled_human_blocks for p in block]
-records.append({
-    "label": "Culled\nHuman Mean",
-    "role": "human",
-    "value": float(np.mean(culled_accs)),
-    "ci": bootstrap_ci_of_mean(culled_accs)
-})
+culled_majority = float(hypothesis_2_results["culled_human_majority_vote_accuracy"])
 
-# Culled majority vote (single value, no CI)
-records.append({
-    "label": "Culled\nHuman Majority",
-    "role": "human",
-    "value": float(hypothesis_2_results["culled_human_majority_vote_accuracy"]),
-    "ci": (
-        float(hypothesis_2_results["culled_human_majority_vote_accuracy"]),
-        float(hypothesis_2_results["culled_human_majority_vote_accuracy"])
-    )
-})
+human_labels = [
+    "Non-linguist\nHuman Mean",
+    "Linguist\nHuman Mean",
+    "Culled\nHuman Mean",
+    "Culled\nHuman Majority"
+]
+human_values = [
+    float(np.mean(non_ling_accs)),
+    float(np.mean(ling_accs)),
+    float(np.mean(culled_accs)),
+    culled_majority
+]
+human_ci = [
+    bootstrap_ci_of_mean(non_ling_accs),
+    bootstrap_ci_of_mean(ling_accs),
+    bootstrap_ci_of_mean(culled_accs),
+    (culled_majority, culled_majority)
+]
+human_err = np.array([(v - lo, hi - v) for v, (lo, hi) in zip(human_values, human_ci)]).T
 
-# ---------- LLMs: per-run accuracies ----------
-# Treat each run as a "unit" (like a participant); mean over runs; CI over mean(run accuracies)
-for llm_name, _ in top_3_llms:
-    display_name = label_mapping.get(llm_name, llm_name)
-    run_accs = [compute_accuracy(run, context_dependent=0)
-                for run in commercial_llm_responses[llm_name]]
-    records.append({
-        "label": display_name,
-        "role": "llm",
-        "value": float(np.mean(run_accs)) if len(run_accs) > 0 else np.nan,
-        "ci": bootstrap_ci_of_mean(run_accs) if len(run_accs) > 0 else (np.nan, np.nan)
-    })
-
-# ---------- Sort by bar height and prepare arrays ----------
-records.sort(key=lambda r: r["value"])
-
-labels = [r["label"] for r in records]
-values = [r["value"] for r in records]
-ci = [r["ci"] for r in records]
-err = np.array([(v - lo, hi - v) for v, (lo, hi) in zip(values, ci)]).T  # shape (2, N)
-
-# Colors: use your palettes, assign by role deterministically after sorting
-human_palette = ["#D0E1F2", "#A3C4E5", "#6A9FD1", "#2C4C7E"]  # up to 4 humans
-llm_palette   = ["#FFB3B3", "#FF7F7F", "#B22222"]            # up to 3 LLMs
-
-colors = []
-h_i, m_i = 0, 0
-for lab in labels:
-    if "human" in lab.lower():
-        colors.append(human_palette[min(h_i, len(human_palette)-1)])
-        h_i += 1
-    else:
-        colors.append(llm_palette[min(m_i, len(llm_palette)-1)])
-        m_i += 1
-
-# ---------- Plot ----------
-fig, ax = plt.subplots(figsize=(10, 6))
-bars = ax.bar(
-    labels,
-    values,
-    yerr=err,
-    color=colors,
+fig1, ax1 = plt.subplots(figsize=(10, 5))
+ax1.bar(
+    human_labels,
+    human_values,
+    yerr=human_err,
+    color=human_palette[:len(human_labels)],
     edgecolor="black",
     linewidth=1.2,
     error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
 )
-
-#fig.set_size_inches(8, 6)  # Adjust width and height in inches
-ax.set_ylim(0.33, 1.0)  # keep your chance floor if appropriate
-ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
-ax.set_ylabel("Accuracy", fontsize=12)
-ax.grid(axis="y", alpha=0.3)
-ax.set_axisbelow(True)
-plt.xticks(fontsize=10)
-
+ax1.set_ylim(0.33, 1.0)
+ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+ax1.set_ylabel("Accuracy", fontsize=12)
+ax1.grid(axis="y", alpha=0.3)
+ax1.set_axisbelow(True)
+ax1.tick_params(axis="x", labelsize=15)  # Increased label size
 plt.tight_layout()
 plt.show()
 
+# ---------- Graph 2: Commercial LLMs ----------
+commercial_records = []
+for llm_name, _ in top_3_commercial_llms:
+    display_name = label_mapping.get(llm_name, llm_name)
+    run_accs = [compute_accuracy(run, context_dependent=0) for run in commercial_llm_responses.get(llm_name, [])]
+    if len(run_accs) == 0:
+        continue
+    commercial_records.append({
+        "label": display_name,
+        "value": float(np.mean(run_accs)),
+        "ci": bootstrap_ci_of_mean(run_accs)
+    })
+
+commercial_records.sort(key=lambda r: r["value"])
+com_labels = [wrap_label(r["label"], width=12) for r in commercial_records]
+com_values = [r["value"] for r in commercial_records]
+com_ci = [r["ci"] for r in commercial_records]
+com_err = np.array([(v - lo, hi - v) for v, (lo, hi) in zip(com_values, com_ci)]).T
+
+fig2, ax2 = plt.subplots(figsize=(10, 5))
+ax2.bar(
+    com_labels,
+    com_values,
+    yerr=com_err,
+    color=llm_palette[:len(com_labels)],
+    edgecolor="black",
+    linewidth=1.2,
+    error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
+)
+ax2.set_ylim(0.33, 1.0)
+ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+ax2.set_ylabel("Accuracy", fontsize=12)
+ax2.grid(axis="y", alpha=0.3)
+ax2.set_axisbelow(True)
+ax2.tick_params(axis="x", labelsize=15)  # Increased label size
+plt.tight_layout()
+plt.show()
+
+# ---------- Graph 3: Open source LLMs ----------
+opensource_records = []
+for llm_name, _ in top_3_opensource_llms:
+    display_name = label_mapping.get(llm_name, llm_name)
+    run_accs = [compute_accuracy(run, context_dependent=0) for run in opensource_llm_responses.get(llm_name, [])]
+    if len(run_accs) == 0:
+        continue
+    opensource_records.append({
+        "label": display_name,
+        "value": float(np.mean(run_accs)),
+        "ci": bootstrap_ci_of_mean(run_accs)
+    })
+
+opensource_records.sort(key=lambda r: r["value"])
+oss_labels = [wrap_label(r["label"], width=12) for r in opensource_records]
+oss_values = [r["value"] for r in opensource_records]
+oss_ci = [r["ci"] for r in opensource_records]
+oss_err = np.array([(v - lo, hi - v) for v, (lo, hi) in zip(oss_values, oss_ci)]).T
+
+fig3, ax3 = plt.subplots(figsize=(10, 5))
+ax3.bar(
+    oss_labels,
+    oss_values,
+    yerr=oss_err,
+    color=oss_palette[:len(oss_labels)],  # Updated to use new orange palette
+    edgecolor="black",
+    linewidth=1.2,
+    error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
+)
+ax3.set_ylim(0.33, 1.0)
+ax3.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+ax3.set_ylabel("Accuracy", fontsize=12)
+ax3.grid(axis="y", alpha=0.3)
+ax3.set_axisbelow(True)
+ax3.tick_params(axis="x", labelsize=15)  # Increased label size
+plt.tight_layout()
+plt.show()
 ```
 
 ```{python}
@@ -1207,7 +1255,7 @@ The results showed that this task in particular is not automatically solved bett
 
 The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To get an indication of what level of performance one might expect from an actual student assistant, culling of the data is necessary. For the purpose of this study, a second human group of participants is formed by removing inattentive annotators and only taking the top half of the remaining ones. Inattentiveness can be formalized in terms of context-dependent performance, i.e. if their performance is at or below `{python} CULLING_THRESHHOLD_PERCENT` when context is necessary to understand an example.
 
-@fig-overall-acc-comparison reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs' performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, `{python} top_3_llms_namemapped[0]`, shows a performance that is `{python} ", however, not" if p_value >= ALPHA else ", indeed, "` significantly better than the culled human mean at `{python} f"p = {p_value}, α = {ALPHA}"` according to a McNemar's test. Hypothesis 2 can therefore `{python} "not" if p_value >= ALPHA else ""` be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.
+@fig-overall-acc-comparison reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs' performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, `{python} top_3_commercial_llms_namemapped[0]`, shows a performance that is `{python} ", however, not" if p_value >= ALPHA else ", indeed, "` significantly better than the culled human mean at `{python} f"p = {p_value}, α = {ALPHA}"` according to a McNemar's test. Hypothesis 2 can therefore `{python} "not" if p_value >= ALPHA else ""` be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.
 
 ## Hypothesis 3
 

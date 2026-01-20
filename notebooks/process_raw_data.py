@@ -207,3 +207,5 @@ local_path = os.path.join(data_root, "LLMS/local")
 assert os.path.isdir(local_path)
 
 commercial_llm_responses = collect_responses_for_llm_class(commercial_path)
+
+opensource_llm_responses = collect_responses_for_llm_class(opensource_path)
