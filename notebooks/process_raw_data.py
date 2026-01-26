@@ -209,3 +209,5 @@ assert os.path.isdir(local_path)
 commercial_llm_responses = collect_responses_for_llm_class(commercial_path)
 
 opensource_llm_responses = collect_responses_for_llm_class(opensource_path)
+
+local_llm_responses = collect_responses_for_llm_class(local_path)

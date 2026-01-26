@@ -58,6 +58,8 @@ The three hypotheses were defined to capture the extent to which LLM performance
 
 # Background
 
+As this task is supposed to represent any task relevant in the field of linguistics in which the mere surface level is not enough for correct processing, the following background is not strictly relevant. It will help to contextualize the present research and justify the task design.
+
 ## Three kinds of _they_
 
 (plural, generic, singular)
@@ -118,7 +120,7 @@ from process_raw_data import block_pilot, block_a, block_b, block_c, block_d
 from process_raw_data import non_ling_participants
 
 # LLMs
-from process_raw_data import commercial_llm_responses, opensource_llm_responses
+from process_raw_data import commercial_llm_responses, opensource_llm_responses, local_llm_responses
 
 # Ground Truth and context-dependent IDs
 from process_raw_data import gt, context_dependent_ids
@@ -130,13 +132,19 @@ label_mapping = {
     "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
     "context-ondemand_zero-shot_gpt-5": "GPT-5 Context on Demand",
     "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
+    "context-via-permalink_google-gemini-3-pro-preview":    "Gemini 3 Pro Preview with URL Access",
     "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
     "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
     "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
     "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B",
     "context-via-permalink_qwen-qwen3-vl-235b-a22b-thinking":       "Qwen 3 235B A22B Thinking",
     "context-via-permalink_moonshotai-kimi-k2-0905":        "Kimi K2 0905",
-    "context-via-permalink_meta-llama-llama-4-maverick":    "Llama 4 Maverick"
+    "context-via-permalink_meta-llama-llama-4-maverick":    "Llama 4 Maverick",
+    "context-via-permalink_moonshotai-kimi-k2-thinking":    "Kimi K2 Thinking",
+    "context-via-permalink_z-ai-glm-4.7":       "GLM 4.7",
+    "context-via-permalink_allenai-olmo-3.1-32b-instruct":     "Olmo 3.1 32B Instruct",
+    "context-via-permalink_allenai-olmo-3.1-32b-think":         "Olmo 3.1 32B Think",
+    "zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf":                "Olmo 3 7B Zero-Shot"
 }
 ```
 
@@ -184,6 +192,9 @@ So far run:
 - Qwen3 latest few models
 - Mimo V2 Flash (only non-free available on OpenRouter)
 
+Fully local models make somewhat less sense for this kind of "piloting for the field" experiments as researchers having access to machines with 20+GB of RAM is less realistic than researchers getting access to computing clusters that can run far larger models. The latter is a more typical setup that you will see at research institutions and is often more readily financed than a machine that is only used by one person and costs double or triple of what their allocated funds typically allow.
+
+Hence, the "local" category will comprise open source models run in a university-run computing cluster.
 
 ### Prompting Strategies
 
@@ -362,6 +373,15 @@ for llm in opensource_llm_responses:
         accuracies.append(acc)
     accuracy_dict_opensource_llms[llm] = accuracies
 
+accuracy_dict_local_llms = {}
+for llm in local_llm_responses:
+    accuracies = list()
+    for run in local_llm_responses[llm]:
+        acc = compute_accuracy(run)
+        accuracies.append(acc)
+    accuracy_dict_local_llms[llm] = accuracies
+
+
 human_blocks = [block_a, block_b, block_c, block_d, block_pilot]
 
 accuracy_dict_humans = {}
@@ -434,7 +454,7 @@ for num, acc in enumerate(accuracy_dict_non_linguists["non-linguists"]):
     })
 
 # Add LLM results taking the mean of all runs per LLM
-all_llms = list(accuracy_dict_commercial_llms.items()) + list(accuracy_dict_opensource_llms.items())
+all_llms = list(accuracy_dict_commercial_llms.items()) + list(accuracy_dict_opensource_llms.items()) + list(accuracy_dict_local_llms.items())
 for llm_name, accuracies in all_llms:
     mean_acc = sum(accuracies) / len(accuracies) if accuracies else float("nan")
     accuracy_results.append({
@@ -656,15 +676,23 @@ opensource_llm_means = {
     for llm_name, accuracies in accuracy_dict_opensource_llms.items()
 }
 
+local_llm_means = {
+    llm_name: sum(accuracies) / len(accuracies) 
+    for llm_name, accuracies in accuracy_dict_local_llms.items()
+}
+
 # Get top 3 commercial LLMs by mean accuracy
 top_3_commercial_llms = sorted(commercial_llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
 
 # Get top 3 opensource LLMs by mean accuracy
 top_3_opensource_llms = sorted(opensource_llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
 
+# Get top 3 local LLMs by mean accuracy
+top_3_local_llms = sorted(local_llm_means.items(), key=lambda x: x[1], reverse=True)[:3]
+
 # Combine top 3 LLMs from both groups
 top_3_llms = sorted(
-    top_3_commercial_llms + top_3_opensource_llms,
+    top_3_commercial_llms + top_3_opensource_llms + top_3_local_llms,
     key=lambda x: x[1],
     reverse=True
 )[:3]
@@ -690,7 +718,9 @@ for llm_name, acc in top_3_llms:
 #|   - "Human Group Accuracies"
 #|   - "Commercial LLM Accuracies"
 #|   - "Open Source LLM Accuracies"
-#| layout-nrow: 3
+#|   - "Local LLM Accuracies"
+#| layout-nrow: 2
+#| layout-ncol: 2
 
 
 top_3_commercial_llms_namemapped = [
@@ -703,10 +733,16 @@ top_3_opensource_llms_namemapped = [
     for llm_name, acc in top_3_opensource_llms
 ]
 
+top_3_local_llms_namemapped = [
+    {"label": label_mapping.get(llm_name, llm_name), "value": acc}
+    for llm_name, acc in top_3_local_llms
+]
+
 # Palettes
 human_palette = ["#D0E1F2", "#A3C4E5", "#6A9FD1", "#2C4C7E"]
 llm_palette   = ["#FFB3B3", "#FF7F7F", "#B22222", "#FFCC99", "#FF9966", "#CC6600"]  # Commercial LLMs
 oss_palette   = ["#FFCC99", "#FFB366", "#FF9933", "#FF8000", "#CC6600"]  # Open Source LLMs with different tones of orange
+local_palette = ["#C9B1D9", "#A890C0", "#876FA7", "#664E8E"]  # Local LLMs with purple tones
 
 # Helper: bootstrap percentile CI for the mean
 def bootstrap_ci_of_mean(samples, alpha=0.05, B=10000, rng=None):
@@ -839,7 +875,7 @@ ax3.bar(
     oss_labels,
     oss_values,
     yerr=oss_err,
-    color=oss_palette[:len(oss_labels)],  # Updated to use new orange palette
+    color=oss_palette[:len(oss_labels)],
     edgecolor="black",
     linewidth=1.2,
     error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
@@ -850,6 +886,44 @@ ax3.set_ylabel("Accuracy", fontsize=12)
 ax3.grid(axis="y", alpha=0.3)
 ax3.set_axisbelow(True)
 ax3.tick_params(axis="x", labelsize=15)  # Increased label size
+plt.tight_layout()
+plt.show()
+
+# ---------- Graph 4: Local LLMs ----------
+local_records = []
+for llm_name, _ in top_3_local_llms:
+    display_name = label_mapping.get(llm_name, llm_name)
+    run_accs = [compute_accuracy(run, context_dependent=0) for run in local_llm_responses.get(llm_name, [])]
+    if len(run_accs) == 0:
+        continue
+    local_records.append({
+        "label": display_name,
+        "value": float(np.mean(run_accs)),
+        "ci": bootstrap_ci_of_mean(run_accs)
+    })
+
+local_records.sort(key=lambda r: r["value"])
+local_labels = [wrap_label(r["label"], width=12) for r in local_records]
+local_values = [r["value"] for r in local_records]
+local_ci = [r["ci"] for r in local_records]
+local_err = np.array([(v - lo, hi - v) for v, (lo, hi) in zip(local_values, local_ci)]).T
+
+fig4, ax4 = plt.subplots(figsize=(10, 5))
+ax4.bar(
+    local_labels,
+    local_values,
+    yerr=local_err,
+    color=local_palette[:len(local_labels)],
+    edgecolor="black",
+    linewidth=1.2,
+    error_kw={"capsize": 5, "elinewidth": 1.2, "ecolor": "black"}
+)
+ax4.set_ylim(0.33, 1.0)
+ax4.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y*100:.0f}%"))
+ax4.set_ylabel("Accuracy", fontsize=12)
+ax4.grid(axis="y", alpha=0.3)
+ax4.set_axisbelow(True)
+ax4.tick_params(axis="x", labelsize=15)  # Increased label size
 plt.tight_layout()
 plt.show()
 ```
