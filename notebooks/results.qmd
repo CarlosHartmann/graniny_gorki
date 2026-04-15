@@ -8,8 +8,12 @@ execute:
     echo: false
     warning: true
 format:
-    pdf: default
+    pdf:
+        pdf-engine: xelatex
     docx: default
+header-includes:
+  - \usepackage{newunicodechar}
+  - \newunicodechar{α}{\ensuremath{\alpha}}
 bibliography: bibliography.bib
 ---
 
