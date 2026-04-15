@@ -15,13 +15,15 @@ bibliography: bibliography.bib
 
 # To Do:
 
-* Identify a few opensource LLMs and integrate two or three (Humans are DONE)
+* Look at potentially new OS LLMs.
 
-* Take class on local LLMs and integrate two or three
+* let GPT tell me when it accessed the context
 
-* Only then integrate all LLM results in Results Section
+* "treat different examples of same type as experimental condition" -- sounds good, figure out if makes sense in my case
 
-* Reading and adding more to the pile
+* Check for other publications on LLM annotations and see if journals apply; otherwise Corpus Linguistics and Linguistic Theory
+
+* Assess explanations for quality, qualitatively
 
 * Write texts for results section
 
@@ -29,7 +31,11 @@ bibliography: bibliography.bib
 
 * Background on _they_
 
+* Background on LLMs as annotators
+
 * Conclusion and Intro
+
+* Choose journal and format accordingly
 
 * Tutorial on exporting to Word
 
