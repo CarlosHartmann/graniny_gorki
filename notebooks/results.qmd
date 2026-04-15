@@ -3,8 +3,7 @@ title: "Computing results and running analyses"
 toc: true
 number-sections: true
 jupyter: 
-    kernel: python3
-    executable: ../../.venv/bin/python
+    kernel: graniny_gorki
 execute:
     echo: false
     warning: true
