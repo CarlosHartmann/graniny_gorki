@@ -25,7 +25,11 @@
         "\n",
         "# To Do:\n",
         "\n",
-        "* Look at potentially new OS LLMs.\n",
+        "* Kimi-K2.5\n",
+        "\n",
+        "* Qwen3.5\n",
+        "\n",
+        "* GLM-5.1\n",
         "\n",
         "* let GPT tell me when it accessed the context\n",
         "\n",
@@ -81,7 +85,7 @@
         "\n",
         "## LLMs as (linguistic) annotators"
       ],
-      "id": "8367c02f"
+      "id": "3d43cfa7"
     },
     {
       "cell_type": "code",
@@ -103,7 +107,7 @@
         "from statsmodels.stats.weightstats import ttost_ind\n",
         "import textwrap"
       ],
-      "id": "93ef8ed6",
+      "id": "cde49d05",
       "execution_count": null,
       "outputs": []
     },
@@ -138,7 +142,7 @@
         "\n",
         "Point out that dataset is available"
       ],
-      "id": "fb38e988"
+      "id": "0675c2f4"
     },
     {
       "cell_type": "code",
@@ -157,7 +161,7 @@
         "# Ground Truth and context-dependent IDs\n",
         "from process_raw_data import gt, context_dependent_ids"
       ],
-      "id": "54ca95dc",
+      "id": "8fdfa935",
       "execution_count": null,
       "outputs": []
     },
@@ -185,7 +189,7 @@
         "    \"zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf\":                \"Olmo 3 7B Zero-Shot\"\n",
         "}"
       ],
-      "id": "7b7191a3",
+      "id": "c816fa4f",
       "execution_count": null,
       "outputs": []
     },
@@ -203,7 +207,7 @@
         "\n",
         "data_points_a = len([elem for elem in block_a[0] if (elem.startswith(\"ma_era_\") or elem.startswith(\"LoRes_\")) and not elem.endswith(\"[comment]\")])"
       ],
-      "id": "b1c0e380",
+      "id": "9a80fa23",
       "execution_count": null,
       "outputs": []
     },
@@ -260,7 +264,7 @@
         "\n",
         "# Results"
       ],
-      "id": "f3e83837"
+      "id": "128b6d4b"
     },
     {
       "cell_type": "code",
@@ -407,7 +411,7 @@
         "    }\n",
         "    return mapping.get(s, s)  # fallback to the cleaned string if unseen"
       ],
-      "id": "b32a247b",
+      "id": "05c18174",
       "execution_count": null,
       "outputs": []
     },
@@ -487,7 +491,7 @@
         "\n",
         "accuracy_dict_humans[\"majority_vote\"] = [compute_accuracy(majority_vote_dict)]"
       ],
-      "id": "43b386d6",
+      "id": "8813127f",
       "execution_count": null,
       "outputs": []
     },
@@ -499,7 +503,7 @@
         "\n",
         "The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance."
       ],
-      "id": "90c46c68"
+      "id": "782c87f3"
     },
     {
       "cell_type": "code",
@@ -561,7 +565,7 @@
       "source": [
         "## Hypothesis 2"
       ],
-      "id": "4bf20af2"
+      "id": "1d8e54db"
     },
     {
       "cell_type": "code",
@@ -571,7 +575,7 @@
         "CULLING_THRESHHOLD = 1/3\n",
         "CULLING_THRESHHOLD_PERCENT = f\"{CULLING_THRESHHOLD * 100:.0f}%\""
       ],
-      "id": "5037aa85",
+      "id": "147785fb",
       "execution_count": null,
       "outputs": []
     },
@@ -657,7 +661,7 @@
         "anova_p_value = anova_result.pvalue\n",
         "ALPHA_PILOTS_VS_CROWD = 0.05"
       ],
-      "id": "4121440a",
+      "id": "b9201c0b",
       "execution_count": null,
       "outputs": []
     },
@@ -667,7 +671,7 @@
       "source": [
         "The difference between the crowdworkers and the local student pilot participants is `{python} \"not\" if anova_p_value >= ALPHA_PILOTS_VS_CROWD else \"\"` statistically significant (`{python} f\"p = {round(anova_p_value, 3)}, α = {ALPHA_PILOTS_VS_CROWD}\"`).\n"
       ],
-      "id": "1941bd59"
+      "id": "5d643f4c"
     },
     {
       "cell_type": "code",
@@ -716,7 +720,7 @@
         "participant_num_pilot = sum(1 for pid in culled_participant_ids if pid.startswith(\"Pilot_\"))\n",
         "participant_num_block_abcd = participant_num_culled - participant_num_pilot"
       ],
-      "id": "7c1e8468",
+      "id": "c4f1c2ea",
       "execution_count": null,
       "outputs": []
     },
@@ -726,7 +730,7 @@
       "source": [
         "The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers."
       ],
-      "id": "10c898e6"
+      "id": "f7859c0d"
     },
     {
       "cell_type": "code",
@@ -824,7 +828,7 @@
         "for llm_name, acc in top_3_llms:\n",
         "    hypothesis_2_results[f\"top_3_llm_mean_{llm_name}\"] = acc"
       ],
-      "id": "904bf9ea",
+      "id": "b13bde00",
       "execution_count": null,
       "outputs": []
     },
@@ -1105,7 +1109,7 @@
         "result = mcnemar(table, exact=True)\n",
         "p_value = result.pvalue"
       ],
-      "id": "96a1a4f0",
+      "id": "38802c90",
       "execution_count": null,
       "outputs": []
     },
@@ -1117,7 +1121,7 @@
         "\n",
         "### Singular vs Plural"
       ],
-      "id": "344e44ff"
+      "id": "172c527c"
     },
     {
       "cell_type": "code",
@@ -1142,7 +1146,7 @@
         "# Compute by-label accuracy for best LLM majority vote\n",
         "llm_by_label_acc = compute_accuracy_by_label(llm_majority_vote_dict, labels=(\"singular\", \"plural\"))"
       ],
-      "id": "5c6b3b5d",
+      "id": "ab8c70f4",
       "execution_count": null,
       "outputs": []
     },
@@ -1318,7 +1322,7 @@
         "\"\"\"\n",
         ")"
       ],
-      "id": "b3fffdbc",
+      "id": "a5c21885",
       "execution_count": null,
       "outputs": []
     },
@@ -1328,7 +1332,7 @@
       "source": [
         "### Context-(in)dependence"
       ],
-      "id": "080d1f6b"
+      "id": "4caecbe5"
     },
     {
       "cell_type": "code",
@@ -1385,7 +1389,7 @@
         "results_context_df = pd.DataFrame(results_context)\n",
         "results_context_df[\"Accuracy\"] = results_context_df[\"Accuracy\"].apply(lambda x: f\"{x*100:.1f}%\" if not np.isnan(x) else \"n/a\")"
       ],
-      "id": "a56c043a",
+      "id": "bc9070ec",
       "execution_count": null,
       "outputs": []
     },
@@ -1458,7 +1462,7 @@
         "\n",
         "### Cost"
       ],
-      "id": "770610a1"
+      "id": "a76a87a8"
     },
     {
       "cell_type": "code",
@@ -1494,7 +1498,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "d1335254",
+      "id": "67923c75",
       "execution_count": null,
       "outputs": []
     },
@@ -1519,7 +1523,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "01a15c9a",
+      "id": "8aa6efbd",
       "execution_count": null,
       "outputs": []
     },
@@ -1536,7 +1540,7 @@
         "culled_cost_per_100_examples = df.loc[df[\"group\"] == \"Crowdworkers\", \"cost_per_100_examples\"].values[0]\n",
         "adjusted_cost_per_100_examples = culled_cost_per_100_examples * (participant_num_block_abcd / total_crowdworkers)"
       ],
-      "id": "5339ce7d",
+      "id": "e0be834b",
       "execution_count": null,
       "outputs": []
     },
@@ -1595,7 +1599,7 @@
         "\n",
         "## References"
       ],
-      "id": "eaa0aadd"
+      "id": "8f43080a"
     }
   ],
   "metadata": {

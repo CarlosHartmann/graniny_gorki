@@ -19,8 +19,6 @@ bibliography: bibliography.bib
 
 # To Do:
 
-* Look at potentially new OS LLMs.
-
 * let GPT tell me when it accessed the context
 
 * "treat different examples of same type as experimental condition" -- sounds good, figure out if makes sense in my case
