@@ -25,6 +25,8 @@ bibliography: bibliography.bib
 
 * Check for other publications on LLM annotations and see if journals apply; otherwise Corpus Linguistics and Linguistic Theory
 
+* Find out what LLMs have been used for in linguistics and/or NLP for introduction
+
 * Assess explanations for quality, qualitatively
 
 * Write texts for results section
@@ -47,9 +49,9 @@ bibliography: bibliography.bib
 
 # Introduction
 
-Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that “[the days of training special-purpose models are over]” @brownLanguageModelsAre2020[1] and indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
+Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that Natural Language Processing (NLP) as a whole would shift “to using task-agnostic pre-training and task-agnostic architectures” @brownLanguageModelsAre2020[1], i.e. general-purpose language models able to perform a wide range of tasks without task-specific training. Indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
 
-The present work was performed in the context of an older effort starting in a Master’s thesis in 2022. The then-new GPT-3 was tested for its performance at disambiguation uses of they between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
+The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
 
 To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:
 
@@ -149,6 +151,7 @@ label_mapping = {
     "context-via-permalink_meta-llama-llama-4-maverick":    "Llama 4 Maverick",
     "context-via-permalink_moonshotai-kimi-k2-thinking":    "Kimi K2 Thinking",
     "context-via-permalink_z-ai-glm-4.7":       "GLM 4.7",
+    "context-agnostic_zero-shot_z-ai-glm-5.1": "GLM 5.1",
     "context-via-permalink_allenai-olmo-3.1-32b-instruct":     "Olmo 3.1 32B Instruct",
     "context-via-permalink_allenai-olmo-3.1-32b-think":         "Olmo 3.1 32B Think",
     "zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf":                "Olmo 3 7B Zero-Shot"
@@ -435,6 +438,7 @@ for data_point_id in gt["ID"].dropna().astype(str).str.strip():
 accuracy_dict_humans["majority_vote"] = [compute_accuracy(majority_vote_dict)]
 
 ```
+
 ## Hypothesis 1
 
 The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance.

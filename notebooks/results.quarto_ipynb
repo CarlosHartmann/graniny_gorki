@@ -25,17 +25,13 @@
         "\n",
         "# To Do:\n",
         "\n",
-        "* Kimi-K2.5\n",
-        "\n",
-        "* Qwen3.5\n",
-        "\n",
-        "* GLM-5.1\n",
-        "\n",
         "* let GPT tell me when it accessed the context\n",
         "\n",
         "* \"treat different examples of same type as experimental condition\" -- sounds good, figure out if makes sense in my case\n",
         "\n",
         "* Check for other publications on LLM annotations and see if journals apply; otherwise Corpus Linguistics and Linguistic Theory\n",
+        "\n",
+        "* Find out what LLMs have been used for in linguistics and/or NLP for introduction\n",
         "\n",
         "* Assess explanations for quality, qualitatively\n",
         "\n",
@@ -59,9 +55,9 @@
         "\n",
         "# Introduction\n",
         "\n",
-        "Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that “[the days of training special-purpose models are over]” @brownLanguageModelsAre2020[1] and indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.\n",
+        "Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that Natural Language Processing (NLP) as a whole would shift “to using task-agnostic pre-training and task-agnostic architectures” @brownLanguageModelsAre2020[1], i.e. general-purpose language models able to perform a wide range of tasks without task-specific training. Indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.\n",
         "\n",
-        "The present work was performed in the context of an older effort starting in a Master’s thesis in 2022. The then-new GPT-3 was tested for its performance at disambiguation uses of they between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”\n",
+        "The present work was performed in the context of an older effort starting in my Master’s thesis in 2022 [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”\n",
         "\n",
         "To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:\n",
         "\n",
@@ -85,7 +81,7 @@
         "\n",
         "## LLMs as (linguistic) annotators"
       ],
-      "id": "3d43cfa7"
+      "id": "c30659d6"
     },
     {
       "cell_type": "code",
@@ -107,7 +103,7 @@
         "from statsmodels.stats.weightstats import ttost_ind\n",
         "import textwrap"
       ],
-      "id": "cde49d05",
+      "id": "f8d6d434",
       "execution_count": null,
       "outputs": []
     },
@@ -142,7 +138,7 @@
         "\n",
         "Point out that dataset is available"
       ],
-      "id": "0675c2f4"
+      "id": "adb8fcf1"
     },
     {
       "cell_type": "code",
@@ -161,7 +157,7 @@
         "# Ground Truth and context-dependent IDs\n",
         "from process_raw_data import gt, context_dependent_ids"
       ],
-      "id": "8fdfa935",
+      "id": "9c33c463",
       "execution_count": null,
       "outputs": []
     },
@@ -184,12 +180,13 @@
         "    \"context-via-permalink_meta-llama-llama-4-maverick\":    \"Llama 4 Maverick\",\n",
         "    \"context-via-permalink_moonshotai-kimi-k2-thinking\":    \"Kimi K2 Thinking\",\n",
         "    \"context-via-permalink_z-ai-glm-4.7\":       \"GLM 4.7\",\n",
+        "    \"context-agnostic_zero-shot_z-ai-glm-5.1\": \"GLM 5.1\",\n",
         "    \"context-via-permalink_allenai-olmo-3.1-32b-instruct\":     \"Olmo 3.1 32B Instruct\",\n",
         "    \"context-via-permalink_allenai-olmo-3.1-32b-think\":         \"Olmo 3.1 32B Think\",\n",
         "    \"zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf\":                \"Olmo 3 7B Zero-Shot\"\n",
         "}"
       ],
-      "id": "c816fa4f",
+      "id": "f32d554f",
       "execution_count": null,
       "outputs": []
     },
@@ -207,7 +204,7 @@
         "\n",
         "data_points_a = len([elem for elem in block_a[0] if (elem.startswith(\"ma_era_\") or elem.startswith(\"LoRes_\")) and not elem.endswith(\"[comment]\")])"
       ],
-      "id": "9a80fa23",
+      "id": "ebcf10c2",
       "execution_count": null,
       "outputs": []
     },
@@ -264,7 +261,7 @@
         "\n",
         "# Results"
       ],
-      "id": "128b6d4b"
+      "id": "c9f10864"
     },
     {
       "cell_type": "code",
@@ -411,7 +408,7 @@
         "    }\n",
         "    return mapping.get(s, s)  # fallback to the cleaned string if unseen"
       ],
-      "id": "05c18174",
+      "id": "2b43c5be",
       "execution_count": null,
       "outputs": []
     },
@@ -491,7 +488,7 @@
         "\n",
         "accuracy_dict_humans[\"majority_vote\"] = [compute_accuracy(majority_vote_dict)]"
       ],
-      "id": "8813127f",
+      "id": "b9a430be",
       "execution_count": null,
       "outputs": []
     },
@@ -503,7 +500,7 @@
         "\n",
         "The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance."
       ],
-      "id": "782c87f3"
+      "id": "70c08844"
     },
     {
       "cell_type": "code",
@@ -565,7 +562,7 @@
       "source": [
         "## Hypothesis 2"
       ],
-      "id": "1d8e54db"
+      "id": "4a3a1605"
     },
     {
       "cell_type": "code",
@@ -575,7 +572,7 @@
         "CULLING_THRESHHOLD = 1/3\n",
         "CULLING_THRESHHOLD_PERCENT = f\"{CULLING_THRESHHOLD * 100:.0f}%\""
       ],
-      "id": "147785fb",
+      "id": "c5e211f6",
       "execution_count": null,
       "outputs": []
     },
@@ -661,7 +658,7 @@
         "anova_p_value = anova_result.pvalue\n",
         "ALPHA_PILOTS_VS_CROWD = 0.05"
       ],
-      "id": "b9201c0b",
+      "id": "0746d598",
       "execution_count": null,
       "outputs": []
     },
@@ -671,7 +668,7 @@
       "source": [
         "The difference between the crowdworkers and the local student pilot participants is `{python} \"not\" if anova_p_value >= ALPHA_PILOTS_VS_CROWD else \"\"` statistically significant (`{python} f\"p = {round(anova_p_value, 3)}, α = {ALPHA_PILOTS_VS_CROWD}\"`).\n"
       ],
-      "id": "5d643f4c"
+      "id": "40440e3d"
     },
     {
       "cell_type": "code",
@@ -720,7 +717,7 @@
         "participant_num_pilot = sum(1 for pid in culled_participant_ids if pid.startswith(\"Pilot_\"))\n",
         "participant_num_block_abcd = participant_num_culled - participant_num_pilot"
       ],
-      "id": "c4f1c2ea",
+      "id": "e4b1a93f",
       "execution_count": null,
       "outputs": []
     },
@@ -730,7 +727,7 @@
       "source": [
         "The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers."
       ],
-      "id": "f7859c0d"
+      "id": "b7c0a795"
     },
     {
       "cell_type": "code",
@@ -828,7 +825,7 @@
         "for llm_name, acc in top_3_llms:\n",
         "    hypothesis_2_results[f\"top_3_llm_mean_{llm_name}\"] = acc"
       ],
-      "id": "b13bde00",
+      "id": "5ef2fc1c",
       "execution_count": null,
       "outputs": []
     },
@@ -1109,7 +1106,7 @@
         "result = mcnemar(table, exact=True)\n",
         "p_value = result.pvalue"
       ],
-      "id": "38802c90",
+      "id": "2efba2ff",
       "execution_count": null,
       "outputs": []
     },
@@ -1121,7 +1118,7 @@
         "\n",
         "### Singular vs Plural"
       ],
-      "id": "172c527c"
+      "id": "a23e8c98"
     },
     {
       "cell_type": "code",
@@ -1146,7 +1143,7 @@
         "# Compute by-label accuracy for best LLM majority vote\n",
         "llm_by_label_acc = compute_accuracy_by_label(llm_majority_vote_dict, labels=(\"singular\", \"plural\"))"
       ],
-      "id": "ab8c70f4",
+      "id": "97fc613e",
       "execution_count": null,
       "outputs": []
     },
@@ -1322,7 +1319,7 @@
         "\"\"\"\n",
         ")"
       ],
-      "id": "a5c21885",
+      "id": "b99e7e69",
       "execution_count": null,
       "outputs": []
     },
@@ -1332,7 +1329,7 @@
       "source": [
         "### Context-(in)dependence"
       ],
-      "id": "4caecbe5"
+      "id": "12c7a6c7"
     },
     {
       "cell_type": "code",
@@ -1389,7 +1386,7 @@
         "results_context_df = pd.DataFrame(results_context)\n",
         "results_context_df[\"Accuracy\"] = results_context_df[\"Accuracy\"].apply(lambda x: f\"{x*100:.1f}%\" if not np.isnan(x) else \"n/a\")"
       ],
-      "id": "bc9070ec",
+      "id": "279e0eee",
       "execution_count": null,
       "outputs": []
     },
@@ -1462,7 +1459,7 @@
         "\n",
         "### Cost"
       ],
-      "id": "a76a87a8"
+      "id": "1e45dbdc"
     },
     {
       "cell_type": "code",
@@ -1498,7 +1495,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "67923c75",
+      "id": "6e0576db",
       "execution_count": null,
       "outputs": []
     },
@@ -1523,7 +1520,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "8aa6efbd",
+      "id": "c8a42c98",
       "execution_count": null,
       "outputs": []
     },
@@ -1540,7 +1537,7 @@
         "culled_cost_per_100_examples = df.loc[df[\"group\"] == \"Crowdworkers\", \"cost_per_100_examples\"].values[0]\n",
         "adjusted_cost_per_100_examples = culled_cost_per_100_examples * (participant_num_block_abcd / total_crowdworkers)"
       ],
-      "id": "e0be834b",
+      "id": "dad0b64e",
       "execution_count": null,
       "outputs": []
     },
@@ -1599,7 +1596,7 @@
         "\n",
         "## References"
       ],
-      "id": "8f43080a"
+      "id": "a3ef4290"
     }
   ],
   "metadata": {
