@@ -51,7 +51,7 @@ bibliography: bibliography.bib
 
 Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that Natural Language Processing (NLP) as a whole would shift “to using task-agnostic pre-training and task-agnostic architectures” @brownLanguageModelsAre2020[1], i.e. general-purpose language models able to perform a wide range of tasks without task-specific training. Indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
 
-The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached recall of X and precision of Y on the same dataset in late 2024, it was hypothesized that its performance had been human-like. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
+The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached both recall and precision of over 80% on the same dataset in late 2024, it was hypothesized that LLMs had reached human-like performance in this task. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
 
 To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:
 
@@ -63,6 +63,7 @@ perform at a higher accuracy than the mean human accuracy.
 – Hypothesis 3: The performance of the most accurate LLM is not going to be significantly worse at rare and innovative uses of they than the mean human performance.
 
 The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if Hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.
+Additionally, the present work also allowed to assess more generally and qualitatively in what ways LLMs are human-like and in what ways they are not; and if, perhaps, any revealing patterns could be found in the recorded behaviors of LLMs and humans. This is expressed in the additional research question: "In what ways are LLMs human-like and in what ways are they not when it comes to number-disambiguation of _they_?"
 
 
 # Background
@@ -1361,6 +1362,16 @@ The second Hypothesis aims to test if LLM accuracy at the task outperforms the m
 ## Hypothesis 3
 
 Hypothesis 3 aims to show non-inferiority of LLMs at
+
+## Research question 2
+
+In an attempt to assess the problem-solving behaviors qualitatively, three aspects of human and LLM responses were analyzed: the optional comment fields in the human survey, the LLMs' reasoning steps, and the accuracy of LLMs in determining context-dependency in the items.
+
+When analyzing human-supplied comments in the survey, #TODO
+
+When analyzing the LLMs' reasoning steps, #TODO
+
+When analyzing the LLMs' accuracy in determining context-dependency, #TODO
 
 # Conclusion
 
