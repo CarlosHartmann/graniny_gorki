@@ -1371,7 +1371,7 @@ When analyzing human-supplied comments in the survey, #TODO
 
 When analyzing the LLMs' reasoning steps, #TODO
 
-When analyzing the LLMs' accuracy in determining context-dependency, #TODO
+To determine the LLMs' accuracy in identifying context-dependency, the prompting strategy that includes the context URL was modified to additionally ask the LLM to declare whenever it decided to access the context to make its decision and to supply a brief reasoning for it.
 
 # Conclusion
 
