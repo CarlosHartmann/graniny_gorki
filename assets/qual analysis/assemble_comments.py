@@ -187,7 +187,7 @@ def assemble_human_comments():
     return {item_id: '\n'.join(lines) for item_id, lines in assembled_comments.items()}
     
 
-def export_comments(comments_dict):
+def export_comments_human(comments_dict):
     # join the assembled comments into a single string for each item with each comment on a new line
     # open the file: /Users/Carlitos/Documents/GitHub/graniny_gorki/assets/annotation_interface/complete_version.xlsm
     # edit its sheet "data"
@@ -245,7 +245,111 @@ def export_comments(comments_dict):
     print(f'Saved assembled comments to: {output_file}')
 
 
+def assemble_llm_comments():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(script_dir, '..', '..'))
+
+    llm_sources = [
+        (
+            os.path.join(project_root, 'raw_data', 'LLMs', 'commercial'),
+            'results_context-via-permalink_google-gemini-3-pro-preview_run1.csv',
+        ),
+        (
+            os.path.join(project_root, 'raw_data', 'LLMs', 'commercial'),
+            'results_context-via-permalink_gpt-5_run1.csv',
+        ),
+        (
+            os.path.join(project_root, 'raw_data', 'LLMs', 'opensource'),
+            'results_context-via-permalink_deepseek-deepseek-v3.2-speciale_run1.csv',
+        ),
+    ]
+
+    comments_by_item = {}
+
+    # comments are in "LLM_response", item IDs are in "ID" (some files may use "item_id").
+    for source_idx, (base_dir, filename) in enumerate(llm_sources):
+        filepath = os.path.join(base_dir, filename)
+        with open(filepath, newline='', encoding='utf-8') as infile:
+            reader = csv.DictReader(infile)
+            for row in reader:
+                raw_item_id = (row.get('ID') or row.get('item_id') or '').strip()
+                item_id = _norm_item_id(raw_item_id)
+                raw_comment = row.get('LLM_response', '').strip()
+                # Keep one line per model response in exported cells.
+                comment = ' '.join(raw_comment.split())
+                if item_id and comment:
+                    comments_by_item.setdefault(item_id, {})[source_idx] = comment
+
+    # Keep only items where all three configured LLM comments are present.
+    assembled = {}
+    expected_sources = len(llm_sources)
+    for item_id, by_source in comments_by_item.items():
+        if len(by_source) == expected_sources:
+            ordered_comments = [by_source[idx] for idx in range(expected_sources)]
+            assembled[item_id] = '\n'.join(ordered_comments)
+        else:
+            print(
+                f'Warning: expected {expected_sources} LLM comments for {item_id}, '
+                f'found {len(by_source)}'
+            )
+    return assembled
+
+
+def export_comments_llm(comments_dict):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(script_dir, '..', '..'))
+    annotation_file = os.path.join(
+        project_root,
+        'assets',
+        'annotation_interface',
+        'complete_version.xlsm',
+    )
+
+    from openpyxl import load_workbook
+
+    wb = load_workbook(annotation_file)
+    ws = wb['data']
+
+    id_col_idx = None
+    llm_col_idx = None
+    for col_idx in range(1, ws.max_column + 1):
+        header_value = ws.cell(row=1, column=col_idx).value
+        if header_value == 'ID':
+            id_col_idx = col_idx
+        elif header_value == 'LLM_response':
+            llm_col_idx = col_idx
+
+    if id_col_idx is None or llm_col_idx is None:
+        print("Error: 'ID' or 'LLM_response' column not found in the sheet.")
+        return
+
+    found_ids = set()
+    for row_idx in range(2, ws.max_row + 1):
+        item_id = ws.cell(row=row_idx, column=id_col_idx).value
+        if item_id is None:
+            continue
+        item_id = _norm_item_id(str(item_id).strip())
+        if item_id in comments_dict:
+            ws.cell(row=row_idx, column=llm_col_idx).value = comments_dict[item_id]
+            found_ids.add(item_id)
+
+    for missing_id in sorted(set(comments_dict) - found_ids):
+        print(f'Warning: item ID not found in workbook: {missing_id}')
+
+    output_file = os.path.join(
+        project_root,
+        'assets',
+        'annotation_interface',
+        'assembled_comments_llm.xlsx',
+    )
+    wb.save(output_file)
+    print(f'Saved assembled LLM comments to: {output_file}')
+
+
 
 if __name__ == '__main__':
     human_comments = assemble_human_comments()
-    export_comments(human_comments)
+    export_comments_human(human_comments)
+
+    llm_comments = assemble_llm_comments()
+    export_comments_llm(llm_comments)
