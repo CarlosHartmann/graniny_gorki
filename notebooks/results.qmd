@@ -70,6 +70,8 @@ Additionally, the present work also allowed to assess more generally and qualita
 
 As this task is supposed to represent any task relevant in the field of linguistics in which the mere surface level is not enough for correct processing, the following background is not strictly relevant. It will help to contextualize the present research and justify the task design.
 
+* Haq et al. (2025) also employ commercial and non-commercial LLMs. They don't show that either is inherently better but that model size is an important factor. Commercial models tend to be larger as they are trained on more data, though open-weight models have caught up in that regard (# SOURCE).
+
 ## Three kinds of _they_
 
 (plural, generic, singular)
@@ -209,7 +211,13 @@ Hence, the "local" category will comprise open source models run in a university
 
 ### Prompting Strategies
 
-Context-agnostic or with URL which only works for commercial models
+Context-agnostic or with URL which only works for commercial models.
+
+Invented examples were used as dev set to develop a prompting strategy.
+
+The task description has brief examples interspersed, not fully-fledged ones.
+
+Structured output reduced to just the last word. Worked perfectly.
 
 # Methods
 
@@ -498,7 +506,6 @@ Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accu
 "Constants"
 CULLING_THRESHHOLD = 1/3
 CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
-
 ```
 
 
@@ -1367,22 +1374,14 @@ Hypothesis 3 aims to show non-inferiority of LLMs at
 
 In an attempt to assess the problem-solving behaviors qualitatively, three aspects of human and LLM responses were analyzed: the optional comment fields in the human survey, the LLMs' reasoning steps, and the accuracy of LLMs in determining context-dependency in the items.
 
-Human-supplied comments were analyzed to reveal the strengths and weaknesses of their reasoning. The following themes were identified: the biggest issue was their understanding of the in-between category of generic _they_, followed by some minor cognitive barriers. Their biggest strength seemed to be their skill in discerning when they needed additional context to make a decision (though the quantitative results show that this did not give them an edge over LLMS). The cognitive barrier for humans in this task lies in the processing of very long input texts. While most items in the dataset are fewer than ten sentences long, item 23 is 38 sentences long and the pronoun in question is located in the penultimate sentence. On top of that, the text uses several uncommon words and therefore requires additional research for most. Human participants, potentially also fatigued when they encounter this item, have to choose how much context they read. In all likelihood, they do not want to read such a lengthy text. LLMs, on the other hand, are much less sensitive to the length of text, as long as the input is well within their window (#SOURCE). Indeed, humans answered wrong N times while LLMs only M (#TODO). As previously discussed (#REF), the category of generic is neither plural nor singular. It is not taught as standard grammar teaching to laypeople and not even linguists are assured to have come across it in their studies or work. Thus, some items in the dataset caused trouble for the human participants. For instance, item 20 shows _they_ referring to hypothetical football players, a plural referent. However, the hypothetical nature of the statement seemed more salient to the purarticipants than the plural number of the referent, leading them to classify it as generic. Similarly, item 134 shows _they_ referring to _your ancestor_, which is an impersonal use of the second person possessive pronoun _yo_, thus making the reference generic. Most human reasonings focus on tthe use of _your_ but fail to understand its impersonal meaning. The biggest issue with the generic category for human participants were the cases of _they_ referring to _everyone_ and _noone_. According to the annotation instructions they were to annotate these as plural. The instructions explicitly referred to _everyone_, _noone_, and _nobody_ for the plural category. Instead, human participants seemed to have retained the instruction that statements "that [apply] to all X" and accordingly classified these items as generic. This reveals a crucial difference between human and LLM annotators. The latter famousyl exceed at repeating patterns and are thus strong at recognizing cases they received instructions for, regardless of any potential weaknesses in the internal logic of the instructions. Humans, on the other hand, seem to grasp the underlying logic of instructions and override inconsistent instructions. Had the participants been in a real-world annotation setting, they would have likely asked for clarification on the instructions, which would have revealed the inconsistency and led to a better annotation scheme. Their quantitative weakness is thus really a strength. Though correct usage of an LLM may have also brought this weakness to the forefront.
-
-* troubles with the definition of 'generic'
-    * hypothetical plural taken as generic because hypotheticals had been defined as generic
-    * troubles with the case of 'everyone' which is frankly the biggest weakness of my own approach at the time
-    * the second person possessive pronoun 'your' seems to have made it difficult to accept genericness, though 'you' has been shown to be used impersonally in English.
-
-* cognitive barriers such as a ginormously long comment
-
-* sometimes better research skills than LLMs, perhaps fewer base assumptions(?)
-
+Human-supplied comments were analyzed to reveal the strengths and weaknesses of their reasoning. The following themes were identified: the biggest issue was their understanding of the in-between category of generic _they_, followed by some minor cognitive barriers. Their biggest strength seemed to be their skill in discerning when they needed additional context to make a decision (though the quantitative results show that this did not give them an edge over LLMS). The cognitive barrier for humans in this task lies in the processing of very long input texts. While most items in the dataset are fewer than ten sentences long, item 23 is 38 sentences long and the pronoun in question is located in the penultimate sentence. On top of that, the text uses several uncommon words and therefore requires additional research for most. Human participants, potentially also fatigued when they encounter this item, have to choose how much context they read. In all likelihood, they do not want to read such a lengthy text. LLMs, on the other hand, are much less sensitive to the length of text, as long as the input is well within their window (#SOURCE). Indeed, humans answered wrong N times while LLMs only M (#TODO). As previously discussed (#REF), the category of generic is neither plural nor singular. It is not taught as standard grammar teaching to laypeople and not even linguists are assured to have come across it in their studies or work. Thus, some items in the dataset caused trouble for the human participants. For instance, item 20 shows _they_ referring to hypothetical football players, a plural referent. However, the hypothetical nature of the statement seemed more salient to the purarticipants than the plural number of the referent, leading them to classify it as generic. Similarly, item 134 shows _they_ referring to _your ancestor_, which is an impersonal use of the second person possessive pronoun _yo_, thus making the reference generic. Most human reasonings focus on tthe use of _your_ but fail to understand its impersonal meaning. The biggest issue with the generic category for human participants were the cases of _they_ referring to _everyone_ and _noone_. According to the annotation instructions they were to annotate these as plural. The instructions explicitly referred to _everyone_, _noone_, and _nobody_ for the plural category. Instead, human participants seemed to have retained the instruction that statements "that [apply] to all X" and accordingly classified these items as generic. This reveals a crucial difference between human and LLM annotators. The latter famousyl exceed at repeating patterns and are thus strong at recognizing cases they received instructions for, regardless of any potential weaknesses in the internal logic of the instructions. Humans, on the other hand, seem to grasp the underlying logic of instructions and override inconsistent instructions. Had the participants been in a real-world annotation setting, they would have likely asked for clarification on the instructions, thus revealing this inconsistency and helping to improve my annotation scheme. Their quantitative weakness (i.e. incorrectly annotating examples involving _everyone_ and _noone_ according to the instructions) is thus really a strength, i.e. because they understood the faults of the underlying logic. Though correct usage of an LLM may have also brought this weakness to the forefront.
 
 
 When analyzing the LLMs' reasoning steps, #TODO
 
 * problems unique to LLMS:
+
+** maybe umkao example and how LLMs made more base assumptions in that case
 
 * strengths unique to LLMs:
 
