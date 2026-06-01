@@ -27,8 +27,6 @@ bibliography: bibliography.bib
 
 * Find out what LLMs have been used for in linguistics and/or NLP for introduction
 
-* Assess explanations for quality, qualitatively
-
 * Write texts for results section
 
 * Expand notes into text chunks
@@ -73,8 +71,24 @@ As this task is supposed to represent any task relevant in the field of linguist
 * Haq et al. (2025) also employ commercial and non-commercial LLMs. They don't show that either is inherently better but that model size is an important factor. Commercial models tend to be larger as they are trained on more data, though open-weight models have caught up in that regard (# SOURCE).
 
 ## Three kinds of _they_
-
 (plural, generic, singular)
+
+The pronoun _they_ is generally used as a plural pronoun of the third person, meaning that it refers to groups of people or things that are not directly addressed. However, it is rather well-known that its usage is not limited to plural reference but that a "singular _they_" exists as well. The reason that this grammatical ambiguity is so well-known is that feminist discourses of the latter half of the 20th century drew attention to contexts in which writers would use the pronoun _he_ despite the context not strictly mandating a masculine pronoun. This is known as "generic _he_". To avoid linguistic and thus cognitive erasure of women, the use of the _they_ in such contexts was advocated instead. This discourse seamlessly flowed into a new era of gender politics that drew attention to at least two new pronoun-related concerns: 1) the use of _they_ to mask gender wherever it is not strictly necessary to reveal it, and 2) the use of _they_ as a personal pronoun for people of non-binary gender. The first concern is perhaps not as prominent as the second, and speakers are perhaps not as aware of it. The following examples illustrate how this tendency reveals itself:
+
+#TODO EXAMPLES
+
+Example N comes from a public figure in science communication of mathematics, Matt Parker. It is perhaps surprising that he avoids using the gendered pronoun _he_ in reference to a known male mathematician. In Example M, Parker avoids using a gendered pronoun when talking about a person who the audience has not seen yet, and therefore does not know their gender. In my personal correspondence with Parker, he revealed that this was indeed a deliberate choice that he decided to make in his public speaking, specifically "to avoid creating expectations about […]". This is a clear example of the first concern mentioned above, i.e. the use of _they_ to mask gender. The second concern is more straightforward and is best explained by linguists and other writers who are more directly involved in the discourse around non-binary gender, such as X and Y.
+
+What both concerns mean for the present research is that they make the use of truly singular, and not merely generic, _they_ more likely. It can also, and perhaps more usefully, called "referential singular _they_". It was alluded to above that _they_ was propagated to replace generic _he_ in the second half of the 20th century, and indeed it has been found that _they_ has since expanded to more contexts that had not been considered before (#REFS). To better grasp the changing use of _they_, synchronically and diachronically, it is thus necessary to highlight the distinction between these two innovations of _they_ use.
+
+Generic _they_ can be conceived as… #TODO
+
+Singular _they_ can be conceived as… #TODO
+
+While this distinction goes beyond the traditional dichotomy of singular and plural, it falls short of the much more fine-grained distinctions proposed in the literature, most prominently in Newman's work (1994, 1997).
+
+* generic 'they' is older; it may thus have reached the use of people who oppose singular they
+* singular they is rarer than generic and much rarer than plural. Further distinctions are relevant and necessary; they can and should be made when investigating usage samples up-close. What is being developed here is a way to efficiently collect instances of generic and singular usage in useful amounts, but leaving the fine-grained analysis to future work.
 
 ## LLMs as (linguistic) annotators
 
