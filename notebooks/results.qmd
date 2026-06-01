@@ -1369,7 +1369,24 @@ In an attempt to assess the problem-solving behaviors qualitatively, three aspec
 
 When analyzing human-supplied comments in the survey, #TODO
 
+* troubles with the definition of 'generic'
+    * hypothetical plural taken as generic because hypotheticals had been defined as generic
+    * troubles with the case of 'everyone' which is frankly the biggest weakness of my own approach at the time
+    * the second person possessive pronoun 'your' seems to have made it difficult to accept genericness, though 'you' has been shown to be used impersonally in English.
+
+* cognitive barriers such as a ginormously long comment
+
+* sometimes better research skills than LLMs, perhaps fewer base assumptions(?)
+
+
+
 When analyzing the LLMs' reasoning steps, #TODO
+
+* problems unique to LLMS:
+
+* strengths unique to LLMs:
+
+Some errors were shared among human and LLM participants, #TODO
 
 To determine the LLMs' accuracy in identifying context-dependency, the prompting strategy that includes the context URL was modified to additionally ask the LLM to declare whenever it decided to access the context to make its decision and to supply a brief reasoning for it.
 
