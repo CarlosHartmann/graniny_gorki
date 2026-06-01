@@ -17,7 +17,7 @@ header-includes:
 bibliography: bibliography.bib
 ---
 
-# To Do:
+<!-- # To Do: -->
 
 * let GPT tell me when it accessed the context
 
@@ -77,7 +77,7 @@ As this task is supposed to represent any task relevant in the field of linguist
 ## LLMs as (linguistic) annotators
 
 ```{python}
-"Imports of necessary libraries:"
+# Imports of necessary libraries
 from num2words import num2words
 from IPython.display import Markdown
 import matplotlib.pyplot as plt
