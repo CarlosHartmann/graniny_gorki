@@ -154,7 +154,7 @@ non_ling_participants = [item for sublist in non_ling_participants for item in s
 # 5. Load all LLM data as Python dictionaries.
 
 def collect_responses_for_llm_class(path) -> dict:
-    runs = [elem for elem in os.listdir(path) if elem.endswith(".csv")]
+    runs = [elem for elem in os.listdir(path) if elem.endswith(".csv") and "running" not in elem.lower()]
     # there is a CSV for each run from each LLM (usually 3, sometimes just 2 or fewer)
     # every filename begins with "results_" and ends with "_runN" where N is the iteration
     # everything in between is the combination of prompting technique and LLM which can be taken together as one "participant"

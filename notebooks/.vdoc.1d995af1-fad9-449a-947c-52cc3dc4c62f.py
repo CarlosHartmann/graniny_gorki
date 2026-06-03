@@ -1,108 +1,113 @@
----
-title: "Computing results and running analyses"
-toc: true
-number-sections: true
-jupyter: 
-    kernel: python3
-execute:
-    echo: false
-    warning: true
-format:
-    pdf:
-        pdf-engine: xelatex
-        fig-pos: H
-    docx: default
-header-includes:
-        - \usepackage{float}
-        - \usepackage{newunicodechar}
-        - \newunicodechar{α}{\ensuremath{\alpha}}
-bibliography: bibliography.bib
----
-
-<!-- # To Do: -->
-
-* Check for other publications on LLM annotations and see if journals apply; otherwise Corpus Linguistics and Linguistic Theory
-
-* Find out what LLMs have been used for in linguistics and/or NLP for introduction
-
-* Write texts for results section
-
-* Expand notes into text chunks
-
-* Background on _they_
-
-* Background on LLMs as annotators
-
-* Conclusion and Intro
-
-* Choose journal and format accordingly
-
-* Tutorial on exporting to Word
-
-* Quick copy-editing by Jessica
-
-
-# Introduction
-
-Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that Natural Language Processing (NLP) as a whole would shift “to using task-agnostic pre-training and task-agnostic architectures” @brownLanguageModelsAre2020[1], i.e. general-purpose language models able to perform a wide range of tasks without task-specific training. Indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
-
-The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached both recall and precision of over 80% on the same dataset in late 2024, it was hypothesized that LLMs had reached human-like performance in this task. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
-
-To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:
-
-– Hypothesis 1: The most accurate number-disambiguator of _they_ is going to be an LLM.
-
-– Hypothesis 2: The most accurate LLM at number-disambiguating _they_ is going to
-perform at a higher accuracy than the mean human accuracy.
-
-– Hypothesis 3: The performance of the most accurate LLM is not going to be significantly worse at rare and innovative uses of they than the mean human performance.
-
-The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if Hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.
-Additionally, the present work also allowed to assess more generally and qualitatively in what ways LLMs are human-like and in what ways they are not; and if, perhaps, any revealing patterns could be found in the recorded behaviors of LLMs and humans. This is expressed in the additional research question: "In what ways are LLMs human-like and in what ways are they not when it comes to number-disambiguation of _they_?"
-
-
-# Background
-
-Point out that the term LLMs is not synonymous with decoder-only models but that the former will be used for simplicity and because the models tested in this work are all decoder-only. (ref to Arslan, Erol, and Eryigit 2026)
-
-As this task is supposed to represent any task relevant in the field of linguistics in which the mere surface level is not enough for correct processing, the following background is not strictly relevant. It will help to contextualize the present research and justify the task design.
-
-* Haq et al. (2025) also employ commercial and non-commercial LLMs. They don't show that either is inherently better but that model size is an important factor. Commercial models tend to be larger as they are trained on more data, though open-weight models have caught up in that regard (# SOURCE).
-
-* Arslan, Erol, and Eryigit 2026 investigate Coreference Resolution with LLMs and fine-tune models for it.
-=> I do not even fine-tune and reach human-like results
-They investigate zero anaphors (i.e. omitted pronouns) and find that LLMs perform well on them, which is relevant for the present research as it shows that LLMs show "a deep understanding of the contextual focus".
-Their work crosses linguistic boundaries which poses interesting challenges. My work does not do that but instead contains innovative language which tends to be rare in more general-purpose datasets.
-
-## Coreference resolution
-
-Describe task
-
-Point out that in this case, the mention detection (ref to textbook) is precluded by our interest in the pronoun _they_ and that the task is thus reduced to a classification task of number-disambiguation of _they_.
-
-## Three kinds of _they_
-(plural, generic, singular)
-
-The pronoun _they_ is generally used as a plural pronoun of the third person, meaning that it refers to groups of people or things that are not directly addressed. However, it is rather well-known that its usage is not limited to plural reference but that a "singular _they_" exists as well. The reason that this grammatical ambiguity is so well-known is that feminist discourses of the latter half of the 20th century drew attention to contexts in which writers would use the pronoun _he_ despite the context not strictly mandating a masculine pronoun. This is known as "generic _he_". To avoid linguistic and thus cognitive erasure of women, the use of the _they_ in such contexts was advocated instead. This discourse seamlessly flowed into a new era of gender politics that drew attention to at least two new pronoun-related concerns: 1) the use of _they_ to mask gender wherever it is not strictly necessary to reveal it, and 2) the use of _they_ as a personal pronoun for people of non-binary gender. The first concern is perhaps not as prominent as the second, and speakers are perhaps not as aware of it. The following examples illustrate how this tendency reveals itself:
-
-#TODO EXAMPLES
-
-Example N comes from a public figure in science communication of mathematics, Matt Parker. It is perhaps surprising that he avoids using the gendered pronoun _he_ in reference to a known male mathematician. In Example M, Parker avoids using a gendered pronoun when talking about a person who the audience has not seen yet, and therefore does not know their gender. In my personal correspondence with Parker, he revealed that this was indeed a deliberate choice that he decided to make in his public speaking, specifically "to avoid creating expectations about […]". This is a clear example of the first concern mentioned above, i.e. the use of _they_ to mask gender. The second concern is more straightforward and is best explained by linguists and other writers who are more directly involved in the discourse around non-binary gender, such as X and Y.
-
-What both concerns mean for the present research is that they make the use of truly singular, and not merely generic, _they_ more likely. It can also, and perhaps more usefully, called "referential singular _they_". It was alluded to above that _they_ was propagated to replace generic _he_ in the second half of the 20th century, and indeed it has been found that _they_ has since expanded to more contexts that had not been considered before (#REFS). To better grasp the changing use of _they_, synchronically and diachronically, it is thus necessary to highlight the distinction between these two innovations of _they_ use.
-
-Generic _they_ can be conceived as… #TODO
-
-Singular _they_ can be conceived as… #TODO
-
-While this distinction goes beyond the traditional dichotomy of singular and plural, it falls short of the much more fine-grained distinctions proposed in the literature, most prominently in Newman's work (1994, 1997).
-
-* generic 'they' is older; it may thus have reached the use of people who oppose singular they
-* singular they is rarer than generic and much rarer than plural. Further distinctions are relevant and necessary; they can and should be made when investigating usage samples up-close. What is being developed here is a way to efficiently collect instances of generic and singular usage in useful amounts, but leaving the fine-grained analysis to future work.
-
-## LLMs as (linguistic) annotators
-
-```{python}
+# type: ignore
+# flake8: noqa
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 # Imports of necessary libraries
 from num2words import num2words
 from IPython.display import Markdown
@@ -118,38 +123,38 @@ import matplotlib.pyplot as plt
 from statsmodels.stats.weightstats import DescrStatsW, CompareMeans
 from statsmodels.stats.weightstats import ttost_ind
 import textwrap
-```
-
-# Data
-
-First, we need to import all raw data by calling the relevant script.
-The raw data are shaped like so:
-
-* Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
-* Human participants are put into 5 blocks, blocks A-D and the group of pilot participants
-* LLMs come in three different groups: commercial, open source, and local
-* in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
-* each combination of LLM and prompting strategy is treated as a participant.
-* For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
-
-– Point about MA-era-dataset being limited (number of singular they examples; context-independence) 
-
-174 authentic uses of they (Reddit)
-Context-(in)dependent
-56–59 for plural/generic/singular (do this dynamically & as a table)
-
-Each annotation instance was treated as an item-level trial for scoring and condition-wise breakdowns, while inferential comparisons were conducted on aggregated participant or run-level performance
-
-Mention 10 intro examples that were cherry-picked for balance and had a precise reasoning behind the solution and were identical for all human participants.
-Clarify if those 10 examples were part of the test set for LLMs (shouldn't have been but need to ensure).
-
-Randomly sampled for each participant to avoid bias
-
-System of blocks with overlap
-
-Point out that dataset is available
-
-```{python}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 "Run processing of raw data and import relevant variables"
 # human annotators
 from process_raw_data import block_pilot, block_a, block_b, block_c, block_d
@@ -162,9 +167,9 @@ from process_raw_data import commercial_llm_responses, opensource_llm_responses,
 
 # Ground Truth and context-dependent IDs
 from process_raw_data import gt, context_dependent_ids
-```
-
-```{python}
+#
+#
+#
 # Safe label mapping
 label_mapping = {
     "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
@@ -185,9 +190,9 @@ label_mapping = {
     "context-via-permalink_allenai-olmo-3.1-32b-think":         "Olmo 3.1 32B Think",
     "zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf":                "Olmo 3 7B Zero-Shot"
 }
-```
-
-```{python}
+#
+#
+#
 "Variables needed for data illustration"
 
 example_llm = list(commercial_llm_responses.keys())[1]
@@ -197,65 +202,65 @@ len_corresponds = "corresponds" if len(example_llm_responses_without_comments) =
 
 
 data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") or elem.startswith("LoRes_")) and not elem.endswith("[comment]")])
-```
-
-
-To illustrate, the variable name `commercial_llm_responses` has the entry "`{python} example_llm`", which tells us the prompting strategy (`{python} "-".join(example_llm.split("_")[0:2])`) and the LLM with its dated version (`{python} example_llm.split("_")[-1]`). This entry has `{python} num2words(len(example_llm_responses))` runs saved. Each run is of the type "`{python} type(example_llm_responses[0])`" and has `{python} len(example_llm_responses_without_comments)` data points saved with their answers as keys and values. This number `{python} len_corresponds` to the number of data points in the original test set.
-
-## Participants
-
-Human annotators are organized in four different blocks due to limits to study duration, i.e. avoiding influence from participant fatigue. Instead of testing everyone with the full `{python} len(gt)` data points from the test set, every block of participants received a shared of data points that was identical among all of them and one part which was only solved by their respective block. The distribution of examples among the blocks was done randomly while ensuring within-block balance of antecedent types.
-
-Blocks A-D have `{python} len(block_a)`, `{python} len(block_b)`, `{python} len(block_c)`, and `{python} len(block_d)` participants, respectively. The piloting group had `{python} len(block_pilot)` participants. In terms of data points, every participant regardless of their block received `{python} data_points_a` examples to annotate. This ensured a study duration of roughly one hour per participant.
-
-### Demographics
-
-Women, age range (+ bibliographic justification)
-
-### Expertise
-
-Explain issue with Prolific setup. Explain possibility of post-hoc culling the participants by attentiveness to still get appropriate data.
-
-## LLMs
-
-### Models
-
-(so far) only the largest commercially available LLMs from the Claude & GPT family
-
-Open Source:
-
-Used this as my main guiding resource to tick the most important boxes: https://www.bentoml.com/blog/navigating-the-world-of-open-source-large-language-models
-
-So far run:
-- Deepseek latest few models
-- Qwen3 latest few models
-- Mimo V2 Flash (only non-free available on OpenRouter)
-
-Fully local models make somewhat less sense for this kind of "piloting for the field" experiments as researchers having access to machines with 20+GB of RAM is less realistic than researchers getting access to computing clusters that can run far larger models. The latter is a more typical setup that you will see at research institutions and is often more readily financed than a machine that is only used by one person and costs double or triple of what their allocated funds typically allow.
-
-Hence, the "local" category will comprise open source models run in a university-run computing cluster.
-
-### Prompting Strategies
-
-Context-agnostic or with URL which only works for commercial models.
-
-Invented examples were used as dev set to develop a prompting strategy.
-
-The task description has brief examples interspersed, not fully-fledged ones.
-
-Structured output reduced to just the last word. Worked perfectly.
-
-# Methods
-
-Explain basic GT comparison
-
-Justify choice of accuracy (F1 doesn’t necessarily make sense over accuracy as the three classes are balanced. Also mention that MCC was considered.)
-
-Confirmatory and quasi-experimental study
-
-# Results
-
-```{python}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 "Functions for obtaining accuracy performances"
 
 def compute_accuracy(participant_dict, context_dependent=0):
@@ -397,9 +402,9 @@ def _norm_type(x):
     }
     return mapping.get(s, s)  # fallback to the cleaned string if unseen
 
-```
-
-```{python}
+#
+#
+#
 "Calculating accuracies and storing them as dicts"
 
 accuracy_dict_commercial_llms = {}
@@ -472,12 +477,12 @@ for data_point_id in gt["ID"].dropna().astype(str).str.strip():
 
 accuracy_dict_humans["majority_vote"] = [compute_accuracy(majority_vote_dict)]
 
-```
-
-## Hypothesis 1
-
-The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance.
-```{python}
+#
+#
+#
+#
+#
+#
 #| label: tbl-top10-accuracy
 #| tbl-cap: "The ten highest-performing participants by accuracy"
 
@@ -524,18 +529,18 @@ results_df = pd.DataFrame(accuracy_results)
 
 Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accuracy"]))
 
-```
-
-## Hypothesis 2
-
-```{python}
+#
+#
+#
+#
+#
 "Constants"
 CULLING_THRESHHOLD = 1/3
 CULLING_THRESHHOLD_PERCENT = f"{CULLING_THRESHHOLD * 100:.0f}%"
-```
-
-
-```{python}
+#
+#
+#
+#
 #| label: tbl-l1-vs-l2-vs-nonling
 #| tbl-cap: "Overall accuracy by three human groups"
 
@@ -581,9 +586,9 @@ accuracy_table = pd.DataFrame(
 )
 Markdown(accuracy_table.to_markdown(index=False))
 
-```
-
-```{python}
+#
+#
+#
 # Run statistical analysis to ascertain whether their differences are statistically significant
 from scipy.stats import f_oneway
 
@@ -609,13 +614,13 @@ anova_result = f_oneway(*anova_groups.values())
 anova_p_value = anova_result.pvalue
 ALPHA_PILOTS_VS_CROWD = 0.05
 
-```
-
-The difference between the crowdworkers and the local student pilot participants is `{python} "not" if anova_p_value >= ALPHA_PILOTS_VS_CROWD else ""` statistically significant (`{python} f"p = {round(anova_p_value, 3)}, α = {ALPHA_PILOTS_VS_CROWD}"`).
-For inferential testing in this section, only Non-Pilot Humans and Pilot Humans were compared. The Non-Linguists group is reported descriptively for context.
-
-
-```{python}
+#
+#
+#
+#
+#
+#
+#
 "Culling of human annotators"
 
 # Compute context-dependent accuracy for each human participant
@@ -659,11 +664,11 @@ participant_num_culled = len(culled_participant_ids)
 participant_num_pilot = sum(1 for pid in culled_participant_ids if pid.startswith("Pilot_"))
 participant_num_block_abcd = participant_num_culled - participant_num_pilot
 
-```
-
-The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers.
-
-```{python}
+#
+#
+#
+#
+#
 "Preparing relevant data for Figure"
 
 hypothesis_2_results = dict()
@@ -755,9 +760,9 @@ hypothesis_2_results = {
 # Flatten top 3 commercial LLM means into the results dict
 for llm_name, acc in top_3_llms:
     hypothesis_2_results[f"top_3_llm_mean_{llm_name}"] = acc
-```
-
-```{python}
+#
+#
+#
 #| label: fig-overall-acc-comparison
 #| fig-cap: "Participant accuracies with 95% confidence interval"
 #| fig-subcap:
@@ -972,9 +977,9 @@ ax4.set_axisbelow(True)
 ax4.tick_params(axis="x", labelsize=15)  # Increased label size
 plt.tight_layout()
 plt.show()
-```
-
-```{python}
+#
+#
+#
 "Significance test"
 
 ALPHA = 0.05
@@ -1024,13 +1029,13 @@ table = [[0, b], [c, 0]]
 
 result = mcnemar(table, exact=True)
 p_value = result.pvalue
-```
-
-## Results by label
-
-### Singular vs Plural
-
-```{python}
+#
+#
+#
+#
+#
+#
+#
 # Collect accuracies for culled humans and best LLM for "plural" and "singular" labels
 
 # Compute by-label accuracy for culled human mean (not majority vote)
@@ -1049,9 +1054,9 @@ for label in ("singular", "plural"):
 
 # Compute by-label accuracy for best LLM majority vote
 llm_by_label_acc = compute_accuracy_by_label(llm_majority_vote_dict, labels=("singular", "plural"))
-```
-
-```{python}
+#
+#
+#
 #| label: fig-singular-plural-comparison
 #| fig-cap: "Accuracy difference between plural/singular _they_ and LLMs/humans"
 
@@ -1106,9 +1111,9 @@ for i, bar in enumerate(bars):
 
 plt.tight_layout()
 plt.show()
-```
-
-```{python}
+#
+#
+#
 #| label: fig-confusion-matrix-llm
 #| fig-cap: "Confusion matrix for the best LLM"
 
@@ -1151,9 +1156,9 @@ fig, ax = plt.subplots(figsize=(5, 4))
 disp_llm.plot(ax=ax, cmap="Reds", values_format=".1%")  # formats like 12.3%
 plt.tight_layout()
 plt.show()
-```
-
-```{python}
+#
+#
+#
 #| label: fig-confusion-matrix-human
 #| fig-cap: "Confusion matrix for culled human mean"
 
@@ -1163,9 +1168,9 @@ fig, ax = plt.subplots(figsize=(5, 4))
 disp_human.plot(ax=ax, cmap="Blues", values_format=".1%")
 plt.tight_layout()
 plt.show()
-```
-
-```{python}
+#
+#
+#
 # TOST test for non-inferiority of the best LLM compared to culled human mean for "singular" label
 
 # Extract accuracies for "singular" label
@@ -1201,11 +1206,11 @@ Markdown(
 **Decision**: Non-inferiority **{'established' if non_inferior else 'not established'}**.
 """
 )
-```
-
-### Context-(in)dependence
-
-```{python}
+#
+#
+#
+#
+#
 # Assess performance for context-dependent vs context-independent items
 # for: best LLM, third-best LLM, and culled human mean
 
@@ -1256,15 +1261,15 @@ for context_flag, context_label in zip([1, 2], ["Context-Dependent", "Context-In
 # Display as table
 results_context_df = pd.DataFrame(results_context)
 results_context_df["Accuracy"] = results_context_df["Accuracy"].apply(lambda x: f"{x*100:.1f}%" if not np.isnan(x) else "n/a")
-```
-
-```{python}
+#
+#
+#
 #| label: tbl-context-accuracy
 #| tbl-cap: "Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean"
 Markdown(results_context_df.pivot(index="Group", columns="Context", values="Accuracy").to_markdown())
-```
-
-```{python}
+#
+#
+#
 #| label: fig-context-accuracy
 #| fig-cap: "Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean"
 
@@ -1297,110 +1302,39 @@ ax.set_axisbelow(True)
 plt.legend(title="Item Type", loc="upper left")
 plt.tight_layout()
 plt.show()
-```
-
-```{python}
+#
+#
+#
 # Context Access Stats
-
 sheetpath = "../assets/context_access_observations/runs.xlsx"
-
+# the stats for the conservative prompt are on the sheet named "conservative_prompt"
 conservative_stats = pd.read_excel(sheetpath, sheet_name="conservative_prompt")
 unspecified_stats = pd.read_excel(sheetpath, sheet_name="unspecified_prompt")
 
 # both sheets have the columns "context_dependent" and "context_accessed" that contain "X" for yes and "" for no
 # there is also the column called "correct?" which contains "X" for correct and "" for incorrect
 
-# Calculate statistics for conservative prompt (GPT-5 with URL access)
-conservative_stats['context_dependent_bool'] = conservative_stats['context_dependent'] == 'X'
-conservative_stats['context_accessed_bool'] = conservative_stats['context_accessed'] == 'X'
-conservative_stats['correct_bool'] = conservative_stats['correct?'] == 'X'
-
-# Conservative prompt statistics
-total_context_dependent_cons = conservative_stats['context_dependent_bool'].sum()
-context_accessed_and_dependent_cons = ((conservative_stats['context_dependent_bool']) & 
-                                        (conservative_stats['context_accessed_bool'])).sum()
-context_accessed_total_cons = conservative_stats['context_accessed_bool'].sum()
-context_accessed_not_dependent_cons = ((~conservative_stats['context_dependent_bool']) & 
-                                        (conservative_stats['context_accessed_bool'])).sum()
-dependent_not_accessed_cons = ((conservative_stats['context_dependent_bool']) & 
-                                (~conservative_stats['context_accessed_bool'])).sum()
-
-# Accuracy calculations for conservative prompt
-acc_dependent_not_accessed = conservative_stats[
-    (conservative_stats['context_dependent_bool']) & 
-    (~conservative_stats['context_accessed_bool'])
-]['correct_bool'].mean() * 100
-
-acc_accessed = conservative_stats[
-    conservative_stats['context_accessed_bool']
-]['correct_bool'].mean() * 100
-
-# Calculate statistics for unspecified prompt
-unspecified_stats['context_dependent_bool'] = unspecified_stats['context_dependent'] == 'X'
-unspecified_stats['context_accessed_bool'] = unspecified_stats['context_accessed'] == 'X'
-unspecified_stats['correct_bool'] = unspecified_stats['correct?'] == 'X'
-
-total_context_dependent_unspec = unspecified_stats['context_dependent_bool'].sum()
-context_accessed_and_dependent_unspec = ((unspecified_stats['context_dependent_bool']) & 
-                                          (unspecified_stats['context_accessed_bool'])).sum()
-context_accessed_total_unspec = unspecified_stats['context_accessed_bool'].sum()
-
-recall_unspec = context_accessed_and_dependent_unspec / total_context_dependent_unspec * 100 if total_context_dependent_unspec > 0 else 0
-precision_unspec = context_accessed_and_dependent_unspec / context_accessed_total_unspec * 100 if context_accessed_total_unspec > 0 else 0
-
-acc_not_accessed_unspec = unspecified_stats[
-    ~unspecified_stats['context_accessed_bool']
-]['correct_bool'].mean() * 100
-
-acc_accessed_unspec = unspecified_stats[
-    unspecified_stats['context_accessed_bool']
-]['correct_bool'].mean() * 100
-
-accuracy_drop = acc_not_accessed_unspec - acc_accessed_unspec
-
-def _mean_acc_or_nan(acc_dict, key_candidates):
-    for k in key_candidates:
-        vals = acc_dict.get(k, [])
-        if vals:
-            return float(sum(vals) / len(vals))
-    return float("nan")
-
-acc_context_agnostic_gpt5 = _mean_acc_or_nan(
-    accuracy_dict_commercial_llms,
-    [
-        "context-agnostic_zero-shot_gpt-5",
-        "results_context-agnostic_zero-shot_gpt-5",
-    ],
-)
-
-acc_permalink_conservative_gpt5 = _mean_acc_or_nan(
-    accuracy_dict_commercial_llms,
-    [
-        "results_context-via-permalink_gpt-5-2025-08-07_with-justification-conservative",
-        "context-via-permalink_gpt-5-2025-08-07_with-justification-conservative",
-    ],
-)
-
-```
-
-When looking at the behavior of GPT-5 with URL access, it shows a difference between my own expectations of what examples required context for disambiguation and which ones did not. Of the `{python} int(total_context_dependent_cons)` items that I marked as context-dependent, less than half (`{python} int(context_accessed_and_dependent_cons)`) caused the model to access the context via provided URL. In turn, of the `{python} int(context_accessed_total_cons)` items that did cause the model to check context, only `{python} int(context_accessed_and_dependent_cons)` were marked as context-dependent by me. Among the cases that the model failed to look up context I had marked as necessary, however, its accuracy at disambiguating the meaning of _they_ still lay at a relatively high `{python} f"{acc_dependent_not_accessed:.1f}%"`, which is very close to the average accuracy of my local study pilots over all items, `{python} f"{overall_accuracies['Pilot Humans']*100:.1f}%"`. Among the cases that the model had correctly decided to look up context, its accuracy was only `{python} f"{acc_accessed:.0f}%"`, showing that it likely lacks capabilities in navigating heterogenous and complex contexts.
-This means that the model's behavior does not fully align with my expectations of what items require context for disambiguation, and it also accesses context for some items that I would have considered context-independent. It is not clear what causes this difference in behavior but it does point to LLMs' reasoning capabilities being different from human reasoning, generally to the detriment of the results. In light of study design, it suggests that LLMs fare better without having to research information on their own in order to complete a task, as noticing the lack of necessary information seems to be still too great a challenge for such models. This may impede the study of especially complex linguistic phenomena that require contextual and semantic understanding of text.
-
-When not specifying that the model should access context only in doubtful cases, thus leaving it up to the model, there is a clear tendency for the model to access context more often. Namely, of the `{python} int(total_context_dependent_unspec)` context-depentend cases `{python} int(context_accessed_and_dependent_unspec)` were checked for context, which is a recall of `{python} f"{recall_unspec:.0f}%"`. However, the model checked a total of `{python} int(context_accessed_total_unspec)` cases for their context, of which only `{python} int(context_accessed_and_dependent_unspec)` were actually context-dependent, meaning that the precision of the model's decision to check context was only `{python} f"{precision_unspec:.0f}%"`. This means that while the model is relatively good at recalling cases that require context, it also checks for context in many cases where it is not necessary, which may lead to worse performance due to the model's difficulties in navigating complex contexts. Indeed, in the specific context of this study, there was a measurable drop in accuracy by `{python} f"{accuracy_drop:.0f}%"` (from `{python} f"{acc_not_accessed_unspec:.0f}%"` to `{python} f"{acc_accessed_unspec:.0f}%"`) when the model accessed context vs when it did not. For this reason, the same model performed better when it did not have the option to access context (`{python} f"{acc_context_agnostic_gpt5 * 100:.0f}%" if not np.isnan(acc_context_agnostic_gpt5) else "n/a"`) than when it did (`{python} f"{acc_permalink_conservative_gpt5 * 100:.0f}%" if not np.isnan(acc_permalink_conservative_gpt5) else "n/a"`), as shown in the previous section.
-
-### Performance with innovative forms of _they_
-
-Since I care about recall of sg. and gen. _they_ for the application in later research, the recall for those two should be featured apart for humans & LLMs
-
-### Projection onto naturalistic data
-
-It might make sense to apply the per-class performance measures to a hypothetical test set with naturalistic frequency splits (take from own data) to then generate MCC and get an estimation of how well the different participants would do on naturalistic data. This will address the lingering question if the artificial selection of data points skewed the results or hid anything about the truth
-
-This will be an important point for the conclusion.
-
-### Cost
-
-```{python}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 "Cost stats"
 stats_path = "../cost/cost_time_stats.csv"
 assert os.path.isfile(stats_path)
@@ -1431,9 +1365,9 @@ ax.set_axisbelow(True)
 plt.tight_layout()
 plt.show()
 
-```
-
-```{python}
+#
+#
+#
 # Plot bar for time taken per 100 examples
 
 # Compute time per 100 examples
@@ -1450,9 +1384,9 @@ ax.grid(axis="y", alpha=0.3)
 ax.set_axisbelow(True)
 plt.tight_layout()
 plt.show()
-```
-
-```{python}
+#
+#
+#
 # Calculate the percentage of crowdworkers' responses that were disregarded
 total_crowdworkers = sum(len(block) for block in [block_a, block_b, block_c, block_d])
 disregarded_crowdworkers = total_crowdworkers - participant_num_block_abcd
@@ -1462,87 +1396,89 @@ disregarded_percentage = (disregarded_crowdworkers / total_crowdworkers) * 100
 culled_cost_per_100_examples = df.loc[df["group"] == "Crowdworkers", "cost_per_100_examples"].values[0]
 adjusted_cost_per_100_examples = culled_cost_per_100_examples * (participant_num_block_abcd / total_crowdworkers)
 
-```
-
-- The cost of crowdworkers was inflated in this study due to filtering inattentive participants only post-hoc and not being able to tell the meaning of "educated in English language" before carrying out the study. Appropriate numbers were obtained thanks to the culling. This means in turn that the responses of `{python} f"{round(disregarded_percentage, 1)}%"` of crowdowkers were disregarded and their cost was spent fruitlessly.
-
-# Discussion
-
-## L1 Crowdworkers vs Local L2 Students
-
-The results showed that this task in particular is not automatically solved better by native speakers than by informed L2 speakers. The latter performed at `{python} f"{round(100 * overall_accuracies['Pilot Humans'], 0)}%"` as opposed to the `{python} f"{round(100 * overall_accuracies['Non-Pilot Humans'], 0)}%"` achieved by native speakers. This is not solely due to the L1 vs L2 status but also a question of competence. The local students had been selected based on their previous high academic achievements and specific knowledge of English linguistics of gender. The difference in performance is `{python} "not, however," if anova_p_value >= ALPHA_PILOTS_VS_CROWD else ""` statistically significant. Still, it shows that at this level the native speaker status should no longer be taken as a prerequisite for (annotation) work in this and similar fields or activities. Local students are also preferable due to ethical and practical reasons as communication is easier and there are better mechanisms in place to ensure fairness and research ethics.
-(Alternative AI suggestion for more adequate phrasing: In this sample, local L2 student pilots showed similar or higher mean accuracy than non-pilot crowdworkers. Because this comparison is observational and groups differ in selection and expertise, it should not be interpreted as an isolated L1 versus L2 effect. The result instead supports the practical point that trained local student annotators can be competitive with crowdworker annotators in this task.
-And: These data do not support treating native-speaker status alone as a sufficient criterion for annotator selection in this task.)
-## Hypothesis 1
-
-@tbl-top10-accuracy reveals that the group of top performers is populated by more humans than LLMs, although most top performances cluster around the 90% mark. To directly address Hypothesis 1, the top performer is not an LLM but indeed a human. This participant was furthermore from the pilot participants recruited from the local student body. Hypothesis 1 is therefore rejected.
-
-## Hypothesis 2
-
-The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To approximate what level of performance one might expect from an actual student assistant, I additionally report a culling-based benchmark variant as sensitivity analysis. This benchmark is defined by removing inattentive annotators and retaining the top half of the remainder. As this benchmark is interpretive and operational and not design-neutral, its results should be interpreted cautiously. still, it may serve as an estimate for what might be "true human performance." Inattentiveness is formalized in terms of context-dependent performance, i.e. if their performance is at or below `{python} CULLING_THRESHHOLD_PERCENT` when context is necessary to understand an example.
-
-@fig-overall-acc-comparison reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs' performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, `{python} top_3_commercial_llms_namemapped[0]`, shows a performance that is `{python} ", however, not" if p_value >= ALPHA else ", indeed, "` significantly better than the culled human mean at `{python} f"p = {p_value}, α = {ALPHA}"` according to a McNemar's test. Hypothesis 2 can therefore `{python} "not" if p_value >= ALPHA else ""` be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.
-
-## Hypothesis 3
-
-Hypothesis 3 aims to show non-inferiority of LLMs at
-
-## Research question 2
-
-In an attempt to assess the problem-solving behaviors qualitatively, three aspects of human and LLM responses were analyzed: the optional comment fields in the human survey, the LLMs' reasoning steps, and the accuracy of LLMs in determining context-dependency in the items.
-
-Human-supplied comments were analyzed to reveal the strengths and weaknesses of their reasoning. The following themes were identified: the biggest issue was their understanding of the in-between category of generic _they_, followed by some minor cognitive barriers. Their biggest strength seemed to be their skill in discerning when they needed additional context to make a decision (though the quantitative results show that this did not give them an edge over LLMS). The cognitive barrier for humans in this task lies in the processing of very long input texts. While most items in the dataset are fewer than ten sentences long, item 23 is 38 sentences long and the pronoun in question is located in the penultimate sentence. On top of that, the text uses several uncommon words and therefore requires additional research for most. Human participants, potentially also fatigued when they encounter this item, have to choose how much context they read. In all likelihood, they do not want to read such a lengthy text. LLMs, on the other hand, are much less sensitive to the length of text, as long as the input is well within their window (#SOURCE). Indeed, humans answered wrong N times while LLMs only M (#TODO). As previously discussed (#REF), the category of generic is neither plural nor singular. It is not taught as standard grammar teaching to laypeople and not even linguists are assured to have come across it in their studies or work. Thus, some items in the dataset caused trouble for the human participants. For instance, item 20 shows _they_ referring to hypothetical football players, a plural referent. However, the hypothetical nature of the statement seemed more salient to the purarticipants than the plural number of the referent, leading them to classify it as generic. Similarly, item 134 shows _they_ referring to _your ancestor_, which is an impersonal use of the second person possessive pronoun _yo_, thus making the reference generic. Most human reasonings focus on tthe use of _your_ but fail to understand its impersonal meaning. The biggest issue with the generic category for human participants were the cases of _they_ referring to _everyone_ and _noone_. According to the annotation instructions they were to annotate these as plural. The instructions explicitly referred to _everyone_, _noone_, and _nobody_ for the plural category. Instead, human participants seemed to have retained the instruction that statements "that [apply] to all X" and accordingly classified these items as generic. This reveals a crucial difference between human and LLM annotators. The latter famousyl exceed at repeating patterns and are thus strong at recognizing cases they received instructions for, regardless of any potential weaknesses in the internal logic of the instructions. Humans, on the other hand, seem to grasp the underlying logic of instructions and override inconsistent instructions. Had the participants been in a real-world annotation setting, they would have likely asked for clarification on the instructions, thus revealing this inconsistency and helping to improve my annotation scheme. Their quantitative weakness (i.e. incorrectly annotating examples involving _everyone_ and _noone_ according to the instructions) is thus really a strength, i.e. because they understood the faults of the underlying logic. Though correct usage of an LLM may have also brought this weakness to the forefront.
-
-
-When analyzing the LLMs' reasoning steps, #TODO
-
-* problems unique to LLMS:
-
-** maybe umkao example and how LLMs made more base assumptions in that case
-
-* strengths unique to LLMs:
-
-Some errors were shared among human and LLM participants, #TODO
-
-To determine the LLMs' accuracy in identifying context-dependency, the prompting strategy that includes the context URL was modified to additionally ask the LLM to declare whenever it decided to access the
-
-## Limitations
-
-Because inferential analyses were primarily based on aggregated accuracies rather than a full item-level hierarchical model, residual item-difficulty effects may remain.
-
-# Conclusion
-
-The results are mixed and it is not straightforward to say if LLMs have truly attained human level at this particular task.
-
-– Results show that semantically complex annotation in linguistics may be done by LLMs at much cheaper cost. The human-machine  margin in cost arguably more than compensates the margin in quality.
-
-– The results also show that the under-the-hood reasoning of LLMs has already diminished the importance of prompt engineering for this task, further reducing the risk of human variability and reducing the importance of human expertise altogether.
-
-– Potentially applicable to any other variable dependent on situational, pragmatic, … context, i.e. ‘distant reading’
-
-– Similar research tends to confirm this finding.
-
-– However, some cursory analysis of LLM errors shows that LLMs are prone to being fooled by context.
-
-– Also, bias towards standard English still a limitation, i.e. innovative forms like specific singular _they_ at disadvantage.
-
-– Only tested large commercial LLMs, a limitation common in the literature so far.
-
-– To do:
-
-– – Further qualitative analysis of human & LLM responses
-
-– – Application and evaluation of open source LLMs (replicability!), N-shot prompting, fine-tuning
-
-– – Analyze uses of they in various corpora, potentially uncovering the history of its change and diffusion
-– – Threat to entry-level / student assistant positions?
-
-– – Environmental impact concerns?
-
-## Debugging etc.
-
-```{python}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 # display all LLM results ordered by accuracy descending, with their prompting strategy and confidence intervals
-```
-
-## References
+#
+#
+#
+#
+#

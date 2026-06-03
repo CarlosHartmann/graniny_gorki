@@ -5,7 +5,6 @@ format:
         code-fold: true
 jupyter: 
     kernel: python3
-    executable: ../../.venv/bin/python
 editor: visual
 ---
 
@@ -31,14 +30,19 @@ Explanations:
 
 ```{python}
 import pandas as pd
+from pathlib import Path
 
-# Ensure working directory is the same as this script's directory
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+# Resolve path robustly across Quarto working directories
+csv_candidates = [
+    Path("cost_time_stats.csv"),
+    Path("cost/cost_time_stats.csv"),
+    Path("../cost/cost_time_stats.csv"),
+]
 
-csv_path = "../cost/cost_time_stats.csv"
-
-if not os.path.exists(csv_path):
-    raise FileNotFoundError(f"{csv_path} does not exist. Please check the file path.")
+csv_path = next((p for p in csv_candidates if p.exists()), None)
+if csv_path is None:
+    searched = ", ".join(str(p) for p in csv_candidates)
+    raise FileNotFoundError(f"Could not find cost_time_stats.csv. Checked: {searched}")
 
 df = pd.read_csv(csv_path)
 

@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="ae562a1b" class="cell" data-execution_count="1">
+<div id="3e8b1fcb" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -119,8 +119,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The cost figure is the result of <code>7 * 33 = 231</code>.</li>
 <li>The total cost for crowdworkers added up to £1007.99, which was roughly equal to $1270 at the time (exchange rate of 1:1.26).</li>
 <li>Each human participant annotated 48 examples, so <code>7 * 48 = 336</code> for the local students, and <code>41 * 48 = 1968</code> for crowdworkers.</li>
-<li>There were 31 LLM runs, each of which annotated all 174 data points. The total annotated for LLMs is therefore 5394.</li>
+<li>There were 111 LLM runs, each of which annotated all 174 data points. The total annotated for LLMs is therefore 19314.</li>
 </ul>
+<div id="072415d5" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolve path robustly across Quarto working directories</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>csv_candidates <span class="op">=</span> [</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Path(<span class="st">"cost_time_stats.csv"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    Path(<span class="st">"cost/cost_time_stats.csv"</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    Path(<span class="st">"../cost/cost_time_stats.csv"</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>csv_path <span class="op">=</span> <span class="bu">next</span>((p <span class="cf">for</span> p <span class="kw">in</span> csv_candidates <span class="cf">if</span> p.exists()), <span class="va">None</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> csv_path <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    searched <span class="op">=</span> <span class="st">", "</span>.join(<span class="bu">str</span>(p) <span class="cf">for</span> p <span class="kw">in</span> csv_candidates)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="ss">f"Could not find cost_time_stats.csv. Checked: </span><span class="sc">{</span>searched<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(csv_path)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"group"</span> <span class="kw">not</span> <span class="kw">in</span> df.columns <span class="kw">or</span> <span class="st">"total_annotated_examples"</span> <span class="kw">not</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"The required columns 'group' or 'total_annotated_examples' are missing in the CSV file."</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>llms_total_annotated <span class="op">=</span> <span class="dv">174</span> <span class="op">*</span> total_llms_num</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">"group"</span>] <span class="op">==</span> <span class="st">"LLMs"</span>, <span class="st">"total_annotated_examples"</span>] <span class="op">=</span> llms_total_annotated</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>df.to_csv(csv_path, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 
 </main>
 <!-- /main column -->

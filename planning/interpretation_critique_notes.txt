@@ -1,0 +1,54 @@
+Top Findings (Ordered By Severity)
+
+1. Your core claim for Hypothesis 2 relies on a post-hoc filtered human baseline that is not pre-specified and is highly decision-sensitive.
+The interpretation uses culling plus top-half selection as the practical human comparator. This is understandable substantively, but inferentially it risks optimistic bias toward LLM superiority unless framed as exploratory/sensitivity analysis. Right now, the interpretation reads stronger than the design supports.
+
+2. The Hypothesis 1 comparison is not symmetric across humans and LLMs.
+In your top-10 ranking, humans are single participants but LLMs are averaged over runs. That shrinks LLM variance and can change rank ordering. Also, a synthetic human ensemble (majority vote) is included in the same pool, which is not comparable to an individual annotator. Your current interpretation should acknowledge this comparability issue.
+
+3. Hypothesis 3 is currently incomplete, so your confirmatory narrative is structurally under-supported.
+You announce H3 in the intro and then leave it unfinished in discussion. This creates a logic gap between stated aims and interpreted findings.
+
+4. Group-comparison interpretation overreaches what the test structure currently demonstrates.
+You compute three groups in table form, but the ANOVA comparison for significance is only between two groups. Then the prose infers broader conclusions on native/L2 and crowdworkers. The interpretation should be narrowed or tests expanded to match claims.
+
+5. Qualitative claims are strong, but the qualitative method is not specified enough to validate them.
+The qualitative section asserts themes and cognitive patterns, but there is no coding protocol, coder count, adjudication process, or quote selection logic. This weakens credibility of the most interesting human-vs-LLM interpretation.
+
+6. The cost-effectiveness conclusion is plausible but currently one-sided and under-parameterized.
+The conclusion treats cost-quality tradeoff as near-settled, while quality uncertainty, culling policy dependence, and error-type costs are not integrated quantitatively. A compact utility framing would make this much stronger.
+
+7. The context narrative is promising, but currently split between intention and evidence.
+You planned explicit logging of context access, and mention modified prompting in discussion, but the interpretation does not yet present concrete rates, precision/recall of context-needed detection, or examples where declared access changed outcomes.
+
+8. Several unresolved placeholders currently break argumentative continuity.
+You still have placeholders in core interpretive zones: literature framing, sourcing, theoretical definitions, H3 completion, and qualitative quantification. These are not cosmetic; they block interpretability of your strongest claims.
+
+9. Methods reporting promises are not yet fully honored in prose.
+You explicitly note justification for metric choice and mention MCC in methods notes, but the interpretive write-up does not yet give a crisp rationale and implication for readers.
+
+Missing Things You Already Thought Of (But Should Now Be Promoted To Required)
+
+1. Complete the innovative-forms section and tie it directly to Hypothesis 3.
+2. Add the naturalistic projection section you already planned.
+3. Resolve the possible train/test contamination concern about the 10 intro examples.
+4. Publish dataset availability statement with exact link/versioning as you noted.
+5. Replace worked perfectly with measurable parse/format compliance evidence.
+6. Fill metric-justification paragraph (accuracy vs alternatives, including MCC).
+
+What To Elaborate/Add Next (High Impact, Low Rework)
+
+1. Add a short estimand paragraph before each hypothesis result: what exactly is being compared and at what unit (item, run, participant).
+2. Reframe culling as a sensitivity analysis: report uncullled, threshold-only, threshold+top-half, and show conclusion stability.
+3. For Hypothesis 1, provide symmetric comparisons: best human participant vs best LLM run, and human ensemble vs LLM ensemble, clearly separated.
+4. For Hypothesis 2, add effect sizes with confidence intervals, not only p-values.
+5. For Hypothesis 3, explicitly define non-inferiority margin rationale (why that delta), then complete decision logic in prose.
+6. Add one compact qualitative methods box: coding scheme, coder procedure, reliability, and number of excerpts per theme.
+7. Add an instruction ambiguity subsection: this is one of your strongest insights and could become a central contribution.
+8. Add a limitations paragraph that distinguishes internal validity, external validity, and operational validity.
+
+Open Questions To Resolve Before Final Interpretation
+
+1. Is your target benchmark single best annotator, typical trained annotator, or annotation team/consensus? Your conclusions currently mix all three.
+2. Do you want confirmatory language, exploratory language, or mixed? Right now wording is confirmatory while design choices are partly exploratory.
+3. Is the real deployment objective cost-minimizing, quality-maximizing, or hybrid? This determines how forceful the conclusion should be.

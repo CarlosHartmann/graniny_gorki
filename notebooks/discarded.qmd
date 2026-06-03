@@ -5,7 +5,6 @@ format:
         code-fold: true
 jupyter: 
     kernel: python3
-    executable: ../../.venv/bin/python
 
 ---
 
