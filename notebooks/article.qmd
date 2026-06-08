@@ -1,5 +1,5 @@
 ---
-title: "Computing results and running analyses"
+title: "[Working title] Who is the Pronoun Pro? Comparing LLMs and Humans at Number-Disambiguation of _they_"
 toc: true
 number-sections: true
 jupyter: 
@@ -19,7 +19,9 @@ header-includes:
 bibliography: bibliography.bib
 ---
 
-<!-- # To Do: -->
+<!-- # To Do: 
+
+* fix brown et al ref in first paragraph
 
 * Check for other publications on LLM annotations and see if journals apply; otherwise Corpus Linguistics and Linguistic Theory
 
@@ -29,24 +31,28 @@ bibliography: bibliography.bib
 
 * Expand notes into text chunks
 
-* Background on _they_
+* Background on _they_; move the general purpose of the present research there or into the introduction
 
 * Background on LLMs as annotators
 
 * Conclusion and Intro
 
+* ensure all mentions of linguistic material are italicized
+
+* ensure "generic singular _they_" vs "generic _they_" is well planned and then used consistently
+
 * Choose journal and format accordingly
 
 * Tutorial on exporting to Word
 
-* Quick copy-editing by Jessica
+* Quick copy-editing by Jessica -->
 
 
 # Introduction
 
 Large Language Models (LLMs) have not only permeated wider society, they have also begun changing the methodological landscape in the humanities and linguistics more specifically. The promise of the team behind GPT-3 was that Natural Language Processing (NLP) as a whole would shift “to using task-agnostic pre-training and task-agnostic architectures” @brownLanguageModelsAre2020[1], i.e. general-purpose language models able to perform a wide range of tasks without task-specific training. Indeed, LLMs have found a wide variety of uses: LLMs have been used for X, Y, and Z in linguistics where their performance was found to be so and so.
 
-The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached both recall and precision of over 80% on the same dataset in late 2024, it was hypothesized that LLMs had reached human-like performance in this task. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of they by LLMs reliable when compared to trained human annotators?”
+The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached both recall and precision of over 80% on the same dataset in late 2024, it was hypothesized that LLMs had reached human-like performance in this task. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of _they_ by LLMs reliable when compared to trained human annotators?”
 
 To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:
 
@@ -55,9 +61,9 @@ To answer this question, three levels of performance quality were defined, as ex
 – Hypothesis 2: The most accurate LLM at number-disambiguating _they_ is going to
 perform at a higher accuracy than the mean human accuracy.
 
-– Hypothesis 3: The performance of the most accurate LLM is not going to be significantly worse at rare and innovative uses of they than the mean human performance.
+– Hypothesis 3: The performance of the most accurate LLM is not going to be significantly worse at rare and innovative uses of _they_ than the mean human performance.
 
-The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if Hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.
+The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.
 Additionally, the present work also allowed to assess more generally and qualitatively in what ways LLMs are human-like and in what ways they are not; and if, perhaps, any revealing patterns could be found in the recorded behaviors of LLMs and humans. This is expressed in the additional research question: "In what ways are LLMs human-like and in what ways are they not when it comes to number-disambiguation of _they_?"
 
 
@@ -76,9 +82,19 @@ Their work crosses linguistic boundaries which poses interesting challenges. My 
 
 ## Coreference resolution
 
-Describe task
+Describe task with reference to Jurafsky and relate its history with Gan et al. 2025.
+
+As with all NLP tasks, LLMs have changed the landscape of coreference resolution. The field has shifted from requiring task-specific traning material to being able to use general-purpose LLMs.
+
+More recent history of CRR in Gan et al. 2025.
+
+The present research is not about coreference resolution as a whole but about a specific aspect of it, i.e. the number-disambiguation of _they_ which works through the identification of the referent.
 
 Point out that in this case, the mention detection (ref to textbook) is precluded by our interest in the pronoun _they_ and that the task is thus reduced to a classification task of number-disambiguation of _they_.
+
+The task at hand takes a risk by skipping the identification of the referent, making its output less useful for downstream tasks. However, the task is still relevant for the field of linguistics as it allows to study the phenomenon of _they_ in a more controlled way and to assess the extent to which LLMs can handle semantically complex tasks.
+
+It has been shown repeatedly that LLMs encode gender bias (Bolukbasi et al. 2016, Lucy and Bamman 2021, Lee et al. 2025 section 5, Shore et al 2025 section ??)  Gender bias could still represent a hurdle for LLMs in this task, as the number-disambiguation of _they_ is often related to the gender of the referent.
 
 ## Three kinds of _they_
 (plural, generic, singular)
@@ -87,18 +103,27 @@ The pronoun _they_ is generally used as a plural pronoun of the third person, me
 
 #TODO EXAMPLES
 
-Example N comes from a public figure in science communication of mathematics, Matt Parker. It is perhaps surprising that he avoids using the gendered pronoun _he_ in reference to a known male mathematician. In Example M, Parker avoids using a gendered pronoun when talking about a person who the audience has not seen yet, and therefore does not know their gender. In my personal correspondence with Parker, he revealed that this was indeed a deliberate choice that he decided to make in his public speaking, specifically "to avoid creating expectations about […]". This is a clear example of the first concern mentioned above, i.e. the use of _they_ to mask gender. The second concern is more straightforward and is best explained by linguists and other writers who are more directly involved in the discourse around non-binary gender, such as X and Y.
+Example N comes from a public figure in science communication of mathematics, Matt Parker. It is perhaps surprising that he avoids using the gendered pronoun _he_ in reference to a known male mathematician. In Example M, Parker avoids using a gendered pronoun when talking about a person who the audience has not seen yet, and therefore does not know their gender. In my personal correspondence with Parker, he revealed that this was indeed a deliberate choice that he decided to make in his public speaking since he did not want "the audience to form any opinions based on that". Parker continued to explain that examples such as N came about due to unconsciously learning to use _they_ as a default. Such use of _they_ corresponds to the self-reported use in Konnelly and Cowper. Example(s) O (etc) show that the masking of gender also happens in other, less monitored, contexts, indicating that a more general language change is underway, albeit most likely motivated by the first concern mentioned above. The second concern, the correct gendering of non-binary indnividuals, is more straightforward and is best explained by linguists and other writers who are more directly involved in the discourse around non-binary gender, such as X and Y.
 
-What both concerns mean for the present research is that they make the use of truly singular, and not merely generic, _they_ more likely. It can also, and perhaps more usefully, called "referential singular _they_". It was alluded to above that _they_ was propagated to replace generic _he_ in the second half of the 20th century, and indeed it has been found that _they_ has since expanded to more contexts that had not been considered before (#REFS). To better grasp the changing use of _they_, synchronically and diachronically, it is thus necessary to highlight the distinction between these two innovations of _they_ use.
+What both concerns mean for the present research is that they make the use of truly singular, and not merely generic, _they_ more likely. It can also, and perhaps more usefully, be called "referential singular _they_". It was alluded to above that _they_ was propagated to replace generic _he_ in the second half of the 20th century, and indeed it has been found that _they_ has since expanded to more contexts that had not been considered before (#REFS). To better grasp the changing use of _they_, synchronically and diachronically, it is thus necessary to highlight the distinction between these two innovations of _they_ use.
 
-Generic _they_ can be conceived as… #TODO
+Generic singular _they_ is the use of _they_ in contexts that are grammatically singular but generic in meaning. "Generic" means that (#TODO: dictionary-sourced definition). Grammatically speaking, generic statements can make use of singular or plural forms. The former can be called "instantiation" (#TODO, reference Newman here) and could take the form of expressions such as _the average worker_ or _anyone in their right mind_. Using _they_ to refer to such expressions was not always regarded as correct, but a rich history of such usage is well-documented (#REF). Judging generic singular _they_ as (in)correct was always related to positions about linguistic gender-fairness, as the following examples exemplify:
+
+In these examples, the phenomenon of instantiation is to some degree problematic as a male pronoun instantiates a male person in most people's minds, potentially exacerbating an already overly male-centric worldview. And indeed, it is well attested that opposition or promotion of generic singular _they_ is often motivated by ideological stances on gender-fairness (#REF). Most notably, the mid-19th century saw a wave of androcentrist grammatical prescriptivism that led to the decline of generic singular _they_ in formal writing, and the late 20th century saw a wave of feminist advocacy that led to the comeback of generic singular _they_ in formal writing. Some scholarship suggests that the use generic singular _they_ in informal speech and literary writing was generally unaffected by these trends.
 
 Singular _they_ can be conceived as… #TODO
 
-While this distinction goes beyond the traditional dichotomy of singular and plural, it falls short of the much more fine-grained distinctions proposed in the literature, most prominently in Newman's work (1994, 1997).
+Both generic and specific singular _they_ can be differentiated further. For example, the subject of generic statements can carry semantic gender. For illustration, _the average worker … they_ is likely less controversial than _the average mother … they_. Specific singular _they_, especially since it is an innovative form, could be found in an array of different contexts. One important distinction can be based on speaker knowledge: _my friend … they_ might be more likely to be used when the hearer does not know the referenced friend's gender, or perhaps when the hearer will never learn that friend's gender. Both cases might still be less likely than cases in which the speaker does not know the referenced person's gender, such as _the backstage manager … they_. And most saliently, current discourse around singular _they_ is focused on the use of _they_ as a personal pronoun for non-binary individuals, the use of which is likely to correlate with knowledge about and acceptance of gender diversity (Remsö et al 2026).
 
-* generic 'they' is older; it may thus have reached the use of people who oppose singular they
-* singular they is rarer than generic and much rarer than plural. Further distinctions are relevant and necessary; they can and should be made when investigating usage samples up-close. What is being developed here is a way to efficiently collect instances of generic and singular usage in useful amounts, but leaving the fine-grained analysis to future work.
+Thus, the phenomenon usually subsumed under the term "singular _they_" is actually a heterogeneous set of uses that differ in their discursive function and likely also in their patterns of use over time. This is not a new insight and others have attempted to differentiate all possible and/or plausible uses of _they_ in the literature. One particularly thorough attempt is that of Newman (1994, 1997), who situates every use of _they_ along several axes (#TODO) and thus really only lacks non-binary _they_ as Newman was seemingly unaware of the possibility of such a use. (#TODO: check that one footnote in which he talks about transvestites etc)
+
+However, for the present purpose a balance needs to be struck between the granularity of the typology and the feasibility of annotating it with LLMs. Gauging speaker/hearer knowledge and other nuances of each context is not relevant when specific singular _they_ is still fairly rare on the whole and is likely even absent in many datasets. For most research intents, the task of annotating instances of _they_ is really only about differentiating between plural uses and any of the innovative ones. The latter can then be studied closely by a human researcher. However, I maintain that some depth is necessary when analyzing in order to differentiate between generic and specific singular _they_ for the simple reason of scalability. To provide a broad picture of how _they_ has changed broadly over time across different contexts and speaker groups, close analysis of each instance is not necessary or feasible. Instead, it would be preferable to blindly trust the annotator(s). Based on the different timeframes and socio-political contexts in which the two innovations of _they_ emerged, it is likely that they show different patterns of use over time. While generic singular _they_ likely acted as a pivot for the latter innovation, the two are not the same and will show different patterns of use and change.
+
+=> I am proposing a typology that differentiates uses that are distinct in a discursive sense and likely to show different patterns of use over time. I am not going any further in differentiating specific uses because I don't see that as a task for LLMs. That is ultimately at the heart of any investigation into changing uses of _they_. The role of LLMs is to filter first and thus enable humans to study _they_ better.
+
+## My approach
+
+Follows QA template described in Gan et al. 2024 and 2025. Reasoning for that is given in Gan et al. 2025, section 7.2.
 
 ## LLMs as (linguistic) annotators
 
@@ -127,7 +152,7 @@ The raw data are shaped like so:
 
 * Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
 * Human participants are put into 5 blocks, blocks A-D and the group of pilot participants
-* LLMs come in three different groups: commercial, open source, and local
+* LLMs come in two groups: commercial and open source
 * in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
 * each combination of LLM and prompting strategy is treated as a participant.
 * For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
@@ -137,6 +162,8 @@ The raw data are shaped like so:
 174 authentic uses of they (Reddit)
 Context-(in)dependent
 56–59 for plural/generic/singular (do this dynamically & as a table)
+
+While similar datasets for testing disambiguation skills such as Yuan et al. (2023) are only sentence-level, the present dataset has variable item length (from a few words to several paragraphs #TODO: get the min and max from the dataset) and the source of the item is always provided, allowing for deeper research, if necessary, to perform the task.
 
 Each annotation instance was treated as an item-level trial for scoring and condition-wise breakdowns, while inferential comparisons were conducted on aggregated participant or run-level performance
 
@@ -150,7 +177,8 @@ System of blocks with overlap
 Point out that dataset is available
 
 ```{python}
-"Run processing of raw data and import relevant variables"
+# Run processing of raw data and import relevant variables
+
 # human annotators
 from process_raw_data import block_pilot, block_a, block_b, block_c, block_d
 
@@ -188,7 +216,7 @@ label_mapping = {
 ```
 
 ```{python}
-"Variables needed for data illustration"
+# Variables needed for data illustration
 
 example_llm = list(commercial_llm_responses.keys())[1]
 example_llm_responses = commercial_llm_responses[example_llm]
@@ -202,7 +230,11 @@ data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") 
 
 To illustrate, the variable name `commercial_llm_responses` has the entry "`{python} example_llm`", which tells us the prompting strategy (`{python} "-".join(example_llm.split("_")[0:2])`) and the LLM with its dated version (`{python} example_llm.split("_")[-1]`). This entry has `{python} num2words(len(example_llm_responses))` runs saved. Each run is of the type "`{python} type(example_llm_responses[0])`" and has `{python} len(example_llm_responses_without_comments)` data points saved with their answers as keys and values. This number `{python} len_corresponds` to the number of data points in the original test set.
 
+# TODO: figure that shows the annotation process as a flowchart in order to explain what tasks were being tested; point out that this applies to other datasets as well; explain that LLMs only mimic reasoning, but, depending on the task, fairly successfully
+
 ## Participants
+
+Local pilots were chosen in part due to ethical considerations of micro work (though Prolific seems ok-ish) and in part due to the need for a more controlled environment in which to test the task design and the prompting strategies.
 
 Human annotators are organized in four different blocks due to limits to study duration, i.e. avoiding influence from participant fatigue. Instead of testing everyone with the full `{python} len(gt)` data points from the test set, every block of participants received a shared of data points that was identical among all of them and one part which was only solved by their respective block. The distribution of examples among the blocks was done randomly while ensuring within-block balance of antecedent types.
 
@@ -1510,6 +1542,12 @@ To determine the LLMs' accuracy in identifying context-dependency, the prompting
 
 Because inferential analyses were primarily based on aggregated accuracies rather than a full item-level hierarchical model, residual item-difficulty effects may remain.
 
+Fully ambiguous cases (even when researching context etc) were not included in this study.
+
+Other languages have their own examples of gender-neutral language with different properties and etymologies/histories. This study may or may not be generalizable to those cases.
+
+I did not investigate a human-LLM cooperative approach and how it would compare to either group alone. This would be an interesting avenue for future research, especially given the complementary strengths but also weaknesses of humans and LLMs revealed in the qualitative analysis. And not least because public discourse often proposes the idea that humans are not threatened by LLMs as long as they work together, a claim worth testing in practice.
+
 # Conclusion
 
 The results are mixed and it is not straightforward to say if LLMs have truly attained human level at this particular task.
@@ -1526,7 +1564,11 @@ The results are mixed and it is not straightforward to say if LLMs have truly at
 
 – Also, bias towards standard English still a limitation, i.e. innovative forms like specific singular _they_ at disadvantage.
 
-– Only tested large commercial LLMs, a limitation common in the literature so far.
+- Reasoning models are likely to become better for a while before hitting a plateau.
+
+Ich nehme an, dass LLMs weite Teile der aktuellen linguistischen Forschung tangieren oder massgeblich prägen werden. Dabei befürchte ich aber, dass es zu Problemen verschiedener Art kommen wird. In etwa, weil die Fähigkeiten der LLMs überschätzt oder falsch eingeordnet werden. Oder weil sich, in Anlehnung an den Papst, zu viel Macht und/oder Wissen in den Händen weniger Firmen sammeln wird. Letzteres führt zu einem Plädoyer für wissenschaftsorientierte Open-Weight-Modelle.
+
+
 
 – To do:
 
