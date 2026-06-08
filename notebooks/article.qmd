@@ -157,9 +157,9 @@ The raw data are shaped like so:
 * each combination of LLM and prompting strategy is treated as a participant.
 * For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
 
-– Point about MA-era-dataset being limited (number of singular they examples; context-independence) 
+– Point about MA-era-dataset being limited (number of singular _they_ examples; context-independence) 
 
-174 authentic uses of they (Reddit)
+174 authentic uses of _they_ (Reddit)
 Context-(in)dependent
 56–59 for plural/generic/singular (do this dynamically & as a table)
 
