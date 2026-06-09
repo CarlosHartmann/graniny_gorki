@@ -111,7 +111,7 @@ Generic singular _they_ is the use of _they_ in contexts that are grammatically 
 
 In these examples, the phenomenon of instantiation is to some degree problematic as a male pronoun instantiates a male person in most people's minds, potentially exacerbating an already overly male-centric worldview. And indeed, it is well attested that opposition or promotion of generic singular _they_ is often motivated by ideological stances on gender-fairness (#REF). Most notably, the mid-19th century saw a wave of androcentrist grammatical prescriptivism that led to the decline of generic singular _they_ in formal writing, and the late 20th century saw a wave of feminist advocacy that led to the comeback of generic singular _they_ in formal writing. Some scholarship suggests that the use generic singular _they_ in informal speech and literary writing was generally unaffected by these trends.
 
-Singular _they_ can be conceived as… #TODO
+"Specific singular _they_" denotes the use of _they_ to refer to a specific individual in the real world. As _they_ does not carry gender, instances of specific singular _they_ do not carry any information about the gender of the referent. This has been promoted by people who do not identify as either male/man or female/woman as an appropriate way of referring to them. However, the use of specific singular _they_ is not limited to non-binary individuals. It can also be used to refer to a specific individual whose gender is unknown to the speaker, or to refer to a specific individual without revealing their gender for any reason. 
 
 Both generic and specific singular _they_ can be differentiated further. For example, the subject of generic statements can carry semantic gender. For illustration, _the average worker … they_ is likely less controversial than _the average mother … they_. Specific singular _they_, especially since it is an innovative form, could be found in an array of different contexts. One important distinction can be based on speaker knowledge: _my friend … they_ might be more likely to be used when the hearer does not know the referenced friend's gender, or perhaps when the hearer will never learn that friend's gender. Both cases might still be less likely than cases in which the speaker does not know the referenced person's gender, such as _the backstage manager … they_. And most saliently, current discourse around singular _they_ is focused on the use of _they_ as a personal pronoun for non-binary individuals, the use of which is likely to correlate with knowledge about and acceptance of gender diversity (Remsö et al 2026).
 
@@ -145,36 +145,231 @@ from statsmodels.stats.weightstats import ttost_ind
 import textwrap
 ```
 
-# Data
+# Data and Methods
 
-First, we need to import all raw data by calling the relevant script.
-The raw data are shaped like so:
+## Task Design
 
 * Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
-* Human participants are put into 5 blocks, blocks A-D and the group of pilot participants
-* LLMs come in two groups: commercial and open source
-* in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
-* each combination of LLM and prompting strategy is treated as a participant.
-* For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
-
-– Point about MA-era-dataset being limited (number of singular _they_ examples; context-independence) 
-
-174 authentic uses of _they_ (Reddit)
-Context-(in)dependent
-56–59 for plural/generic/singular (do this dynamically & as a table)
-
-While similar datasets for testing disambiguation skills such as Yuan et al. (2023) are only sentence-level, the present dataset has variable item length (from a few words to several paragraphs #TODO: get the min and max from the dataset) and the source of the item is always provided, allowing for deeper research, if necessary, to perform the task.
-
-Each annotation instance was treated as an item-level trial for scoring and condition-wise breakdowns, while inferential comparisons were conducted on aggregated participant or run-level performance
 
 Mention 10 intro examples that were cherry-picked for balance and had a precise reasoning behind the solution and were identical for all human participants.
 Clarify if those 10 examples were part of the test set for LLMs (shouldn't have been but need to ensure).
+
+* TODO: figure that shows the annotation process as a flowchart in order to explain what tasks were being tested; point out that this applies to other datasets as well; explain that LLMs only mimic reasoning, but, depending on the task, fairly successfully
+
+## Dataset
+
+```{python}
+# Data import and illustration
+filepath = "../assets/ground_truth.csv"
+
+# Keep the header row and skip only the first 10 data rows.
+data = pd.read_csv(filepath, skiprows=range(1, 11))
+
+# an example is 'plural' if the they_type column contains "plural_they", 'generic' if it contains "generic_they", and 'singular' if it contains "singular_they"
+# an example is context-dependent if its ID is in the context_dependent_ids list
+
+# Prefer the canonical text column; fall back to common alternatives if needed.
+text_col_candidates = ["comment_body", "comment", "text", "body"]
+text_col = next((c for c in text_col_candidates if c in data.columns), None)
+if text_col is None:
+    raise KeyError(f"No expected text column found. Available columns: {list(data.columns)}")
+
+avg_length = data[text_col].apply(lambda x: len(str(x).split())).mean()
+
+```
+
+```{python}
+#| label: tbl-dataset-stats-context-category
+#| tbl-cap: "Dataset composition by category and context-(in)dependence"
+
+# Build a compact table with category columns and context-(in)dependence rows
+from process_raw_data import context_dependent_ids
+
+stats_df = data.copy()
+stats_df["ID"] = stats_df["ID"].astype(str).str.strip()
+stats_df["is_context_dependent"] = stats_df["ID"].isin(set(context_dependent_ids))
+
+# Normalize categories to plural/generic/singular
+stats_df["category"] = (
+    stats_df["they_type"]
+    .astype(str)
+    .str.lower()
+    .str.extract(r"(plural|generic|singular)", expand=False)
+)
+
+filtered = stats_df[stats_df["category"].isin(["plural", "generic", "singular"])].copy()
+
+dataset_stats = (
+    pd.crosstab(
+        index=filtered["is_context_dependent"].map({True: "Context-dependent", False: "Context-independent"}),
+        columns=filtered["category"],
+    )
+    .reindex(index=["Context-dependent", "Context-independent"], fill_value=0)
+    .reindex(columns=["plural", "generic", "singular"], fill_value=0)
+)
+
+dataset_stats["total"] = dataset_stats.sum(axis=1)
+dataset_stats.loc["Total"] = dataset_stats.sum(axis=0)
+dataset_stats.columns = [c.title() for c in dataset_stats.columns]
+dataset_stats.index.name = ""
+dataset_stats.columns.name = ""
+
+Markdown(dataset_stats.to_markdown())
+```
+
+```{python}
+# Proportion of Ma-era vs LoRes examples
+ma_era_count = len([elem for elem in data["ID"] if elem.startswith("ma_era_") and not elem.endswith("[comment]")])
+lores_count = len([elem for elem in data["ID"] if elem.startswith("LoRes_") and not elem.endswith("[comment]")])
+
+ma_era_proportion = ma_era_count / (ma_era_count + lores_count) if (ma_era_count + lores_count) > 0 else 0
+lores_proportion = lores_count / (ma_era_count + lores_count) if (ma_era_count + lores_count) > 0 else 0
+```
+
+```{python}
+# Intra-annotator agreement, i.e. with myself
+
+gt = "../assets/ground_truth.csv"
+orig = "../assets/original_annotations/ma_era_wth_lores.xlsx"
+
+from sklearn.metrics import cohen_kappa_score
+
+# Load data
+gt_df = pd.read_csv(gt)
+orig_df = pd.read_excel(orig)
+
+# Keep only rows that correspond to actual annotated items
+gt_df = gt_df.dropna(subset=["ID", "they_type"]).copy()
+gt_df["ID"] = gt_df["ID"].astype(str).str.strip()
+gt_df = gt_df[~gt_df["ID"].str.endswith("[comment]")]
+
+# Keep original rows even if they_type is empty/NaN so they count as disagreements.
+orig_df = orig_df.dropna(subset=["ID"]).copy()
+orig_df["ID"] = orig_df["ID"].astype(str).str.strip()
+orig_df = orig_df[~orig_df["ID"].str.endswith("[comment]")]
+
+# Canonical mapping for original annotation scheme
+orig_to_gt_map = {
+    "plural_they": "plural_they",
+    "collnoun": "plural_they",
+    "mixed_they": "plural_they",
+    "generic_genderedthey": "generic_they",
+    "generic_singularthey": "generic_they",
+    "specific_singularthey": "singular_they",
+    "specific_unknown_singularthey": "singular_they",
+    "nonbinary_they": "singular_they",
+}
+
+# Validate original categories
+orig_raw_type = orig_df["they_type"].fillna("").astype(str).str.strip()
+orig_cats_nonempty = set(orig_raw_type[orig_raw_type != ""])
+unmapped_cats = sorted(c for c in orig_cats_nonempty if c not in orig_to_gt_map)
+if unmapped_cats:
+    raise ValueError(
+        "Found categories in original annotations that are not mapped: "
+        + ", ".join(unmapped_cats)
+    )
+
+# Normalize labels
+allowed_gt = {"plural_they", "generic_they", "singular_they"}
+gt_df["they_type"] = gt_df["they_type"].astype(str).str.strip()
+invalid_gt = sorted(set(gt_df["they_type"]) - allowed_gt)
+if invalid_gt:
+    raise ValueError(
+        "Found unexpected categories in ground truth: " + ", ".join(invalid_gt)
+    )
+
+# Keep missing/empty labels as an explicit disagreement category.
+MISSING_ORIG_LABEL = "__unannotated_or_ambiguous__"
+orig_df["mapped_type"] = orig_raw_type.map(orig_to_gt_map)
+orig_df.loc[orig_raw_type == "", "mapped_type"] = MISSING_ORIG_LABEL
+
+# Ensure complete ID overlap from GT to original
+gt_ids = set(gt_df["ID"])
+orig_ids = set(orig_df["ID"])
+missing_in_orig = sorted(gt_ids - orig_ids)
+
+# Toggle strictness:
+# True  -> raise if any GT IDs are missing in original annotations.
+# False -> compute kappa on overlapping IDs and print a warning.
+STRICT_ID_MATCH = False
+if missing_in_orig and STRICT_ID_MATCH:
+    raise ValueError(
+        f"{len(missing_in_orig)} GT IDs are missing in original annotations. "
+        f"Examples: {missing_in_orig[:10]}"
+    )
+elif missing_in_orig:
+    print(
+        f"Warning: {len(missing_in_orig)} GT IDs missing in original annotations. "
+        f"Examples: {missing_in_orig[:10]}. "
+        "Computing kappa on overlapping IDs only."
+    )
+
+# Align by ID and compute Cohen's kappa
+orig_lookup = orig_df.set_index("ID")["mapped_type"].to_dict()
+gt_overlap = gt_df[gt_df["ID"].isin(orig_ids)].copy()
+gt_labels = gt_overlap["they_type"].tolist()
+orig_labels = [orig_lookup[i] for i in gt_overlap["ID"]]
+
+intra_annotator_kappa = cohen_kappa_score(gt_labels, orig_labels)
+n_intra_annotator_overlap = len(gt_labels)
+n_intra_annotator_missing_in_orig = int(sum(lbl == MISSING_ORIG_LABEL for lbl in orig_labels))
+intra_annotator_kappa
+
+def interpret_cohens_kappa(kappa):
+    if np.isclose(kappa, 1.0):
+        return "perfect agreement"
+    if kappa < 0.41:
+        return "low agreement"
+    elif kappa <= 0.60:
+        return "moderate agreement"
+    elif kappa <= 0.80:
+        return "good agreement"
+    else:
+        return "almost perfect agreement"
+
+```
+
+The items for this study were sourced from data used in previous unpublished research that used randomly sampled instances of any form of _they_^[_they_, _them_, _their_, _theirs_, _themself_ and _themselves_.] from the social media website Reddit. `{python} f"{ma_era_proportion:.0%}"` of the dataset were sampled from any part of Reddit from October 2019 and June 2021. `{python} f"{lores_proportion:.0%}"` were sampled from British^[/r/UnitedKingdom and /r/BritishProblems.] and Australian^[/r/Australia, /r/Sydney, /r/Melbourne, /r/Brisbane, and /r/Adelaide.] subreddits from the entire year 2013 and October 2022. The latter were sampled under a length restriction of minimum 50 characters and maximum 450 characters. The `{python} len(stats_df)` items in this study were sampled from the two larger datasets to ensure a balance of items between plural, generic, and singular _they_. There was, however, a dearth of context-dependent examples of generic and singular _they_, and some sampled examples had to be discarded as their original annotation was found to be incorrect or they were found to be completely ambiguous which was incompatible with the task design based on a ground truth. The intra-annotator agreement between past annotations and the new ones was found to be `{python} f"{intra_annotator_kappa:.2f}"`, which is considered `{python} interpret_cohens_kappa(intra_annotator_kappa)`.
+
+The choice of Reddit data was made due to the naturalistic and contemporary nature of the language found on the platform. In their study on evaluating LLMs on coreference resolution, Le and Ritter opt for data from OntoNotes (#REF) because they find that other datasets are too artifical, i.e. they seem “designed more as an AI challenge task”. For example, Yuan et al. (2023) employ sentence-level items exclusively when the real challenge of coreference resolution often lies in the multitude of potential referents and variable distance between pronouns and antecedents. However, OntoNotes was compiled in a way that excluded innovative uses of _they_ and thus would not be suitable for the present research. Additionally, annotating Reddit comments is a better simulation of authentic tasks in linguistics research because jargon and other domain-specific language is frequently found and because context may or may not be needed for correct annotation, which poses its own challenge. Thus, the present dataset addresses the artificiality concerns raised by Le and Ritter while still being suitable for the task at hand that centers around innovative language use.
+
+Each annotation instance was treated as an item-level trial for scoring and condition-wise breakdowns, while inferential comparisons were conducted on aggregated participant or run-level performance
 
 Randomly sampled for each participant to avoid bias
 
 System of blocks with overlap
 
 Point out that dataset is available
+
+## Methods
+
+```{python}
+# IAA calculation
+from pathlib import Path
+import sys
+
+# Ensure repository root is importable when Quarto runs from notebooks/
+repo_root = Path.cwd().resolve().parent
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
+from scripts.iaa_calculation import calculate_cohens_kappa
+cohens_kappa = calculate_cohens_kappa()
+
+cohens_kappa_interpretation = interpret_cohens_kappa(cohens_kappa)
+
+```
+
+Explain basic GT comparison
+
+Justify choice of accuracy (F1 doesn’t necessarily make sense over accuracy as the three classes are balanced. Also mention that MCC was considered.)
+
+The annotation scheme was tested by a colleague with expertise in linguistics but no direct experience in my specific research area, and the inter-annotator-agreement was found to be good (Cohen's kappa of `{python} f"{cohens_kappa:.2f}"` which is considered `{python} cohens_kappa_interpretation`).
+
+Confirmatory and quasi-experimental study
+
+### Hypotheses
 
 ```{python}
 # Run processing of raw data and import relevant variables
@@ -193,56 +388,62 @@ from process_raw_data import gt, context_dependent_ids
 ```
 
 ```{python}
-# Safe label mapping
-label_mapping = {
-    "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
-    "context-ondemand_zero-shot_gpt-5": "GPT-5 Context on Demand",
-    "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
-    "context-via-permalink_google-gemini-3-pro-preview":    "Gemini 3 Pro Preview with URL Access",
-    "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
-    "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
-    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
-    "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B",
-    "context-via-permalink_qwen-qwen3-vl-235b-a22b-thinking":       "Qwen 3 235B A22B Thinking",
-    "context-via-permalink_moonshotai-kimi-k2-0905":        "Kimi K2 0905",
-    "context-via-permalink_meta-llama-llama-4-maverick":    "Llama 4 Maverick",
-    "context-via-permalink_moonshotai-kimi-k2-thinking":    "Kimi K2 Thinking",
-    "context-via-permalink_z-ai-glm-4.7":       "GLM 4.7",
-    "context-agnostic_zero-shot_z-ai-glm-5.1": "GLM 5.1",
-    "context-via-permalink_allenai-olmo-3.1-32b-instruct":     "Olmo 3.1 32B Instruct",
-    "context-via-permalink_allenai-olmo-3.1-32b-think":         "Olmo 3.1 32B Think",
-    "zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf":                "Olmo 3 7B Zero-Shot"
+# Overlapping data items
+
+META_KEYS = {"prolificID", "EnglishLingFamiliar", "GenderEnglishAge"}
+
+def participant_item_ids(participant):
+    return {
+        k.strip()
+        for k in participant.keys()
+        if isinstance(k, str)
+        and k not in META_KEYS
+        and not k.endswith("[comment]")
+        and (k.startswith("ma_era_") or k.startswith("LoRes_"))
+    }
+
+def block_item_ids(block):
+    """IDs that are present for every participant within a block."""
+    if not block:
+        return set()
+    per_participant = [participant_item_ids(p) for p in block]
+    return set.intersection(*per_participant) if per_participant else set()
+
+gt_item_ids = {
+    i.strip()
+    for i in gt["ID"].astype(str)
+    if i
+    and not i.endswith("[comment]")
+    and (i.startswith("ma_era_") or i.startswith("LoRes_"))
 }
+
+pilot_ids = block_item_ids(block_pilot)
+block_a_ids = block_item_ids(block_a)
+block_b_ids = block_item_ids(block_b)
+block_c_ids = block_item_ids(block_c)
+block_d_ids = block_item_ids(block_d)
+
+overlapping_items = gt_item_ids.intersection(
+    pilot_ids,
+    block_a_ids,
+    block_b_ids,
+    block_c_ids,
+    block_d_ids,
+)
+
+# Number of examples annotated per participant in each non-pilot block.
+block_size = min(len(block_a_ids), len(block_b_ids), len(block_c_ids), len(block_d_ids))
 ```
 
-```{python}
-# Variables needed for data illustration
+# Participants
 
-example_llm = list(commercial_llm_responses.keys())[1]
-example_llm_responses = commercial_llm_responses[example_llm]
-example_llm_responses_without_comments = [elem for elem in commercial_llm_responses[example_llm][0] if not elem.endswith("[comment]")]
-len_corresponds = "corresponds" if len(example_llm_responses_without_comments) == len(gt) else "does not correspond"
-
-
-data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") or elem.startswith("LoRes_")) and not elem.endswith("[comment]")])
-```
-
-
-To illustrate, the variable name `commercial_llm_responses` has the entry "`{python} example_llm`", which tells us the prompting strategy (`{python} "-".join(example_llm.split("_")[0:2])`) and the LLM with its dated version (`{python} example_llm.split("_")[-1]`). This entry has `{python} num2words(len(example_llm_responses))` runs saved. Each run is of the type "`{python} type(example_llm_responses[0])`" and has `{python} len(example_llm_responses_without_comments)` data points saved with their answers as keys and values. This number `{python} len_corresponds` to the number of data points in the original test set.
-
-## Task Design
-
-Le and Ritter opt for OntoNotes because they find that other datasets are too artifical (“designed more as an AI challenge task”). I do agree with the artificiality but OntoNotes is a dead horse, esp. from a language change POV. My task, then, addresses both the artificiality issue as well as the datedness of OntoNotes, while adding an additional layer of complexity to the task through the issue of potential context-dependency in each item.
-
-# TODO: figure that shows the annotation process as a flowchart in order to explain what tasks were being tested; point out that this applies to other datasets as well; explain that LLMs only mimic reasoning, but, depending on the task, fairly successfully
-
-## Participants
+## Humans
 
 Local pilots were employed to avoid ethical concerns associated with crowdsourced labor and to maintain a controlled environment for evaluating task design and prompting strategies. However, nearly all available local participants were L2 speakers of English, an uncommon demographic for such experiments, especially seeing as they are chosen as experts, a status usually associated with native speakers. Therefore, two additional groups of participants were recruited through Prolific, one of which was composed of self-identified linguists who were also native speakers of English, and the other of non-linguists with English as L1. As such, the groups of human participants are either linguistis or not, and either L1 or L2 speakers of English, or both. The results will thus be able to show, in addition to the human-LLM comparison, how the performances of different groups of human participants compare to each other.
 
-All human participants were stratified into four blocks to manage study duration and mitigate participant fatigue effects while still maintaining a fairly high dataset size to ensure statistical power and diversity in the dataset. Each block received an overlapping set of `{python} data_points_a` examples common to all participants, supplemented with block-specific items. Example distribution across blocks was randomized whilst maintaining within-block balance of antecedent types.
+All human participants were stratified into four blocks to manage study duration and mitigate participant fatigue effects while still maintaining a fairly high dataset size to ensure statistical power and diversity in the dataset. Each block received an overlapping set of `{python} len(overlapping_items)` examples common to all participants, supplemented with block-specific items. Example distribution across blocks was randomized whilst maintaining within-block balance of antecedent types.
 
-Blocks A–D comprised `{python} len(block_a)`, `{python} len(block_b)`, `{python} len(block_c)`, and `{python} len(block_d)` participants respectively, with the pilot group comprising `{python} len(block_pilot)` participants. All participants annotated `{python} data_points_a` examples, yielding a study duration of approximately one hour per participant.
+Blocks A–D comprised `{python} len(block_a)`, `{python} len(block_b)`, `{python} len(block_c)`, and `{python} len(block_d)` participants respectively, with the pilot group comprising `{python} len(block_pilot)` participants. All participants annotated `{python} block_size` examples, yielding a study duration of approximately one hour per participant.
 
 ### Demographics
 
@@ -253,6 +454,11 @@ Women, age range (+ bibliographic justification)
 Explain issue with Prolific setup. Explain possibility of post-hoc culling the participants by attentiveness to still get appropriate data.
 
 ## LLMs
+
+* LLMs come in two groups: commercial and open source
+* in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
+* each combination of LLM and prompting strategy is treated as a participant.
+* For every run of that combination, a dictionary is found in which every data point is found with their annotation and their full response saved like human annotators' comments
 
 ### Models
 
@@ -281,44 +487,30 @@ The task description has brief examples interspersed, not fully-fledged ones.
 
 Structured output reduced to just the last word. Worked perfectly.
 
-# Methods
+# Results
 
 ```{python}
-# IAA calculation
-from pathlib import Path
-import sys
-
-# Ensure repository root is importable when Quarto runs from notebooks/
-repo_root = Path.cwd().resolve().parent
-if str(repo_root) not in sys.path:
-    sys.path.insert(0, str(repo_root))
-
-from scripts.iaa_calculation import calculate_cohens_kappa
-cohens_kappa = calculate_cohens_kappa()
-
-def interpret_cohens_kappa(kappa):
-    if kappa < 0.41:
-        return "low agreement"
-    elif kappa <= 0.60:
-        return "moderate agreement"
-    elif kappa <= 0.80:
-        return "good agreement"
-    else:
-        return "almost perfect agreement"
-
-cohens_kappa_interpretation = interpret_cohens_kappa(cohens_kappa)
-
+# Safe label mapping
+label_mapping = {
+    "context-via-permalink_gpt-5":      "GPT-5 with URL Access",
+    "context-ondemand_zero-shot_gpt-5": "GPT-5 Context on Demand",
+    "context-agnostic_zero-shot_gpt-5": "GPT-5 Context-Agnostic",
+    "context-via-permalink_google-gemini-3-pro-preview":    "Gemini 3 Pro Preview with URL Access",
+    "context-via-permalink_deepseek-deepseek-chat":                  "Deepseek 3",
+    "context-via-permalink_deepseek-deepseek-v3.1-terminus":         "Deepseek 3.1 Terminus High Reasoning",
+    "context-via-permalink_deepseek-deepseek-v3.2-speciale":         "Deepseek 3.2 Speciale",
+    "context-via-permalink_qwen-qwen3-235b-a22b":           "Qwen 3 235B A22B",
+    "context-via-permalink_qwen-qwen3-vl-235b-a22b-thinking":       "Qwen 3 235B A22B Thinking",
+    "context-via-permalink_moonshotai-kimi-k2-0905":        "Kimi K2 0905",
+    "context-via-permalink_meta-llama-llama-4-maverick":    "Llama 4 Maverick",
+    "context-via-permalink_moonshotai-kimi-k2-thinking":    "Kimi K2 Thinking",
+    "context-via-permalink_z-ai-glm-4.7":       "GLM 4.7",
+    "context-agnostic_zero-shot_z-ai-glm-5.1": "GLM 5.1",
+    "context-via-permalink_allenai-olmo-3.1-32b-instruct":     "Olmo 3.1 32B Instruct",
+    "context-via-permalink_allenai-olmo-3.1-32b-think":         "Olmo 3.1 32B Think",
+    "zero-shot_Olmo-3-7B-Think.Q4_K_M.gguf":                "Olmo 3 7B Zero-Shot"
+}
 ```
-
-Explain basic GT comparison
-
-Justify choice of accuracy (F1 doesn’t necessarily make sense over accuracy as the three classes are balanced. Also mention that MCC was considered.)
-
-The annotation scheme was tested by a colleague with expertise in linguistics but no direct experience in my specific research area, and the inter-annotator-agreement was found to be good (Cohen's kappa of `{python} f"{cohens_kappa:.2f}"` which is considered `{python} cohens_kappa_interpretation`).
-
-Confirmatory and quasi-experimental study
-
-# Results
 
 ```{python}
 "Functions for obtaining accuracy performances"
