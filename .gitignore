@@ -1,1 +1,4 @@
 .DS_Store
+
+# VS Code virtual docs generated from Quarto/Python cells
+**/.vdoc.*.py
