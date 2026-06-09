@@ -230,6 +230,10 @@ data_points_a = len([elem for elem in block_a[0] if (elem.startswith("ma_era_") 
 
 To illustrate, the variable name `commercial_llm_responses` has the entry "`{python} example_llm`", which tells us the prompting strategy (`{python} "-".join(example_llm.split("_")[0:2])`) and the LLM with its dated version (`{python} example_llm.split("_")[-1]`). This entry has `{python} num2words(len(example_llm_responses))` runs saved. Each run is of the type "`{python} type(example_llm_responses[0])`" and has `{python} len(example_llm_responses_without_comments)` data points saved with their answers as keys and values. This number `{python} len_corresponds` to the number of data points in the original test set.
 
+## Task Design
+
+Le and Ritter opt for OntoNotes because they find that other datasets are too artifical (“designed more as an AI challenge task”). I do agree with the artificiality but OntoNotes is a dead horse, esp. from a language change POV. My task, then, addresses both the artificiality issue as well as the datedness of OntoNotes, while adding an additional layer of complexity to the task through the issue of potential context-dependency in each item.
+
 # TODO: figure that shows the annotation process as a flowchart in order to explain what tasks were being tested; point out that this applies to other datasets as well; explain that LLMs only mimic reasoning, but, depending on the task, fairly successfully
 
 ## Participants
