@@ -87,6 +87,7 @@ Describe task with reference to Jurafsky and relate its history with Gan et al. 
 As with all NLP tasks, LLMs have changed the landscape of coreference resolution. The field has shifted from requiring task-specific traning material to being able to use general-purpose LLMs.
 
 More recent history of CRR in Gan et al. 2025.
+Kong and Tan (2026) say that CRR history had 4 stages, including LLMs at the end, which is the current state of research.
 
 The present research is not about coreference resolution as a whole but about a specific aspect of it, i.e. the number-disambiguation of _they_ which works through the identification of the referent.
 
@@ -1763,16 +1764,6 @@ Some errors were shared among human and LLM participants, #TODO
 
 To determine the LLMs' accuracy in identifying context-dependency, the prompting strategy that includes the context URL was modified to additionally ask the LLM to declare whenever it decided to access the
 
-## Limitations
-
-Because inferential analyses were primarily based on aggregated accuracies rather than a full item-level hierarchical model, residual item-difficulty effects may remain.
-
-Fully ambiguous cases (even when researching context etc) were not included in this study.
-
-Other languages have their own examples of gender-neutral language with different properties and etymologies/histories. This study may or may not be generalizable to those cases.
-
-I did not investigate a human-LLM cooperative approach and how it would compare to either group alone. This would be an interesting avenue for future research, especially given the complementary strengths but also weaknesses of humans and LLMs revealed in the qualitative analysis. And not least because public discourse often proposes the idea that humans are not threatened by LLMs as long as they work together, a claim worth testing in practice.
-
 # Conclusion
 
 The results are mixed and it is not straightforward to say if LLMs have truly attained human level at this particular task.
@@ -1793,7 +1784,19 @@ The results are mixed and it is not straightforward to say if LLMs have truly at
 
 Ich nehme an, dass LLMs weite Teile der aktuellen linguistischen Forschung tangieren oder massgeblich prägen werden. Dabei befürchte ich aber, dass es zu Problemen verschiedener Art kommen wird. In etwa, weil die Fähigkeiten der LLMs überschätzt oder falsch eingeordnet werden. Oder weil sich, in Anlehnung an den Papst, zu viel Macht und/oder Wissen in den Händen weniger Firmen sammeln wird. Letzteres führt zu einem Plädoyer für wissenschaftsorientierte Open-Weight-Modelle.
 
+## Limitations
 
+Because inferential analyses were primarily based on aggregated accuracies rather than a full item-level hierarchical model, residual item-difficulty effects may remain.
+
+Fully ambiguous cases (even when researching context etc) were not included in this study.
+
+Other languages have their own examples of gender-neutral language with different properties and etymologies/histories. This study may or may not be generalizable to those cases.
+
+I did not investigate a human-LLM cooperative approach and how it would compare to either group alone. This would be an interesting avenue for future research, especially given the complementary strengths but also weaknesses of humans and LLMs revealed in the qualitative analysis. And not least because public discourse often proposes the idea that humans are not threatened by LLMs as long as they work together, a claim worth testing in practice.
+
+## Outlook / Future Avenues
+
+Maybe improving cross-document CRR like Kong and Tan (2026) would be a good next step for improving LLM performance on this task for cases where the antecedent is located deeper in a long chain of comments.
 
 – To do:
 
