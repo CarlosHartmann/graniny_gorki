@@ -69,7 +69,7 @@ Additionally, the present work also allowed to assess more generally and qualita
 
 # Background
 
-Point out that the term LLMs is not synonymous with decoder-only models but that the former will be used for simplicity and because the models tested in this work are all decoder-only. (ref to Arslan, Erol, and Eryigit 2026)
+The present study incorporates contextual and methodological knowledge from two main fields: the field of Coreference Resolutions (CRR) and the history of change that the pronoun _they_ has undergone in recent decades. Both fields inform the design of the task and the gained insights will be relevant in both fields.
 
 As this task is supposed to represent any task relevant in the field of linguistics in which the mere surface level is not enough for correct processing, the following background is not strictly relevant. It will help to contextualize the present research and justify the task design.
 
@@ -80,14 +80,16 @@ As this task is supposed to represent any task relevant in the field of linguist
 They investigate zero anaphors (i.e. omitted pronouns) and find that LLMs perform well on them, which is relevant for the present research as it shows that LLMs show "a deep understanding of the contextual focus".
 Their work crosses linguistic boundaries which poses interesting challenges. My work does not do that but instead contains innovative language which tends to be rare in more general-purpose datasets.
 
-## Coreference resolution
+## Coreference resolution as performed by LLMs
 
 Describe task with reference to Jurafsky and relate its history with Gan et al. 2025.
 
-As with all NLP tasks, LLMs have changed the landscape of coreference resolution. The field has shifted from requiring task-specific traning material to being able to use general-purpose LLMs.
-
 More recent history of CRR in Gan et al. 2025.
 Kong and Tan (2026) say that CRR history had 4 stages, including LLMs at the end, which is the current state of research.
+
+As with all NLP tasks, LLMs have changed the landscape of coreference resolution. The field has shifted from requiring task-specific traning material to being able to use general-purpose LLMs (Brown et al ref).
+
+Point out that the term LLMs is not synonymous with decoder-only models but that the former will be used for simplicity and because the models tested in this work are all decoder-only. (ref to Arslan, Erol, and Eryigit 2026)
 
 The present research is not about coreference resolution as a whole but about a specific aspect of it, i.e. the number-disambiguation of _they_ which works through the identification of the referent.
 
@@ -151,6 +153,8 @@ import textwrap
 ## Task Design
 
 * Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
+
+In the very beginning, each participant was given a XY-word length explanation of my typology of _they_ (#ref to above). Following this, they were shown ten example items in random order that were cherry-picked to ensure each category was represented at least once and that N examples were context-dependent. The interface for those ten examples looked the same as the one for the actual annotation, and the participants likewise had access to the Reddit context via a URL. This allowed them to understand the design of the task proper.
 
 Mention 10 intro examples that were cherry-picked for balance and had a precise reasoning behind the solution and were identical for all human participants.
 Clarify if those 10 examples were part of the test set for LLMs (shouldn't have been but need to ensure).
