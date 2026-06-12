@@ -82,10 +82,16 @@ Their work crosses linguistic boundaries which poses interesting challenges. My 
 
 ## Coreference resolution as performed by LLMs
 
-Describe task with reference to Jurafsky and relate its history with Gan et al. 2025.
+Describe task with reference to Jurafsky and relate its history with Gan et al. 2025. Seminck et al 2025 offer a quick summary of the history with the most refs seen so far.
 
 More recent history of CRR in Gan et al. 2025.
 Kong and Tan (2026) say that CRR history had 4 stages, including LLMs at the end, which is the current state of research.
+
+Traditional approach to CRR is still alive and generally involves three steps: mention detection, zero mention head detection, and coreference resolution (Seminck et al. 2025, Section 3.1.2).
+
+Traditional approach is computationally cheap now: “As with training, the embedding remains the main bottleneck, meaning that coreference resolution with this pipeline can be performed on any GPU capable of holding the embedding model.” Seminck et al. 2025, Section 3.1.2.
+
+Traditional approach has main weakness in requiring task-specific training material, which is often scarce and expensive to create. This is especially problematic for low-resourced languages or, like here, innovative language use. A weakness embedded in the requirement of training data are the differing annotation schemes for CRR (Seminck et al. 2025, Section 3.1.2).
 
 As with all NLP tasks, LLMs have changed the landscape of coreference resolution. The field has shifted from requiring task-specific traning material to being able to use general-purpose LLMs (Brown et al ref).
 
@@ -129,6 +135,28 @@ However, for the present purpose a balance needs to be struck between the granul
 Follows QA template described in Gan et al. 2024 and 2025. Reasoning for that is given in Gan et al. 2025, section 7.2.
 
 ## LLMs as (linguistic) annotators
+
+Seminck et al 2025 (Section 3.2.1) find that shorter prompts give better results.
+
+Seminck et al 2025 (Section 3.2.1) find that annotation schemes can be learned implicitly in fine-tuning.
+
+Seminck et al 2025 (Section 3.2.2) had "disastrously bad" results when text input was too long, observing that the LLM seemingly 'forgot' the task.
+#TODO: check if accuracy negatively correlated with input length in my data as well
+
+LLM-based approaches take much more compute and time. Seminck et al 2025 (Section 4) processed their data in 16 minutes with the traditional appraoch and 1.5 days with the LLM-based approach.
+
+Seminck et al. 2025 (Section 4) scored first at their shared task with a fine-tuning-based LLM approach.
+
+Seminck et al 2025 (Section 4): “But according to us, one of the core problems of using LLMs for coreference resolution is that it asks to transform coreference resolution into a text generation task. In the remainder of this section we will explain what are the fundamental problems of doing so.”
+=> Interestingly, this is precisely the promise made by Brown et al. A feature, not a bug, so to speak.
+
+Section 4: The second big issue, in their opinion, is that there is “no guarantee of stability of our research objects” since everything being processed, input and output, is abstracted representations as strings. For LLMs to work, everything is translated into and from strings. And how LLMs handle those representations is, as always, a black box.
+
+Section 4: Finally, LLMs falter the more information you want to include in the input and receive from the output. The researchers feel “out of control of the objects we want to calculate and manipulate”. They, seemingly resigning (resignierender Ton), conclude: “But we have to reflect on the question whether we can and want to accept it.”
+
+Section 5.4.: They propose an LLM-based approach where the different steps of CRR are done by different LLM calls. It would be computationally very heavy. They speculate if they could also just replace single / a few modules of the classical approach with an LLM. Or when the classical approach outputs a low confidence score.  
+=> this smells like a coreference-specific reasoning model could work for my task
+=> say that this points to the necessity of reasoning models in general, and perhaps ones that are equipped with NLP-specific reasoning abilities.
 
 ```{python}
 # Imports of necessary libraries
