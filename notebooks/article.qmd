@@ -134,39 +134,27 @@ However, for the present purpose a balance needs to be struck between the granul
 
 Follows QA template described in Gan et al. 2024 and 2025. Reasoning for that is given in Gan et al. 2025, section 7.2.
 
-## LLMs as (linguistic) annotators
+## LLMs as CRR annotators
 
-Seminck et al 2025 (Section 3.2.1) find that shorter prompts give better results.
+The state of the art of LLMs as annotators for CRR could be observed at the Eighth Workshop on Computational Models of Reference, Anaphora and Coreference (CRAC 2025) hosted by the Association of Computational Linguistics. They had issued a shared task on multilingual coreference resolution with two tracks, one for traditional or hybrid approaches and one exclusively for LLM-based approaches. Their dataset was varied not just by language but also by domain and genre. The shared task was clearly won by traditional approaches (Novak et al. 2025, Section 5). Seminck et al. 2025 contributed the approach that won the LLM track (Section 4). The following insights can be drawn from the papers of the shared task:
 
-Seminck et al 2025 (Section 3.2.1) find that annotation schemes can be learned implicitly in fine-tuning.
+Seminck et al. (2025) frame context management as a central bottleneck for LLM-based CRR. They report that shorter prompts work better than longer ones, plausibly because they leave more room for input context and, in my interpretation, reduce over-determination of the task. At the same time, they observe “disastrously bad” outcomes when inputs become too long, with the model appearing to lose track of the objective (Section 3.2.2). This fits Novak et al's (2025) broader shared-task interpretation: LLM systems still underperform specialized coreference pipelines, but show clear potential on a task that reflects a broader spectrum of real-world phenomena and is shaped by practical constraints such as bias, computational cost, and privacy.
 
-Seminck et al 2025 (Section 3.2.2) had "disastrously bad" results when text input was too long, observing that the LLM seemingly 'forgot' the task.
+Their broader conclusion is therefore ambivalent: adding information is often necessary, but careful context-window management remains both crucial and constraining (Section 5). This trade-off is also practical rather than only conceptual. In their setup, a traditional pipeline processed the data in 16 minutes, whereas the LLM-based approach took roughly 1.5 days (Section 4). Sajid et al. (2025) similarly flag computational cost as a limitation, but do not report end-to-end runtime.
+
+Prompting vs. fine-tuning remains an open methodological question. The best contribution in the LLM-track of the shared task used fine-tuning (Seminck et al. 2025), but the second-scoring LLM system was purely prompting-based and only 1% lower in F1 (Novak et al. 2025, Section 5). For the present study, I prioritize prompting: beyond compute concerns, fine-tuning may introduce domain-specific biases or constraints that reduce flexibility. More importantly, out-of-the-box LLMs are more directly comparable to human annotators, who also encounter task instructions and data without prior task-specific adaptation.
+
+Seminck et al. further argue that LLM-based CRR forces a reformulation of coreference as text generation and raises concerns about the stability of research objects when everything is represented as strings (Section 4). The researchers feel “out of control of the objects we want to calculate and manipulate”. They, in a seemingly begrudging tone, conclude: “But we have to reflect on the question whether we can and want to accept it” (Section 5). This is a logical consequence of using LLMs for such tasks as they are, in principle, only trained on text data. They also outline modular alternatives in which different CRR substeps are handled by separate LLM calls (Section 5.4), potentially as selective add-ons to classical pipelines. In my own opinion, the best opportunity to gain some measure of control and stability over LLM-outputs is the concept of reasoning models, which arrive at their conclusions via explicit reasoning steps that can be inspected and evaluated. Equipping such reasoning models with NLP-specific knowledge could further enhance their suitability for linguistic tasks.
+
+For this study, these points motivate treating LLM annotation quality and LLM reasoning behavior as distinct targets: high task accuracy alone is not sufficient if control, interpretability, and methodological stability remain uncertain. In my estimation as a researcher in linguistics, the most effective contribution to linguistics research woulud be a reasoning model that is equipped with NLP-specific reasoning abilities and thus retains flexibility for any linguistic task while also being able to perform well on semantically complex tasks such as the one at hand. What the literature review also demonstrates is that the field of LLM-based approaches to complex linguistic tasks is still fairly open and every contribution is likely to be valuable. And not unimportantly, the present research also asks about the human in the loop which has broader implications for the field of linguistics and the use of LLMs in it.
+
 #TODO: check if accuracy negatively correlated with input length in my data as well
 
-LLM-based approaches take much more compute and time. Seminck et al 2025 (Section 4) processed their data in 16 minutes with the traditional appraoch and 1.5 days with the LLM-based approach.
 
-Seminck et al. 2025 (Section 4) scored first at their shared task with a fine-tuning-based LLM approach.
-
-Seminck et al 2025 (Section 4): “But according to us, one of the core problems of using LLMs for coreference resolution is that it asks to transform coreference resolution into a text generation task. In the remainder of this section we will explain what are the fundamental problems of doing so.”
-=> Interestingly, this is precisely the promise made by Brown et al. A feature, not a bug, so to speak.
-
-Section 4: The second big issue, in their opinion, is that there is “no guarantee of stability of our research objects” since everything being processed, input and output, is abstracted representations as strings. For LLMs to work, everything is translated into and from strings. And how LLMs handle those representations is, as always, a black box.
-
-Section 4: Finally, LLMs falter the more information you want to include in the input and receive from the output. The researchers feel “out of control of the objects we want to calculate and manipulate”. They, seemingly resigning (resignierender Ton), conclude: “But we have to reflect on the question whether we can and want to accept it.”
-
-Section 5.4.: They propose an LLM-based approach where the different steps of CRR are done by different LLM calls. It would be computationally very heavy. They speculate if they could also just replace single / a few modules of the classical approach with an LLM. Or when the classical approach outputs a low confidence score.  
-=> this smells like a coreference-specific reasoning model could work for my task
-=> say that this points to the necessity of reasoning models in general, and perhaps ones that are equipped with NLP-specific reasoning abilities.
-
-Novak et al. 2025 (shared task paper by organizers):
-Abstract: they had 4 LLM-based entries, 2 of which fine-tuned, 2 based on few-shot  
-Section 5: The scoreboard looks like this, based on approach: fine-tuned, prompting, prompting, fine-tuned. The top 2 are within 1% F1-score of one another
-Abstract: “While traditional systems still kept the lead, LLMs showed clear potential, suggesting they may soon challenge established approaches in future editions.”
-Section 1: Calls shift towards flexible LLM-use in NLP a major trend, says that it raises “challenges such as bias, computational cost, and privacy concerns”
 Section 1: “real-world coreference resolution involves a much broader spectrum of phenomena”  
 => genau meine Rede!
-Section 1: “[LLMs] struggle with this task and are not able to outperform systems specifically tailored for coreference resolution”
-Section 5: LLMs did indeed underperform the classical approaches. “However, it would be premature to conclude that LLMs are not a promising solution for coreference resolution. First, this would contradict everyday experience with public LLMs, which seem to handle coreference-related phenomena relatively well. Second, the best-performing CorPipe system has been tuned for CorefUD over years, while LLM approaches had only a few months of testing. Third, and perhaps most importantly, we are still at the beginning of learning how to best provide LLMs with coreference-annotated data and how to elicit coreference reasoning, questions that clearly require further exploration.”
+=> #TODO: find context for this tidbit.
+
 #TODO: Explore if a classical approach would be possible for my task and if so, how it would perform. If not, find out why and say that this further justifies the use of LLMs.
 
 ```{python}
