@@ -54,6 +54,8 @@ Large Language Models (LLMs) have not only permeated wider society, they have al
 
 The present work was performed in the context of an older effort starting in my Master’s thesis [-@hartmannShiftingPronounsDisruptive2022]. The then-new GPT-3 was tested for its performance at disambiguation uses of _they_ between plural and singular (see below). Coreference resolution as a field precedes LLMs, though it was always limited by the many challenges posed by the nature of coreference, such as real-world knowledge required for textual understanding and context-dependency. What is more, English pronouns have shifted in recent years, most notably with the extension of _they_ as a personal pronoun for people of non-binary gender, but also with the growing visibility of neologistic pronouns. LLMs showed promise because they exhibited context-sensitive performance in several areas. While its performance with singular _they_ in the dataset of the Master’s thesis was unsatisfactory, the same test was later repeated using newer models. When Anthropic’s LLM Claude Sonnet reached both recall and precision of over 80% on the same dataset in late 2024, it was hypothesized that LLMs had reached human-like performance in this task. To assess this reliably and accurately, the Research Question was formulated: “To what extent are number-annotations of authentic uses of _they_ by LLMs reliable when compared to trained human annotators?”
 
+## Hypotheses
+
 To answer this question, three levels of performance quality were defined, as expressed by the following three hypotheses:
 
 – Hypothesis 1: The most accurate number-disambiguator of _they_ is going to be an LLM.
@@ -65,7 +67,6 @@ perform at a higher accuracy than the mean human accuracy.
 
 The three hypotheses were defined to capture the extent to which LLM performance could potentially be comparable to that of humans. Even if hypothesis 1 is not confirmed by the results, hypothesis 2 would still attest that LLMs largely outperform humans. If that were not confirmed either, hypothesis 3 would still justify the use of LLMs for semantically-complex tasks such as resolution of innovative pronouns.
 Additionally, the present work also allowed to assess more generally and qualitatively in what ways LLMs are human-like and in what ways they are not; and if, perhaps, any revealing patterns could be found in the recorded behaviors of LLMs and humans. This is expressed in the additional research question: "In what ways are LLMs human-like and in what ways are they not when it comes to number-disambiguation of _they_?"
-
 
 # Background
 
@@ -758,21 +759,29 @@ accuracy_dict_humans["majority_vote"] = [compute_accuracy(majority_vote_dict)]
 
 ```
 
+```{python}
+# Total number of human participants (linguists + non-linguists)
+total_human_participants = sum(len(block) for block in human_blocks) + len(accuracy_dict_non_linguists["non-linguists"])
+
+```
+
 ## Hypothesis 1
 
-The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance.
+The first hypothesis aims to test if any LLM-based approach would yield the highest overall performance. As the results in Table 2 demonstrate, the highest-performing participant was, in fact, not an LLM. Table 2 shows accuracies which is a measure of the proportion of correct responses. However, two LLMs, Gemini 3 Pro and GPT-5, occupate places 2, 3, and 4. So from `{python} total_human_participants` total human participants, these two LLMs outperformed all except one. The hypothesis is thus not supported, but the results do suggest that LLMs are approaching human-level performance on this task.
+
 ```{python}
 #| label: tbl-top10-accuracy
-#| tbl-cap: "The ten highest-performing participants by accuracy"
+#| tbl-cap: "The ten highest-performing participants by accuracy. Human participants are named according to their block and participant number, while LLM participants are named according to their LLM and prompting strategy."
 
-# List all accuracies and from where they came from (participant block) in descending order
+# List all accuracies and where they came from (single participants / model means)
 accuracy_results = []
 
-# Add human block results
-for block_name, accuracies in accuracy_dict_humans.items():
-    for i, acc in enumerate(accuracies):
+# Add linguist human results as individual participants
+for block_name, block in zip(["A", "B", "C", "D", "Pilot"], human_blocks):
+    for i, participant in enumerate(block):
+        acc = compute_accuracy(participant)
         accuracy_results.append({
-            "source": block_name,
+            "source": f"Human {block_name}-{i+1}",
             "accuracy": acc
         })
 
@@ -796,17 +805,21 @@ for llm_name, accuracies in all_llms:
 accuracy_results.sort(key=lambda x: x["accuracy"], reverse=True)
 
 # Keep only top 10
-accuracy_results = accuracy_results[:25]
+accuracy_results = accuracy_results[:10]
+
+# Map source labels to human-readable names when available.
+for result in accuracy_results:
+    result["source"] = label_mapping.get(result["source"], result["source"])
 
 # display accuracy as full percentages without decimal places
 for result in accuracy_results:
-    result["accuracy"] = f"{result['accuracy'] * 100:.0f}%"
+    result["accuracy"] = f"{result['accuracy'] * 100:.1f}%"
 
 # Display results
 import pandas as pd
 results_df = pd.DataFrame(accuracy_results)
 
-Markdown(results_df.to_markdown(index=False, headers=["Participant Group", "Accuracy"]))
+Markdown(results_df.to_markdown(index=False, headers=["Participant", "Accuracy"]))
 
 ```
 
