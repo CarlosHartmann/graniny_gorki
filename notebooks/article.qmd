@@ -997,7 +997,19 @@ participant_num_block_abcd = participant_num_culled - participant_num_pilot
 
 The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers.
 
-As the highest-performing LLM, Gemini 3 Pro, has an accuracy of `{python} f"{hypothesis_2_results['top_3_llm_mean_context-via-permalink_google-gemini-3-pro-preview'] * 100:.1f}%"`, it outperforms any of the human benchmarks, including the human majority vote and the culled participants. Therefore, hypothesis 2 is supported: the highest-performing LLM does outperform the mean human accuracy, even when considering a more stringent benchmark of culled participants.
+```{python}
+# Mean accuracy for Gemini 3 Pro Preview (computed here to avoid forward references)
+gemini3pro_mean_acc = np.nan
+_gemini_key_candidates = [
+    "context-via-permalink_google-gemini-3-pro-preview",
+    "results_context-via-permalink_google-gemini-3-pro-preview",
+]
+for _k in _gemini_key_candidates:
+    _vals = accuracy_dict_commercial_llms.get(_k, [])
+    if _vals:
+        gemini3pro_mean_acc = float(sum(_vals) / len(_vals))
+        break
+```
 
 ```{python}
 # Table showing the accuracy of human-majority vote and culled participants
@@ -1022,6 +1034,8 @@ human_summary_table = pd.DataFrame(
 
 Markdown(human_summary_table.to_markdown(index=False))
 ```
+
+As the highest-performing LLM, Gemini 3 Pro, has an accuracy of `{python} f"{gemini3pro_mean_acc * 100:.1f}%" if not np.isnan(gemini3pro_mean_acc) else "n/a"`, it outperforms any of the human benchmarks, including the human majority vote and the culled participants. Therefore, hypothesis 2 is supported: the highest-performing LLM does outperform the mean human accuracy, even when considering a more stringent benchmark of culled participants.
 
 ```{python}
 "Preparing relevant data for Figure"
@@ -1386,9 +1400,9 @@ result = mcnemar(table, exact=True)
 p_value = result.pvalue
 ```
 
-## Results by label
+## Hypothesis 3
 
-### Singular vs Plural
+Hypothesis 3 said that the performance of the most accurate LLM would not be significantly worse at rare and innovative uses of _they_ than the mean human performance. In my classification of _they_ uses, "rare and innovative uses of _they_" corresponds to specific singular _they_ as opposed to merely generic _they_. Therefore, I will compare the accuracy of the best LLM and the culled human mean for singular _they_ as opposed to plural _they_. Confusion matrices will show the detailed performance for each category by both participant groups. As an additional metric, I will also compare the human and LLM approaches in terms of recall of generic and specific singular _they_.
 
 ```{python}
 # Collect accuracies for culled humans and best LLM for "plural" and "singular" labels
@@ -1562,6 +1576,8 @@ Markdown(
 """
 )
 ```
+
+## Additional Metrics
 
 ### Context-(in)dependence
 
@@ -1748,10 +1764,6 @@ This means that the model's behavior does not fully align with my expectations o
 
 When not specifying that the model should access context only in doubtful cases, thus leaving it up to the model, there is a clear tendency for the model to access context more often. Namely, of the `{python} int(total_context_dependent_unspec)` context-depentend cases `{python} int(context_accessed_and_dependent_unspec)` were checked for context, which is a recall of `{python} f"{recall_unspec:.0f}%"`. However, the model checked a total of `{python} int(context_accessed_total_unspec)` cases for their context, of which only `{python} int(context_accessed_and_dependent_unspec)` were actually context-dependent, meaning that the precision of the model's decision to check context was only `{python} f"{precision_unspec:.0f}%"`. This means that while the model is relatively good at recalling cases that require context, it also checks for context in many cases where it is not necessary, which may lead to worse performance due to the model's difficulties in navigating complex contexts. Indeed, in the specific context of this study, there was a measurable drop in accuracy by `{python} f"{accuracy_drop:.0f}%"` (from `{python} f"{acc_not_accessed_unspec:.0f}%"` to `{python} f"{acc_accessed_unspec:.0f}%"`) when the model accessed context vs when it did not. For this reason, the same model performed better when it did not have the option to access context (`{python} f"{acc_context_agnostic_gpt5 * 100:.0f}%" if not np.isnan(acc_context_agnostic_gpt5) else "n/a"`) than when it did (`{python} f"{acc_permalink_conservative_gpt5 * 100:.0f}%" if not np.isnan(acc_permalink_conservative_gpt5) else "n/a"`), as shown in the previous section.
 
-### Performance with innovative forms of _they_
-
-Since I care about recall of sg. and gen. _they_ for the application in later research, the recall for those two should be featured apart for humans & LLMs
-
 ### Projection onto naturalistic data
 
 It might make sense to apply the per-class performance measures to a hypothetical test set with naturalistic frequency splits (take from own data) to then generate MCC and get an estimation of how well the different participants would do on naturalistic data. This will address the lingering question if the artificial selection of data points skewed the results or hid anything about the truth
@@ -1842,10 +1854,6 @@ And: These data do not support treating native-speaker status alone as a suffici
 The second Hypothesis aims to test if LLM accuracy at the task outperforms the mean human accuracy. As the overall goal of this research is to assess if LLMs could plausibly replace proper student assistants, it makes sense to define "mean human accuracy" more closely. The participants were recruited more liberally than a standard selection process for a student assistant position. They were recruited from only two seminar groups and were prioritized by availability. The crowd workers self-selected by ticking a box that said they had an education in "English language", without specifying their level of expertise and, in some cases, not actually having studied linguistics, judging by their answers to the screening. To approximate what level of performance one might expect from an actual student assistant, I additionally report a culling-based benchmark variant as sensitivity analysis. This benchmark is defined by removing inattentive annotators and retaining the top half of the remainder. As this benchmark is interpretive and operational and not design-neutral, its results should be interpreted cautiously. still, it may serve as an estimate for what might be "true human performance." Inattentiveness is formalized in terms of context-dependent performance, i.e. if their performance is at or below `{python} CULLING_THRESHHOLD_PERCENT` when context is necessary to understand an example.
 
 @fig-overall-acc-comparison reveals that there is a marked difference between the overall and the culled human mean. This shows once again that crowdworkers as a whole are not a reliable resource for annotation work. The culled human mean, which is supposed to approach the performance level of a specialized student assistant, still falls short of the best three LLMs' performance. There, it seems that the prompting strategy had only a minor impact, improving performance by just a few percent. The strongest combination of LLM and prompting strategy, `{python} top_3_commercial_llms_namemapped[0]`, shows a performance that is `{python} ", however, not" if p_value >= ALPHA else ", indeed, "` significantly better than the culled human mean at `{python} f"p = {p_value}, α = {ALPHA}"` according to a McNemar's test. Hypothesis 2 can therefore `{python} "not" if p_value >= ALPHA else ""` be confirmed. It is still remarkable that the best result of the study is achieved by taking the majority vote of the culled human group. Applying this to a real-world setting, it suggests that teams of experts are still the strongest at this kind of annotation task.
-
-## Hypothesis 3
-
-Hypothesis 3 aims to show non-inferiority of LLMs at
 
 ## Research question 2
 
