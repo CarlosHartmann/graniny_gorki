@@ -900,9 +900,7 @@ mwu_ling_vs_nonling = mannwhitneyu(all_linguist_accs, non_linguist_accs, alterna
 mwu_p_ling_vs_nonling = mwu_ling_vs_nonling.pvalue
 ```
 
-[Linguists achieved a mean accuracy of `{python} f"{overall_accuracies['Non-Pilot Humans (L1 linguists)']*100:.1f}%"` (L1) and `{python} f"{overall_accuracies['Pilot Humans (L2 linguists)']*100:.1f}%"` (L2), compared to `{python} f"{overall_accuracies['Non-Linguists']*100:.1f}%"` for non-linguists. The difference between the combined linguist group and the non-linguists is `{python} "not" if mwu_p_ling_vs_nonling >= ALPHA_LING_VS_NONLING else ""` statistically significant (`{python} f"p = {round(mwu_p_ling_vs_nonling, 3)}, α = {ALPHA_LING_VS_NONLING}"`, one-sided Mann-Whitney U). [Expand on implications here.]]
-
-@tbl-l1-vs-l2-vs-nonling shows
+@tbl-l1-vs-l2-vs-nonling shows that, surprisingly, the crowdworkers performed on the same level on average, regardless if they self-identified as having expertise in linguistics or not. The implication is probably less that knowledge in linguistics is not helpful for this task, but rather that Prolific's explanation of what expertise on "English language" meant did not clearly communicate the meaning of linguistics specifically. This shows that for the intended purpose of comparing potential student assistants with LLMs, the crowdworkers were not a suitable control group.
 
 ### L1 vs. L2 speakers
 
