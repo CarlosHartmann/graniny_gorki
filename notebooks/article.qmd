@@ -905,25 +905,28 @@ mwu_p_ling_vs_nonling = mwu_ling_vs_nonling.pvalue
 ### L1 vs. L2 speakers
 
 ```{python}
-# ANOVA: L1 (non-pilot crowdworker blocks) vs. L2 (pilot local students)
-# Non-linguists are excluded here as they are neither L1 linguists nor L2 linguists in the study sense.
-from scipy.stats import f_oneway
+# Mann-Whitney U test: L1 linguists (non-pilot crowdworker blocks) vs. L2 linguists (pilot local students)
+from scipy.stats import mannwhitneyu
 
 l1_accs = [acc for accuracies in accuracy_dict_non_pilot_humans.values() for acc in accuracies]
 l2_accs = accuracy_dict_pilot_humans["pilot"]
 
 ALPHA_L1_VS_L2 = 0.05
-anova_result = f_oneway(l1_accs, l2_accs)
-anova_p_value = anova_result.pvalue
+mwu_l1_vs_l2 = mannwhitneyu(l1_accs, l2_accs, alternative="two-sided")
+mwu_p_l1_vs_l2 = mwu_l1_vs_l2.pvalue
+
+# Backward-compatible alias used in later discussion text.
+anova_p_value = mwu_p_l1_vs_l2
+
 ```
 
-[The L1 crowdworkers achieved a mean accuracy of `{python} f"{overall_accuracies['Non-Pilot Humans (L1 linguists)']*100:.1f}%"` while L2 pilots reached `{python} f"{overall_accuracies['Pilot Humans (L2 linguists)']*100:.1f}%"`. The difference is `{python} "not" if anova_p_value >= ALPHA_L1_VS_L2 else ""` statistically significant (`{python} f"p = {round(anova_p_value, 3)}, α = {ALPHA_L1_VS_L2}"`). [Expand on whether L1 status confers an advantage here.]]
+@tbl-l1-vs-l2-vs-nonling also shows that the local students who were all L2 speakers of English performed better than the crowdworkers. However, a Mann-Whitney U test indicates that this difference is `{python} "not" if mwu_p_l1_vs_l2 >= ALPHA_L1_VS_L2 else ""` statistically significant (`{python} f"p = {round(mwu_p_l1_vs_l2, 3)}, α = {ALPHA_L1_VS_L2}"`, two-sided). A larger sample of local students would be needed to produce a more robust result. The possible implications are two-fold: English proficiency is either not as important as often assumed for this kind of task, and/or the sampling of local students by their high grades in linguistics was simply more effective than Prolific's system of self-reported expertise.
 
 ### Inattentive participants
 
-[culling]
-
 [taking a human majority vote]
+
+[culling]
 
 
 ```{python}
