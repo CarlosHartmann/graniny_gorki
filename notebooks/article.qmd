@@ -1653,18 +1653,28 @@ For a potential situation in which a researcher wishes to extract all non-plural
 Markdown(recall_df_display.to_markdown(index=False))
 ```
 
-
-
 ## Additional Metrics
+
+To draw a more complete picture of what the results of this study tell us about the capabilities of LLMs and humans in processing innovative uses of _they_, I will present the following metrics in addition to the main analyses above: the performance for context-(in)dependent items in quantitative and qualitative terms, the projection of results onto a hypothetical distribution of all possible items, and a calculation of cost and time for humans vs. LLMs.
 
 ### Context-(in)dependence
 
+@tbl-context-accuracy, visualized in @fig-context-accuracy, shows the accuracy for context-dependent and context-independent items for the best LLM and the culled human mean. The result is striking as context-dependent items, which one could reasonably expect to be more difficult due to the added complexity of analysis, are actually easier for human participants. One can only speculate as to why this is the case, but perhaps human participants pay closer attention and review the material more critically when they realize that additional work is necessary. To assess this rather unexpected finding, some qualitative observations based on human participants' comments and the LLMs' responses are presented below.
+
 ```{python}
 # Assess performance for context-dependent vs context-independent items
-# for: best LLM, third-best LLM, and culled human mean
+# for: best LLM and culled human mean
 
-# Get best and third-best LLM names from top_3_llms (best_llm_name already defined above)
-third_llm_name = top_3_llms[2][0]
+# Resolve best LLM runs from whichever response dict contains the model key.
+best_llm_name_context = top_3_llms[0][0]
+if best_llm_name_context in commercial_llm_responses:
+    best_llm_runs_context = commercial_llm_responses[best_llm_name_context]
+elif best_llm_name_context in opensource_llm_responses:
+    best_llm_runs_context = opensource_llm_responses[best_llm_name_context]
+elif best_llm_name_context in local_llm_responses:
+    best_llm_runs_context = local_llm_responses[best_llm_name_context]
+else:
+    best_llm_runs_context = []
 
 # Helper: compute mean accuracy for a group (list of participant dicts)
 def mean_accuracy_group(participant_dicts, context_dependent):
@@ -1682,23 +1692,15 @@ results_context = []
 
 for context_flag, context_label in zip([1, 2], ["Context-Dependent", "Context-Independent"]):
     # Best LLM
-    best_llm_accs = [compute_accuracy(run, context_dependent=context_flag) for run in commercial_llm_responses[best_llm_name]]
-    best_llm_acc = np.nanmean([a for a in best_llm_accs if not np.isnan(a)])
-    # Third-best LLM
-    third_llm_accs = [compute_accuracy(run, context_dependent=context_flag) for run in commercial_llm_responses[third_llm_name]]
-    third_llm_acc = np.nanmean([a for a in third_llm_accs if not np.isnan(a)])
+    best_llm_accs_context = [compute_accuracy(run, context_dependent=context_flag) for run in best_llm_runs_context]
+    best_llm_acc_context = np.nanmean([a for a in best_llm_accs_context if not np.isnan(a)]) if best_llm_accs_context else float("nan")
     # Culled human mean
     culled_human_acc = mean_accuracy_group(culled_human_participants, context_dependent=context_flag)
     # Store
     results_context.append({
-        "Group": "GPT-5 with URL Access",
+        "Group": "Best LLM",
         "Context": context_label,
-        "Accuracy": best_llm_acc
-    })
-    results_context.append({
-        "Group": "GPT-5 Context-Agnostic",
-        "Context": context_label,
-        "Accuracy": third_llm_acc
+        "Accuracy": best_llm_acc_context
     })
     results_context.append({
         "Group": "Culled Human Mean",
@@ -1713,13 +1715,13 @@ results_context_df["Accuracy"] = results_context_df["Accuracy"].apply(lambda x: 
 
 ```{python}
 #| label: tbl-context-accuracy
-#| tbl-cap: "Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean"
+#| tbl-cap: "Accuracy for context-dependent and context-independent items for the best LLM and the culled human mean"
 Markdown(results_context_df.pivot(index="Group", columns="Context", values="Accuracy").to_markdown())
 ```
 
 ```{python}
 #| label: fig-context-accuracy
-#| fig-cap: "Accuracy for context-dependent and context-independent items for two different LLM strategies and the culled human mean"
+#| fig-cap: "Accuracy for context-dependent and context-independent items for the best LLM and the culled human mean"
 
 # Prepare data for plotting
 plot_df = pd.DataFrame([
