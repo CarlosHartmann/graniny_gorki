@@ -1564,18 +1564,35 @@ p_equiv, (t_lower, p_lower, df_lower), (t_upper, p_upper, df_upper) = ttost_ind(
 )
 
 non_inferior = (p_lower < alpha)
-
-Markdown(
-    f"""**TOST (independent samples, Welch)**
-
-- α = {alpha:.3f}, Δ = {DELTA:.3f}
-- t_lower={t_lower:.3f}, p_lower={p_lower:.4f} (NI decision uses this)
-- t_upper={t_upper:.3f}, p_upper={p_upper:.4f}
-
-**Decision**: Non-inferiority **{'established' if non_inferior else 'not established'}**.
-"""
-)
 ```
+
+```{python}
+# LLM singular vs plural performance comparison via significance test
+from scipy.stats import mannwhitneyu
+
+# Get by-label accuracies for each run of the best LLM
+best_llm_name = top_3_llms[0][0]
+best_llm_runs = commercial_llm_responses.get(best_llm_name, [])
+
+best_llm_singular_accs = []
+best_llm_plural_accs = []
+
+for run in best_llm_runs:
+    by_label = compute_accuracy_by_label(run, labels=("singular", "plural"))
+    best_llm_singular_accs.append(by_label["singular"])
+    best_llm_plural_accs.append(by_label["plural"])
+
+# Filter out NaNs
+best_llm_singular_accs = [a for a in best_llm_singular_accs if not np.isnan(a)]
+best_llm_plural_accs = [a for a in best_llm_plural_accs if not np.isnan(a)]
+
+# Mann-Whitney U test: is singular significantly lower than plural?
+ALPHA_SINGULAR_VS_PLURAL = 0.05
+mwu_singular_vs_plural = mannwhitneyu(best_llm_singular_accs, best_llm_plural_accs, alternative="less")
+mwu_p_singular_vs_plural = mwu_singular_vs_plural.pvalue
+```
+
+@fig-singular-plural-comparison shows that humans were not affected by the singular/plural distinction, meaning that they had little to no issue with innovative forms of using _they_. The best LLM, however, was `{python} "not " if mwu_p_singular_vs_plural > ALPHA_SINGULAR_VS_PLURAL else ' '` significantly worse at singular _they_ than plural _they_ (`{python} f"p = {round(mwu_p_singular_vs_plural, 3)}, α = {ALPHA_SINGULAR_VS_PLURAL}"`, Mann-Whitney U one-sided test), which is consistent with various observations in the field pertaining to LLMs' tendency for common and standard language. It is also plausible that the reported persistent gender bias in LLMs may have contributed to this performance gap, as singular _they_ is often used in contexts where gender is unknown or non-binary. The confusion matrices in @fig-confusion-matrix-llm and @fig-confusion-matrix-human further illustrate the differences in performance between the best LLM and the culled human mean.
 
 ## Additional Metrics
 
@@ -1585,8 +1602,7 @@ Markdown(
 # Assess performance for context-dependent vs context-independent items
 # for: best LLM, third-best LLM, and culled human mean
 
-# Get best and third-best LLM names from top_3_llms
-best_llm_name = top_3_llms[0][0]
+# Get best and third-best LLM names from top_3_llms (best_llm_name already defined above)
 third_llm_name = top_3_llms[2][0]
 
 # Helper: compute mean accuracy for a group (list of participant dicts)
