@@ -997,6 +997,8 @@ participant_num_block_abcd = participant_num_culled - participant_num_pilot
 
 The group of culled participants has `{python} participant_num_culled` participants, of which `{python} participant_num_pilot if participant_num_pilot > 12 else num2words(participant_num_pilot)` are local students and `{python} participant_num_block_abcd` are crowdworkers.
 
+As the highest-performing LLM, Gemini 3 Pro, has an accuracy of `{python} f"{hypothesis_2_results['top_3_llm_mean_context-via-permalink_google-gemini-3-pro-preview'] * 100:.1f}%"`, it outperforms any of the human benchmarks, including the human majority vote and the culled participants. Therefore, hypothesis 2 is supported: the highest-performing LLM does outperform the mean human accuracy, even when considering a more stringent benchmark of culled participants.
+
 ```{python}
 # Table showing the accuracy of human-majority vote and culled participants
 
