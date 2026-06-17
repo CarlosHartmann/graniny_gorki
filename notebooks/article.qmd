@@ -173,7 +173,7 @@ import textwrap
 
 # Data and Methods
 
-## Task Design
+## Task Design {#sec-task-design}
 
 * Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
 
@@ -1592,7 +1592,9 @@ mwu_singular_vs_plural = mannwhitneyu(best_llm_singular_accs, best_llm_plural_ac
 mwu_p_singular_vs_plural = mwu_singular_vs_plural.pvalue
 ```
 
-@fig-singular-plural-comparison shows that humans were not affected by the singular/plural distinction, meaning that they had little to no issue with innovative forms of using _they_. The best LLM, however, was `{python} "not " if mwu_p_singular_vs_plural > ALPHA_SINGULAR_VS_PLURAL else ' '` significantly worse at singular _they_ than plural _they_ (`{python} f"p = {round(mwu_p_singular_vs_plural, 3)}, α = {ALPHA_SINGULAR_VS_PLURAL}"`, Mann-Whitney U one-sided test), which is consistent with various observations in the field pertaining to LLMs' tendency for common and standard language. It is also plausible that the reported persistent gender bias in LLMs may have contributed to this performance gap, as singular _they_ is often used in contexts where gender is unknown or non-binary. The confusion matrices in @fig-confusion-matrix-llm and @fig-confusion-matrix-human further illustrate the differences in performance between the best LLM and the culled human mean.
+@fig-singular-plural-comparison shows that humans were not affected by the singular/plural distinction, meaning that they had little to no issue with innovative forms of using _they_. The best LLM, however, was `{python} "not " if mwu_p_singular_vs_plural > ALPHA_SINGULAR_VS_PLURAL else ' '` significantly worse at singular _they_ than plural _they_ (`{python} f"p = {round(mwu_p_singular_vs_plural, 3)}, α = {ALPHA_SINGULAR_VS_PLURAL}"`, Mann-Whitney U one-sided test), which is consistent with various observations in the field pertaining to LLMs' tendency for common and standard language. It is also plausible that the reported persistent gender bias in LLMs may have contributed to this performance gap, as singular _they_ is often used in contexts where gender is unknown or non-binary. Still, the performance of the best LLM on singular _they_ was not significantly worse than the culled human mean, as shown by the TOST test for non-inferiority (`{python} f"p_lower = {round(p_lower, 3)}, α = {ALPHA}, Δ = {DELTA}"`), which supports hypothesis 3.
+
+The confusion matrices in @fig-confusion-matrix-llm and @fig-confusion-matrix-human further illustrate the differences in performance between the best LLM and the culled human mean. @fig-confusion-matrix-llm again shows that singular _they_ is the most challenging category for the best LLM, while @fig-confusion-matrix-human shows that the most challenging category for humans was generic _they_. The reason for that is most likely the inconsistent explanation for generic _they_ in the training materials (see @sec-task-design), which may have led to confusion among participants.
 
 ## Additional Metrics
 
