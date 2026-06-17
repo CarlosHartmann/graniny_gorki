@@ -1596,6 +1596,65 @@ mwu_p_singular_vs_plural = mwu_singular_vs_plural.pvalue
 
 The confusion matrices in @fig-confusion-matrix-llm and @fig-confusion-matrix-human further illustrate the differences in performance between the best LLM and the culled human mean. @fig-confusion-matrix-llm again shows that singular _they_ is the most challenging category for the best LLM, while @fig-confusion-matrix-human shows that the most challenging category for humans was generic _they_. The reason for that is most likely the inconsistent explanation for generic _they_ in the training materials (see @sec-task-design), which may have led to confusion among participants.
 
+### Recall of generic vs specific singular _they_
+
+```{python}
+# Compute recall for generic and specific singular they for best LLM and culled human mean
+
+def recall_for_label(predictions, truths, label):
+    # Recall = TP / (TP + FN) for the given gold label.
+    positive_idx = [i for i, gt_label in enumerate(truths) if gt_label == label]
+    if not positive_idx:
+        return float("nan")
+    tp = sum(1 for i in positive_idx if predictions[i] == label)
+    return tp / len(positive_idx)
+
+# Recompute paired predictions for best LLM and culled human mean to keep this block self-contained.
+labels_recall = ["generic", "singular"]
+llm_preds_recall = []
+human_preds_recall = []
+gt_labels_recall = []
+
+for data_point_id in gt["ID"].dropna().astype(str).str.strip():
+    llm_vote = get_llm_majority_vote(data_point_id)
+    human_votes = []
+    for participant in all_culled_participant_dicts:
+        if data_point_id in participant:
+            human_votes.append(_norm_type(participant[data_point_id]))
+
+    if llm_vote and human_votes:
+        llm_preds_recall.append(_norm_type(llm_vote))
+        human_pred = Counter(human_votes).most_common(1)[0][0]
+        human_preds_recall.append(human_pred)
+        gt_label = _norm_type(gt.loc[gt["ID"].astype(str) == data_point_id, "they_type"].values[0])
+        gt_labels_recall.append(gt_label)
+
+recall_rows = []
+for label in labels_recall:
+    llm_recall = recall_for_label(llm_preds_recall, gt_labels_recall, label)
+    human_recall = recall_for_label(human_preds_recall, gt_labels_recall, label)
+    recall_rows.append({
+        "Label": "specific singular" if label == "singular" else "generic",
+        "Best LLM Recall": llm_recall,
+        "Culled Human Mean Recall": human_recall,
+    })
+
+recall_df = pd.DataFrame(recall_rows)
+recall_df_display = recall_df.copy()
+for col in ["Best LLM Recall", "Culled Human Mean Recall"]:
+    recall_df_display[col] = recall_df_display[col].apply(lambda x: f"{x*100:.1f}%" if not np.isnan(x) else "n/a")
+```
+
+For a potential situation in which a researcher wishes to extract all non-plural instances of _they_ from a large corpus, it is interesting to know how many of them, on average, they would be able to retrieve by using the best LLM vs. relying on a good assistant. @tbl-recall-generic-vs-specific shows that the performances are very close to each other in terms of this metric, repeating the observed patterns of humans struggling with generic _they_ and singular _they_ being more difficult for an LLM. Crucially, the recall is very high for both groups and both categories, which suggests that the best LLM is a viable tool for retrieving innovative uses of _they_ from large corpora, and that it can perform this task at a level comparable to that of a good human assistant.
+
+```{python}
+#| label: tbl-recall-generic-vs-specific
+#| tbl-cap: "Recall for generic and specific singular _they_ for the best LLM and the culled human mean"
+Markdown(recall_df_display.to_markdown(index=False))
+```
+
+
+
 ## Additional Metrics
 
 ### Context-(in)dependence
