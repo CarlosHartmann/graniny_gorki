@@ -1983,7 +1983,9 @@ Other languages have their own examples of gender-neutral language with differen
 
 I did not investigate a human-LLM cooperative approach and how it would compare to either group alone. This would be an interesting avenue for future research, especially given the complementary strengths but also weaknesses of humans and LLMs revealed in the qualitative analysis. And not least because public discourse often proposes the idea that humans are not threatened by LLMs as long as they work together, a claim worth testing in practice.
 
-The fact that `{lores_proportion:.0%}"` of the items in their dataset had been filtered for length may have made the task easier for LLMs, as they are sensitive to input length. 
+The fact that `{lores_proportion:.0%}"` of the items in their dataset had been filtered for length may have made the task easier for LLMs, as they are sensitive to input length.
+
+The chosen path of LLM-based CRR has the disadvantage of lacking confidence scores and therefore not allowing for recall/precision optimization when processing large corpora.
 
 ## Outlook / Future Avenues
 
