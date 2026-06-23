@@ -3,7 +3,7 @@ title: "[Working title] Who is the Pronoun Pro? Comparing LLMs and Humans at Num
 toc: true
 number-sections: true
 jupyter: 
-    kernel: python3
+    kernel: graniny_gorki
 execute:
     echo: false
     warning: true
