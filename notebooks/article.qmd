@@ -83,7 +83,6 @@ For this study, these points motivate treating LLM annotation quality and LLM re
 To my knowledge, only one other study compared the performance of LLMs and humans on a CRR task, namely by Shore et al. (2025). Using the AmbiCoref dataset of template-generated minimal pairs, they demonstrated a persistent trade-off: while LLMs can achieve high accuracy on unambiguous sentences or strong ambiguity detection, they cannot achieve both simultaneously. Crucially, they found that models fail to shift their response patterns between ambiguous and unambiguous cases as humans naturally do. The present study will likewise demand different behavior depending on ambiguity of the input. Shore et al. (2025) also observe gender bias in LLM output, an issue often discussed and so-far never successfully mitigated (Bolukbasi et al. 2016, Lucy and Bamman 2021, Lee et al. 2025 section 5, Shore et al 2025 section 4). Gender bias could still represent a hurdle for LLMs in this task, as the number-disambiguation of _they_ is often related to the gender of the referent.
 
 ## Three kinds of _they_
-(plural, generic, singular)
 
 The pronoun _they_ is generally used as a plural pronoun of the third person, meaning that it refers to groups of people or things that are not directly addressed. However, it is rather well-known that its usage is not limited to plural reference but that a "singular _they_" exists as well. The reason that this grammatical ambiguity is so well-known is that feminist discourses of the latter half of the 20th century drew attention to contexts in which writers would use the pronoun _he_ despite the context not strictly mandating a masculine pronoun. This is known as "generic _he_". To avoid linguistic and thus cognitive erasure of women, the use of the _they_ in such contexts was advocated instead. This discourse seamlessly flowed into a new era of gender politics that drew attention to at least two new pronoun-related concerns: 1) the use of _they_ to mask gender wherever it is not strictly necessary to reveal it, and 2) the use of _they_ as a personal pronoun for people of non-binary gender. The first concern is perhaps not as prominent as the second, and speakers are perhaps not as aware of it. The following examples illustrate how this tendency reveals itself:
 
@@ -107,12 +106,6 @@ However, for the present purpose a balance needs to be struck between the granul
 
 => I am proposing a typology that differentiates uses that are distinct in a discursive sense and likely to show different patterns of use over time. I am not going any further in differentiating specific uses because I don't see that as a task for LLMs. That is ultimately at the heart of any investigation into changing uses of _they_. The role of LLMs is to filter first and thus enable humans to study _they_ better.
 
-## My approach
-
-Follows QA template described in Gan et al. 2024 and 2025. Reasoning for that is given in Gan et al. 2025, section 7.2.
-
-The present research is not about coreference resolution as a whole but about a specific aspect of it, i.e. the number-disambiguation of _they_. Mention detection of classical CRR is thus precluded as the mention is defined as any instances of the pronoun _they_. Similarly, the goal is not to point to the antecedent in the text but to identify the number of the referent.
-
 ```{python}
 # Imports of necessary libraries
 from num2words import num2words
@@ -133,16 +126,52 @@ import textwrap
 
 # Data and Methods
 
+The present research is not about coreference resolution as a whole but about a specific aspect of it, i.e. the number-disambiguation of _they_. Mention detection of classical CRR is thus precluded as the mention is defined as any instances of the pronoun _they_. Similarly, the goal is not to point to the antecedent in the text but to identify the number of the referent.
+
 ## Task Design {#sec-task-design}
 
-* Human participants have a dictionary each in which every data point, their annotation, and (optional) their comment is found. 
+```{python}
+# Count length of instruction text
 
-In the very beginning, each participant was given a XY-word length explanation of my typology of _they_ (#ref to above). Following this, they were shown ten example items in random order that were cherry-picked to ensure each category was represented at least once and that N examples were context-dependent. The interface for those ten examples looked the same as the one for the actual annotation, and the participants likewise had access to the Reddit context via a URL. This allowed them to understand the design of the task proper.
+# file: ../assets/limesurvey/limesurvey_survey_569472.txt
+# line 88
+# parse the HTML
+
+from html.parser import HTMLParser
+
+class _TextExtractor(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.text_parts = []
+    def handle_data(self, data):
+        self.text_parts.append(data)
+    def get_text(self):
+        return " ".join(self.text_parts)
+
+import csv
+
+with open("../assets/limesurvey/limesurvey_survey_569472.txt", encoding="utf-8") as f:
+    reader = csv.reader(f, delimiter="\t", quotechar='"')
+    row_88 = list(reader)[87]  # 0-indexed
+
+# The HTML instruction text is in field index 6
+html_field = row_88[6]
+
+parser = _TextExtractor()
+parser.feed(html_field)
+raw_text = parser.get_text()
+
+# length in words
+instructions_length = len(raw_text.split())
+
+```
+
+In the very beginning, each participant was given a `{python} f"{instructions_length}-word"` length explanation of my typology of _they_ (see above). Following this, they were shown ten example items in random order that were cherry-picked to ensure each category was represented at least once and that N examples were context-dependent. The interface for those ten examples looked the same as the one for the actual annotation, and the participants likewise had access to the Reddit context via a URL. This allowed them to understand the design of the task proper.
 
 Mention 10 intro examples that were cherry-picked for balance and had a precise reasoning behind the solution and were identical for all human participants.
 Clarify if those 10 examples were part of the test set for LLMs (shouldn't have been but need to ensure).
 
-* TODO: figure that shows the annotation process as a flowchart in order to explain what tasks were being tested; point out that this applies to other datasets as well; explain that LLMs only mimic reasoning, but, depending on the task, fairly successfully
+* TODO: figure that shows the annotation process as a flowchart in order to explain what tasks were being tested; point out that this applies to other datasets as well; explain that LLMs only mimic reasoning, and that, depending on the task, fairly successfully
 
 ## Dataset
 
@@ -357,8 +386,6 @@ The annotation scheme was tested by a colleague with expertise in linguistics bu
 
 Confirmatory and quasi-experimental study
 
-### Hypotheses
-
 ```{python}
 # Run processing of raw data and import relevant variables
 
@@ -442,6 +469,8 @@ Women, age range (+ bibliographic justification)
 Explain issue with Prolific setup. Explain possibility of post-hoc culling the participants by attentiveness to still get appropriate data.
 
 ## LLMs
+
+Follows QA template described in Gan et al. 2024 and 2025. Reasoning for that is given in Gan et al. 2025, section 7.2.
 
 * LLMs come in two groups: commercial and open source
 * in each LLM group, there are different combinations of LLMs and prompting strategies, of which several runs may exist
